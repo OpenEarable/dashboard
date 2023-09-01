@@ -30,39 +30,38 @@
             <tbody>
                 <tr>
                     <td><input id="checkbox_0" type="checkbox"></td>
-                    <td>ACC</td>
-                    <td><input id="rate_0" type="number" min="0" max="30" value="0"> Hz</td>
+                    <td>ACC & GYRO & MAG + PRESSURE & TEMPERATURE</td>
+                    <td>
+                        <select id="select_0">
+                            <option value="0" selected="selected">0</option>
+                            <option value="1">10</option>
+                            <option value="2">20</option>
+                            <option value="3">30</option>
+                        </select> Hz
+                    </td>
                 </tr>
                 <tr>
                     <td><input id="checkbox_1" type="checkbox"></td>
-                    <td>GYRO</td>
-                    <td><input id="rate_1" type="number" min="0" max="30" value="0"> Hz</td>
+                    <td>PDM MIC</td>
+                    <td>
+                        <select id="select_1">
+                            <option value="0" selected="selected">0</option>
+                            <option value="1">16000</option>
+                            <option value="2">41667</option>
+                            <option value="3">62500</option>
+                        </select> Hz
+                    </td>
                 </tr>
                 <tr>
                     <td><input id="checkbox_2" type="checkbox"></td>
-                    <td>MAG</td>
-                    <td><input id="rate_2" type="number" min="0" max="30" value="0"> Hz</td>
-                </tr>
-                <tr>
-                    <td><input id="checkbox_3" type="checkbox"></td>
-                    <td>PRESSURE</td>
-                    <td><input id="rate_3" type="number" min="0" max="30" value="0"> Hz</td>
-                </tr>
-                <tr>
-                    <td><input id="checkbox_4" type="checkbox"></td>
-                    <td>TEMPERATURE</td>
-                    <td><input id="rate_4" type="number" min="0" max="30" value="0"> Hz</td>
-                </tr>
-                <tr>
-                    <td><input id="checkbox_5" type="checkbox"></td>
-                    <td>PDM MIC</td>
+                    <td>Audio Command [Optional]</td>
                     <td>
-                        <select id="select_5">
-                            <option value="0" selected="selected">0</option>
-                            <option value="16000">16000</option>
-                            <option value="41667">41667</option>
-                            <option value="62500">62500</option>
-                        </select> Hz
+                        <select id="select_2">
+                            <option value="2" selected="selected">Play</option>
+                            <option value="1">End</option>
+                            <option value="3">Pause</option>
+                            <option value="4">Unpause</option>
+                        </select>
                     </td>
                 </tr>
             </tbody>
@@ -76,7 +75,25 @@
 </div>
 
     <div class="status widget">
+        <div>
+            <div class="label">Audio Playback</div>
+            <button id="play_Button">Play</button>
+            <span class="spacer"></span>
+            <button id="stop_Button">Stop</button>
+            <span class="spacer"></span>
+            <button id="pause_Button">Pause</button>
+            <span class="spacer"></span>
+            <button id="unpause_Button">Unpause</button>
+        </div>
 
+        <div class="input-group">
+            <input id="checkbox_3" type="checkbox">
+          <span class="input-group-text" id="basic-addon1">Audio File Name: </span>
+          <input id="file_input" type="text" class="form-control" aria-describedby="basic-addon1" value="Play.wav">
+        </div>
+    </div>
+
+    <div class="status widget">
         <div class="label" id="bluetooth">Click to connect to the board</div>
         <button id="bigButton">Connect!</button>
         <span class="spacer"></span>

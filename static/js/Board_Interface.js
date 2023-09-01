@@ -5,6 +5,9 @@ const sensorServiceUuid = '34c2e3bb-34aa-11eb-adc1-0242ac120002';
 const sensorConfigCharacteristicUuid = '34c2e3bd-34aa-11eb-adc1-0242ac120002';
 const sensorDataCharacteristicUuid = '34c2e3bc-34aa-11eb-adc1-0242ac120002';
 
+const wavServiceUuid = '5669146e-476d-11ee-be56-0242ac120002';
+const wavCharacteristicUuid = '566916a8-476d-11ee-be56-0242ac120002';
+
 var BLE_filters = [
     {namePrefix: config.deviceName}
 ]
@@ -42,6 +45,9 @@ export class Board_Interface {
         this.sensorService = undefined;
         this.sensorConfigCharacteristic = undefined;
         this.sensorDataCharacteristic = undefined;
+
+        this.wavService = undefined;
+        this.wavCharacteristic = undefined;
 
         this.sensorMap = new Map();
 
@@ -97,6 +103,21 @@ export class Board_Interface {
         this.sender();
     }
 
+    send_wav_name(config) {
+        // config uint8, uint8, char array
+        let state = config[0];
+        let size = config[1];
+        let name = config[2];
+
+        let configPacket = new Uint8Array(size + 2);
+        configPacket[0] = state;
+        configPacket[1] = size;
+
+        let enc = new TextEncoder(); // always utf-8
+        configPacket.set(enc.encode(name), 2);
+        this.wavCharacteristic.writeValue(configPacket);
+    }
+
     sender() {
         let configPacket;
 
@@ -123,6 +144,7 @@ export class Board_Interface {
         return this.getDeviceInfo()
             .then(this.connectDevice.bind(this))
             .then(this.getSensorCharacteristics.bind(this))
+            .then(this.getWAVCharacteristic.bind(this))
             .then(this.onConnection.bind(this));
     }
 
@@ -130,7 +152,7 @@ export class Board_Interface {
     getDeviceInfo() {
         let options = {
             filters: BLE_filters,
-            optionalServices: [sensorServiceUuid]
+            optionalServices: [sensorServiceUuid, wavServiceUuid]
         };
         console.log('Requesting BLE device info...');
 
@@ -156,6 +178,10 @@ export class Board_Interface {
             })
             .then(service => {
                 this.sensorService = service;
+
+                return this.bleServer.getPrimaryService(wavServiceUuid);
+            }).then(service => {
+                this.wavService = service;
             });
     }
 
@@ -187,6 +213,14 @@ export class Board_Interface {
             });
     }
 
+    getWAVCharacteristic() {
+        console.log('Getting wav characteristics');
+        return this.wavService.getCharacteristic(wavCharacteristicUuid)
+            .then(characteristic => {
+                this.wavCharacteristic = characteristic;
+            });
+    }
+
     add_event(event) {
         this.sensorDataCharacteristic.addEventListener('characteristicvaluechanged', event.bind(this));
     }
@@ -214,6 +248,7 @@ export class Board_Interface {
         var type = sensorTypes[sensor].type;
         var sensorName = sensorTypes[sensor].name;
         var scheme = parseScheme["types"][type]["parse-scheme"];
+        var value_count = parseScheme["types"][type]["value_count"];
 
         var data_obj = {
             "name": sensorName,
@@ -232,13 +267,23 @@ export class Board_Interface {
             data_obj["time"] = millis;
         }
 
+        let parsed_data;
+        for (let i = 0; i < value_count; i++) {
+            [parsed_data, dataIndex] = this.parseValue(data, scheme, dataIndex);
+            data_obj["data"].push(parsed_data);
+        }
 
+        return data_obj;
+    }
+
+    parseValue(data, scheme, dataIndex) {
+        let parsed_data = []
         scheme.forEach(element => {
-            var name = element['name'];
-            var valueType = element['type'];
-            var scale = element['scale-factor'];
-            var value = 0;
-            var size = 0;
+            let name = element['name'];
+            let valueType = element['type'];
+            let scale = element['scale-factor'];
+            let value = 0;
+            let size = 0;
 
             if (valueType == "uint8") {
                 value = data.getUint8(dataIndex, true) * scale;
@@ -260,16 +305,17 @@ export class Board_Interface {
             } else {
                 console.log("Error: unknown type");
             }
-            
+
             var point = {
                 "type": element.name,
                 "value": value
             }
-            
-            data_obj["data"].push(point);
+
+            parsed_data.push(point);
             dataIndex += size;
         });
-        return data_obj;
+
+        return [parsed_data, dataIndex];
     }
 
     parser(event) {

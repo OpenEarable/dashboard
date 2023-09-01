@@ -1,31 +1,13 @@
 {
   "0": {
-    "name": "ACC",
+    "name": "ACC GYRO MAG",
     "type": 0,
     "type-name": "xyz"
   },
 
   "1": {
-    "name": "GYRO",
-    "type": 0,
-    "type-name": "xyz"
-  },
-
-  "2": {
-    "name": "PRESSURE",
+    "name": "PRESSURE TEMPERATURE",
     "type": 1,
-    "type-name": "single_float"
-  },
-
-  "3": {
-    "name": "TEMP",
-    "type": 1,
-    "type-name": "single_float"
-  },
-
-  "4": {
-    "name": "MAG",
-    "type": 0,
     "type-name": "xyz"
   }
 }

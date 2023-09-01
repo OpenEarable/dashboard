@@ -48,6 +48,10 @@ input, select {
     background-color: #888888;
 }
 
+#file_input {
+    margin-top: 10px;
+}
+
 .start_rec_col {
     background-color: green;
 }
@@ -63,7 +67,11 @@ input, select {
 }
 
 .container {
-    width:960px;height:384px;margin-top:30px;margin-bottom:7.5px;  margin: 0 auto;
+    width:960px;
+    height:384px;
+    margin-top:30px;
+    margin-bottom:7.5px;
+    margin: 0 auto;
 }
 
 .widget {

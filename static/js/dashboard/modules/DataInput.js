@@ -7,16 +7,6 @@ let PDM_Rates = [
     62500
 ];
 
-// Sensor ID => HTML ID
-let sensor_id_map = {
-    0: 0,
-    1: 1,
-    3: 2,
-    4: 3,
-    2: 4,
-    5: 5
-};
-
 export class DataInput {
     constructor(inter) {
         this.interface = inter;
@@ -25,8 +15,7 @@ export class DataInput {
         this.stop_button = document.getElementById('stopButton');
 
         this.inputs = {};
-        this.input_count = 6;
-        this.select_id = 5;
+        this.input_count = 3;
 
         this.init_buttons();
         this.init_inputs();
@@ -48,9 +37,7 @@ export class DataInput {
 
     init_inputs() {
         for (let i = 0; i < this.input_count; i++) {
-            let element = new SensorInput(i, i === this.select_id)
-            let sensor_id = sensor_id_map[i];
-            this.inputs[sensor_id] = element;
+            this.inputs[i] = new SensorInput(i, true);
         }
     }
 
@@ -62,20 +49,30 @@ export class DataInput {
     }
 
     press_config() {
-        for (const [sensor_id, input] of Object.entries(this.inputs)) {
-            if (!input.checked()) continue;
-            let value = input.get();
-
-            let config = [sensor_id, value];
-            this.interface.configure(config);
+        let config_num = 0;
+        if (this.inputs[0].checked()) {
+            config_num += 4 * (3 - this.inputs[0].get());
+        } else {
+            config_num += 12;
         }
+        if (this.inputs[1].checked()) {
+            config_num += (4 - this.inputs[1].get());
+        } else {
+            config_num += 4;
+        }
+        if (config_num === 16) config_num = 0;
+
+        let audio_info = 0
+
+        if (this.inputs[2].checked()) audio_info = this.inputs[2].get();
+
+        let config = [4, config_num, audio_info];
+        this.interface.configure(config);
     }
 
     press_stop() {
-        for (const [sensor_id, input] of Object.entries(this.inputs)) {
-            let config = [sensor_id, 0];
-            this.interface.configure(config);
-        }
+        let config = [4, 0];
+        this.interface.configure(config);
     }
 }
 
@@ -103,9 +100,9 @@ class SensorInput {
 
     set(value) {
         if (this.select) {
-            if (!PDM_Rates.includes(value)) {
-                return;
-            }
+            //if (!PDM_Rates.includes(value)) {
+            //    return;
+            //}
         }
         this.input.set(value);
     }
@@ -152,8 +149,6 @@ class SelectInput {
     }
 
     set(value) {
-        let options = Array.from(this.element.options);
-        let optionToSelect = options.find(item => item.value === String(value));
-        optionToSelect.selected = true;
+        this.element.value = value;
     }
 }

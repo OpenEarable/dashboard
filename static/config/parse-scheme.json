@@ -5,6 +5,7 @@
     {
       "id": 0,
       "type": "xyz",
+      "value_count": 3,
       "parse-scheme":
       [
         {"name": "x", "type": "float", "scale-factor": 1},
@@ -15,6 +16,7 @@
     {
       "id": 1,
       "type": "single_float",
+      "value_count": 2,
       "parse-scheme":
       [
         {"name": "val", "type": "float", "scale-factor": 1}

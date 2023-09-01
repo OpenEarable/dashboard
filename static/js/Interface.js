@@ -5,6 +5,10 @@ export class Interface {
         this.interface = new Board_Interface.Board_Interface(button_id);
     }
 
+    send_wav_name(config) {
+        this.interface.send_wav_name(config);
+    }
+
     configure(config) {
         this.interface.send_custom_configure(config);
     }

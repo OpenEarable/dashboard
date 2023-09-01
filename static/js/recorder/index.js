@@ -34,7 +34,7 @@ index
         [Injected] Interface
         --- utilities
 */
-
+if (!("TextEncoder" in window)) alert("Sorry, this browser does not support TextEncoder...");
 function main() {
     INTER = new Interface.Interface("connectButton");
     DASH = new Dash.Dash(INTER);

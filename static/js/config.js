@@ -11,28 +11,23 @@ var SENS_minimal = [
     [0, 10]
 ]
 
-var SENS_test = [
-    [0, 1],
-    [1, 1],
-    [2, 1],
-    [3, 1]
-]
-
-var SENS_operation = [
-    [0, 5],                // Accelerometer corrected
-    [1, 5],                // Gyroscope corrected
-    [2, 1],                // Barometer
-    [3, 1],                // Temperature
-    [4, 5],                // Magnetometer
-    [5, 0]                 // PDM Mic
-]
-
 var SENS_none = []
 
+var SENS_basic_all = [
+    [4, 10, 1]
+]
+
+var SENS_default_dropdown = [
+    [0, 1],
+    [1, 2]
+]
+
 export var EXCLUDE_DETECT = [
-    5
+    2,
+    3,
+    4
 ];
 
-export var SENS_Recorder = SENS_operation;
+export var SENS_Recorder = SENS_basic_all;
 export var SENS_Dashboard = SENS_minimal;
-export var SENS_DEFAULT = SENS_operation;
+export var SENS_DEFAULT = SENS_default_dropdown;

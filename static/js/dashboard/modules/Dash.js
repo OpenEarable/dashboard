@@ -1,5 +1,6 @@
 import * as Recorder from './Recorder.js'
 import * as DataInput from './DataInput.js'
+import * as Player from './Player.js'
 import * as utils from "../../utilities.js";
 import "./OBJLoader.js";
 import "./MTLLoader.js";
@@ -22,12 +23,19 @@ var SensorMap = {
     }
 }
 
+/*
 var IDMap = {
     0:"accelerometer",
     1:"gyroscope",
     2:"pressure",
     3:"temperature",
     4:"magnetometer"
+}
+*/
+
+var IDMap = {
+    0: ["accelerometer", "gyroscope", "magnetometer"],
+    1: ["pressure", "temperature"]
 }
 
 const ROTATION_OFFSET = [
@@ -49,6 +57,7 @@ export class Dash {
         this.interface = inter;
         this.recorder = new Recorder.Recorder(inter);
         this.datainputs = new DataInput.DataInput(inter);
+        this.player = new Player.Player(inter);
 
         this.dashboard = new Dashboard();
 
@@ -260,11 +269,13 @@ class Dashboard {
                 break;
             case "Custom_Config":
                 let [id, rate, latency] = info;
-                let sensor_name = IDMap[id];
-                if (!sensor_name) return;
-                let sensor = SensorMap[sensor_name];
-                if (!sensor) return;
-                sensor.inactive = rate === 0;
+                let sensor_names = IDMap[id];
+                if (!sensor_names) return;
+                sensor_names.forEach((name) => {
+                    let sensor = SensorMap[name];
+                    if (!sensor) return;
+                    sensor.inactive = rate === 0;
+                });
                 break;
         }
     }
@@ -365,7 +376,10 @@ class Dashboard {
         let sensor, columns, s_value;
         let [id, parsedData_obj] = data;
 
-        sensor = SensorMap[IDMap[id]];
+        let names = IDMap[id];
+
+        names.forEach((name, index) => {
+            sensor = SensorMap[name];
         columns = Object.keys(sensor.data);
 
         if (sensor["skip_first"] === undefined) {
@@ -375,7 +389,7 @@ class Dashboard {
 
         sensor.timeout.set();
         this.add_value(parsedData_obj.time, sensor.time)
-        parsedData_obj.data.forEach(function (value, i) {
+        parsedData_obj.data[index].forEach(function (value, i) {
 
             s_value = value.value
             if (id in CONVERSION_FACTORS) {
@@ -386,5 +400,6 @@ class Dashboard {
         }.bind(this));
 
         sensor.rendered = false; // flag - vizualization needs to be updated
+        })
     }
 }
