@@ -259,7 +259,7 @@ export class Board_Interface {
 
         // dataIndex start from 2 because the first bytes of the packet indicate
         // the sensor id and the data size
-        var dataIndex = 0 + 2;
+        var dataIndex = 0 + 1;
 
         if (TIMESTAMPED) {
             millis = data.getUint16(dataIndex, true) + (data.getUint16(dataIndex+2, true) << 16);
