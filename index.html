@@ -152,7 +152,52 @@
                                 <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
                                 
                             </div>
-                            <p class="card-text">Acceleromer Gyroscope Magnetometer Pressure</p>
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex flex-row">
+                                        <input type="checkbox">
+                                        <div class="ms-2">Accel, Gyro, Mag, Press, Temp (via BLE)</div>
+                                       
+                                    </div>
+                                    <div class="d-flex flex-row" style="width: 120px">
+                                        <select class="ms-3 w-100" name="sensorSamplingRate" id="sensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                        </select>
+                                        <div class="ms-1">Hz</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between mt-2">
+                                    <div class="d-flex flex-row">
+                                        <input type="checkbox">
+                                        <div class="ms-2">Microphone (written to SD card)</div>
+                                       
+                                    </div>
+                                    <div class="d-flex flex-row" style="width: 120px">
+                                        <select class="ms-3 w-100" name="sensorSamplingRate" id="sensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="41667">41,667</option>
+                                            <option value="62500">62,500</option>
+                                        </select>
+                                        <div class="ms-1">Hz</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="card ms-4">
+                        <div class="card-body">
+                            <div class="d-flex flex-row w-100 justify-content-between">
+                                <h5 class="card-title">LED Color</h5>
+                                <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
+                            </div>
+                            <p class="card-text">Configure RGB-LED color.</p>
+                            <input type="color" id="colorpicker" value="#ffffff">
                         </div>
                     </div>
                     <div class="card ms-4">
@@ -162,7 +207,7 @@
                                 <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
                                 
                             </div>
-                            <p class="card-text">Acceleromer Gyroscope Magnetometer Pressure</p>
+                            <p class="card-text">Record BLE sensor data directly in your browser.</p>
                         </div>
                     </div>
                 </div>
