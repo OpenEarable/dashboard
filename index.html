@@ -7,13 +7,15 @@
 
         <title>OpenEarable - Dashboard</title>
 
-        <!-- Bootstrap core CSS -->
+        <!-- CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" integrity="sha512-oAvZuuYVzkcTc2dH5z1ZJup5OmSQ000qlfRvuoTTiyTBjwX1faoyearj8KdMq0LgsBTHMrRuMek7s+CxF8yE+w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
         <style>
+            /* General Styles */
             body {
                 background: #161618;
-                color: white;
+                color: white !important;
             }
 
             .card {
@@ -21,25 +23,90 @@
                 border-width: 0px;
                 overflow: hidden;
                 background: #36353b;
+                color: b0b0b0;
             }
 
             .card-title {
                 color: white;
             }
-            
-            .btn-connect {
-                border-radius: 0px;
+
+            .btn {
                 border-width: 0px;
-                background-color: #77F2A1;
+               
+            }
+
+            .btn:hover {
+                border-width: 0px;
+                opacity: 0.9;
+            }
+
+            .btn:disabled {
+                opacity: 0.5;
+            }
+
+
+            /* Tooltip */
+            .tooltip-indicator {
+                background: white;
+                min-width: 17px;
+                min-height: 17px;
+                max-width: 17px;
+                max-height: 17px;
+                border-radius: 50%;
+                font-size: 0.8em;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 color: black;
             }
 
-            .btn-connect:hover {
-                background-color: #53a971;
+            .tooltip-inner {
+                background-color: white !important;   
+                color: black;
             }
 
-            .text-secondary {
-                color: #b0b0b0 !important;
+            .tooltip .tooltip-arrow::before {
+                --bs-tooltip-bg: white;
+            }
+            
+            /* Connection Card */
+            .btn-connect {
+                background-color: #77F2A1 !important;
+                color: black !important;
+            }
+
+            .btn-disconnect {
+                background-color: #f27777 !important;
+                color: black !important;
+                display: none; /* default is hidden */
+            }
+            
+            /* Audio Player Card */
+            .btn-audio-controls {
+                font-size: 1.3em;
+            }
+
+            .btn-play {
+                background-color: #77F2A1 !important; 
+                color: black !important;
+            }
+
+            .btn-pause {
+                background-color: #e0f277 !important; 
+                color: black !important;
+            }
+
+            .btn-stop {
+                background-color: #f27777 !important; 
+                color: black !important;
+            }
+
+            /* Log card */
+            .btn-clear {
+                background-color: white;
+                padding: 2px 4px;
+                font-size: 0.8em;
             }
         </style>
     </head>
@@ -50,25 +117,70 @@
                 <div class="d-flex flex-row w-100">
                     <div class="card mr-2">
                         <div class="card-body">
-                            <h5 class="card-title">Device Connection</h5>
-                            <i class="card-text text-secondary">OpenEarable not connected.</i>
-                            
+                            <div class="d-flex flex-row w-100 justify-content-between">
+                                <h5 class="card-title">Device Connection</h5>
+                                <div class="tooltip-indicator" data-toggle="tooltip" title="OpenEarable connects via WebBLE. Make sure your browser supports WebBLE (e.g., Chrome version ≥ 56)."><div>?</div></div>
+                            </div>
+                            <p class="card-text">OpenEarable not connected.</p>
+                            <button id="connectDeviceButton" class="btn btn-connect w-100" onclick="onConnectDevice()">Connect</button>
+                            <button id="disconnectDeviceButton" class="btn btn-disconnect w-100" onclick="onDisconnectDevice()">Disconnect</button>
                         </div>
-                        <button class="btn btn-primary btn-connect">Connect</button>
+                        
                     </div>
-                    <div class="card" style="margin-left: 20px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Audio Player</h5>
-                            <i class="card-text text-secondary">OpenEarable not connected</i>
+                    <div class="card ms-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex flex-row w-100 justify-content-between">
+                                <h5 class="card-title">Audio Player </h5>
+                                <div class="tooltip-indicator" data-toggle="tooltip" title="Audio files are played locally from the microSD card inside OpenEarable. The supported file format are single channel, 16-bit, 44.1 kHz *.wav files."><div>?</div></div>
+                            </div>
                             
+                            <p class="card-text">Select the audio file to play from the microSD card.</p>
+                            <div class="d-flex flex-row w-100 justify-content-between">
+                                <div class="d-flex flex-row">
+                                    <button class="btn btn-audio-controls btn-play is-connect-enabled" disbaled onclick="onPlay()"><i class="bi bi-play"></i></button>
+                                    <button class="btn btn-audio-controls btn-pause is-connect-enabled ms-1" disbaled onclick="onPause()"><i class="bi bi-pause"></i></button>
+                                    <button class="btn btn-audio-controls btn-stop is-connect-enabled ms-1" disbaled onclick="onStop()"><i class="bi bi-stop"></i></button>    
+                                </div>
+                                <input id="fileNameInput" class="is-connect-enabled ms-3 w-100" style="overflow: hidden;" placeholder="filename.wav">
+                            </div>
                         </div>
                     </div>
-                    <div class="card" style="margin-left: 20px;">
+                    <div class="card ms-4">
                         <div class="card-body">
-                            <h5 class="card-title">Sensor Control</h5>
-                            <i class="card-text text-secondary">OpenEarable not connected</i>
-                            
+                            <div class="d-flex flex-row w-100 justify-content-between">
+                                <h5 class="card-title">Sensor Control</h5>
+                                <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
+                                
+                            </div>
+                            <p class="card-text">Acceleromer Gyroscope Magnetometer Pressure</p>
                         </div>
+                    </div>
+                    <div class="card ms-4">
+                        <div class="card-body">
+                            <div class="d-flex flex-row w-100 justify-content-between">
+                                <h5 class="card-title">Recording</h5>
+                                <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
+                                
+                            </div>
+                            <p class="card-text">Acceleromer Gyroscope Magnetometer Pressure</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <h5 class="card-title">Log </h5>
+                                <div class="btn btn-clear ms-2" onclick="onClearLog()">Clear</div>
+                            </div>
+                            
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
+                        </div>
+                        
+                        <div id="log" class="w-100 p-2 mt-3" style="color: white; min-height: 200px; max-height: 200px; font-family: Consolas; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
+
+                        </div>  
                     </div>
                 </div>
             </div>
@@ -76,6 +188,94 @@
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+        <script>
+            /* initialization tasks */
+            $( document ).ready(function() {
+                // enable tooltips
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+
+                // disable all buttons on initial load
+                $(".is-connect-enabled").prop('disabled', true);
+
+                // check if bluetooth is supported
+                if ('bluetooth' in navigator) {
+                    log('Your browser supports WebBLE. You are ready to connect to OpenEarable!');
+                } else {
+                    log('Your browser does not support WebBLE. Enable it or download a browser that supports WebBLE (e.g., Chrome version ≥ 56)!', "ERROR");
+                }
+            });
+            
+
+            
+
+            /* connection */
+            function onConnectDevice() {
+                log("Connecting device.", type="MESSAGE")
+
+                $('#connectDeviceButton').hide()
+                $('#disconnectDeviceButton').show()
+
+                onConnected(); // TODO: move to the location where the device actually connects
+            }
+
+            function onDisconnectDevice() {
+                log("Disconnecting device.", type="MESSAGE")
+
+                $('#disconnectDeviceButton').hide()
+                $('#connectDeviceButton').show()
+
+                onDisconnected(); // TODO: move to the location where the device actually disconnects
+            }
+
+            function onConnected() {
+                log("Device connected.", type="SUCCESS")
+
+                $(".is-connect-enabled").prop('disabled', false);
+            }
+
+            function onDisconnected() {
+                log("Device disconnected.", type="SUCCESS")
+
+                $(".is-connect-enabled").prop('disabled', true);
+            }
+
+            /* audio controls */
+            function onPlay() {
+                var fileName = $('#fileNameInput').val();
+
+                if (fileName === "") log("File name is empty. If a file is already playing, this command will stop the current audio.", type="WARNING")
+                else if (!fileName.endsWith('.wav')) log("File name is missing the '.wav' ending. Make sure its correct!", type="WARNING")
+
+                log("Sending 'Play' with file name '" + fileName + "'.", type="MESSAGE")
+            }
+
+            function onPause() {
+                log("Sending 'Pause'.", type="MESSAGE")
+            }
+
+            function onStop() {
+                log("Sending 'Stop'.", type="MESSAGE")
+            }
+
+            /* logging */
+            function log(message, type="MESSAGE") {
+                var typeColorMap = {
+                    "ERROR": "#f27777",
+                    "WARNING": "#e0f277",
+                    "SUCCESS": "#77F2A1",
+                    "MESSAGE": "#aaa",
+                }
+                
+                $("#log").prepend(`<div style="color: ${typeColorMap[type]}"><b>${(new Date().toISOString().replace('T', ' ').substring(0, 23)) } - ${type}:</b> <span style="color: white;">${message}</span></div>`)
+            }
+
+            function onClearLog() {
+                $('#log').empty();
+            }
+        </script>
     </body>
 </html>
  
