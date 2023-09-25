@@ -154,6 +154,56 @@
                     
                     
                 </div>
+                
+                <div class="col-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex flex-row w-100 justify-content-between">
+                                <h5 class="card-title">Sensor Control</h5>
+                                <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <p class="card-text">Select the sensors and rate that you would like to sample.</p>
+                                <div class="d-flex flex-row justify-content-between">
+                                    <div class="d-flex flex-row">
+                                        <input type="checkbox" class="is-connect-enabled">
+                                        <div class="ms-2">Accel., Gyro., Mag., Press., Temp. (streamed via BLE)</div>
+                                    </div>
+                                    <div class="d-flex flex-row" style="width: 120px">
+                                        <select class="ms-3 w-100 is-connect-enabled" name="sensorSamplingRate" id="sensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                        </select>
+                                        <div class="ms-1">Hz</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between mt-2">
+                                    <div class="d-flex flex-row">
+                                        <input type="checkbox" class="is-connect-enabled">
+                                        <div class="ms-2">Microphone (written to SD card)</div>
+                                       
+                                    </div>
+                                    <div class="d-flex flex-row" style="width: 120px">
+                                        <select class="ms-3 w-100 is-connect-enabled" name="sensorSamplingRate" id="sensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="41667">41,667</option>
+                                            <option value="62500">62,500</option>
+                                        </select>
+                                        <div class="ms-1">Hz</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row mt-3 w-100 justify-content-between">
+                                    <button class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
+                                    <button class="btn btn-stop is-connect-enabled ms-3">Off</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
                 <div class="col-4">
                     <div class="card h-100">
                         <div class="card-body d-flex flex-column justify-content-between">
@@ -192,55 +242,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex flex-row w-100 justify-content-between">
-                                <h5 class="card-title">Sensor Control</h5>
-                                <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <p class="card-text">Select the audio file to play from the microSD card.</p>
-                                <div class="d-flex flex-row justify-content-between">
-                                    <div class="d-flex flex-row">
-                                        <input type="checkbox" class="is-connect-enabled">
-                                        <div class="ms-2">Acc, Gyr, Mag, Pres, Tmp (via BLE)</div>
-                                    </div>
-                                    <div class="d-flex flex-row" style="width: 120px">
-                                        <select class="ms-3 w-100 is-connect-enabled" name="sensorSamplingRate" id="sensorSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                        </select>
-                                        <div class="ms-1">Hz</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-row justify-content-between mt-2">
-                                    <div class="d-flex flex-row">
-                                        <input type="checkbox" class="is-connect-enabled">
-                                        <div class="ms-2">Microphone (written to SD card)</div>
-                                       
-                                    </div>
-                                    <div class="d-flex flex-row" style="width: 120px">
-                                        <select class="ms-3 w-100 is-connect-enabled" name="sensorSamplingRate" id="sensorSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="16000">16,000</option>
-                                            <option value="41667">41,667</option>
-                                            <option value="62500">62,500</option>
-                                        </select>
-                                        <div class="ms-1">Hz</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-row mt-3 w-100 justify-content-between">
-                                    <button class="btn btn-control is-connect-enabled">Set Configuration</button>
-                                    <button class="btn btn-stop is-connect-enabled">Off</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
                 </div>       
                 <div class="col-2 d-flex flex-column">
                     <div class="card">
@@ -250,23 +251,21 @@
                                 <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="d-flex flex-row justify-content-center align-items-center">
-                                    <input class="is-connect-enabled" type="color" id="colorpicker" value="#ffffff">
-                                    <button class="btn btn-control ms-2 is-connect-enabled">Set Color</button>
-                                </div>
+                                <input class="is-connect-enabled" type="color" id="colorpicker" value="#ffffff">
+                                <button class="btn btn-control ms-2 is-connect-enabled flex-fill">Set Color</button>
 
-                                <button class="btn btn-stop is-connect-enabled">Off</button>
+                                <button class="btn btn-stop is-connect-enabled ms-3">Off</button>
                             </div>
                         </div>
                     </div>
                     <div class="card mt-2 flex-fill">
-                        <div class="card-body">
+                        <div class="card-body d-flex flex-column justify-content-between">
                             <div class="d-flex flex-row w-100 justify-content-between">
                                 <h5 class="card-title">Web Recorder</h5>
                                 <div class="tooltip-indicator" data-toggle="tooltip" title="TODO"><div>?</div></div>
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                <button class="btn btn-control is-connect-enabled">Start Recording</button>
+                                <button class="btn btn-control is-connect-enabled w-100">Start Recording</button>
                             </div>
                         </div>
                     </div>
