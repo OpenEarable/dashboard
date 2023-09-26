@@ -301,7 +301,7 @@
                         </div>
                         <div class="d-flex flex-row justify-content-between align-items-center">
                             <input class="is-connect-enabled" type="color" id="colorpicker" value="#ffffff">
-                            <button class="btn btn-control ms-2 is-connect-enabled flex-fill">Set Color</button>
+                            <button class="btn btn-control ms-2 is-connect-enabled flex-fill" onclick="onSetColor()">Set Color</button>
 
                             <button class="btn btn-stop is-connect-enabled ms-3">Off</button>
                         </div>
@@ -686,7 +686,7 @@
             });
         });
     </script>
-
+    <script src="OpenEarable.js"></script>
     <script>
         /* initialization tasks */
         $(document).ready(function () {
@@ -706,36 +706,35 @@
             }
         });
 
-        /* connection */
-        function onConnectDevice() {
-            log("Connecting device.", type = "MESSAGE")
-            openEarable.bleManager.connect();
-            
+        var openEarable = new OpenEarable();
+
+        openEarable.bleManager.onConnect = function() {
             $('#connectDeviceButton').hide()
             $('#disconnectDeviceButton').show()
+            $(".is-connect-enabled").prop('disabled', false);
 
-            onConnected(); // TODO: move to the location where the device actually connects
+            log("OpenEarable connected.", type = "SUCCESS");
+        };
+
+        openEarable.bleManager.onDisconnect = function() {
+            $('#disconnectDeviceButton').hide()
+            $('#connectDeviceButton').show()
+            log("OpenEarable disconnected.", type = "WARNING")
+
+            $(".is-connect-enabled").prop('disabled', true);
+        };
+
+        /* connection */
+        function onConnectDevice() {
+            log("Scanning for OpenEarables. Please select.", type = "MESSAGE")
+            
+            openEarable.bleManager.connect();
         }
 
         function onDisconnectDevice() {
-            log("Disconnecting device.", type = "MESSAGE")
+            log("Disconnecting OpenEarable.", type = "MESSAGE")
 
-            $('#disconnectDeviceButton').hide()
-            $('#connectDeviceButton').show()
-
-            onDisconnected(); // TODO: move to the location where the device actually disconnects
-        }
-
-        function onConnected() {
-            log("Device connected.", type = "SUCCESS")
-
-            $(".is-connect-enabled").prop('disabled', false);
-        }
-
-        function onDisconnected() {
-            log("Device disconnected.", type = "SUCCESS")
-
-            $(".is-connect-enabled").prop('disabled', true);
+            openEarable.bleManager.disconnect();
         }
 
         /* audio controls */
@@ -756,6 +755,10 @@
             log("Sending 'Stop'.", type = "MESSAGE")
         }
 
+        function onSetColor() {
+            openEarable.rgbLed.writeLedColor(255, 0, 0)
+        }
+
         /* logging */
         function log(message, type = "MESSAGE") {
             var typeColorMap = {
@@ -772,9 +775,8 @@
             $('#log').empty();
         }
     </script>
-    <script src="OpenEarable.js"></script>
     <script>
-        var openEarable = new OpenEarable();
+        
        
     </script>
 </body>
