@@ -153,15 +153,15 @@
     </style>
 </head>
 
-<body class="p-3 pt-4">
-    <div class="container-fluid d-flex flex-column h-100">
+<body class="p-3">
+    <div class="container-fluid d-flex flex-column">
         <div class="row gx-2">
-            <div class="col-2 d-flex align-items-stretch flex-column">
+            <div class="col-12 col-md-6 col-xl-2 d-flex align-items-stretch flex-column mt-2">
                 <div class="card" style="background: transparent;;">
                     <div class="card-body d-flex justify-content-center align-items-center">
                         <div>
                             <h5 class="m-0 text-white" style=" color: white !important"><img style="height: 30px"
-                                    src="logo.png"><span class="ms-2">OpenEarable</span></h5>
+                                    src="./assets/images/logo.png"><span class="ms-2">OpenEarable</span></h5>
                         </div>
                     </div>
                 </div>
@@ -174,20 +174,16 @@
                                 <div>?</div>
                             </div>
                         </div>
-                        <p class="card-text"><i>OpenEarable not connected.</i></p>
+                        <p class="card-text"><span id="connectedDevice">OpenEarable not connected</span><span id="batteryLevel"> (- %)</span>.</p>
                         <div>
-                            <button id="connectDeviceButton" class="btn btn-connect w-100"
-                                onclick="onConnectDevice()">Connect</button>
-                            <button id="disconnectDeviceButton" class="btn btn-disconnect w-100"
-                                onclick="onDisconnectDevice()">Disconnect</button>
+                            <button id="connectDeviceButton" class="btn btn-connect w-100">Connect</button>
+                            <button id="disconnectDeviceButton" class="btn btn-disconnect w-100">Disconnect</button>
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-xl-4 mt-2">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
@@ -197,7 +193,8 @@
                             </div>
                         </div>
                         <div class="d-flex flex-column">
-                            <p class="card-text">Select the sensors and rate that you would like to sample.</p>
+                            <p class="card-text">Select the sensors and sampling rate that you would like to capture.
+                            </p>
                             <div class="d-flex flex-row justify-content-between">
                                 <div class="d-flex flex-row">
                                     <input type="checkbox" class="is-connect-enabled">
@@ -232,7 +229,7 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-row mt-3 w-100 justify-content-between">
-                                <button class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
+                                <button id="setSensorConfigurationButton" class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
                                 <button class="btn btn-stop is-connect-enabled ms-3">Off</button>
                             </div>
                         </div>
@@ -240,12 +237,12 @@
                 </div>
 
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-xl-4 mt-2">
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div>
                             <div class="d-flex flex-row w-100 justify-content-between">
-                                <h5 class="card-title">Audio Player </h5>
+                                <h5 class="card-title">Audio Control </h5>
                                 <div class="tooltip-indicator" data-toggle="tooltip"
                                     title="Audio files are played locally from the microSD card inside OpenEarable. The supported file formats are single channel, 16-bit, 44.1 kHz *.wav files.">
                                     <div>?</div>
@@ -290,7 +287,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 d-flex flex-column">
+            <div class="col-12 col-md-6 col-xl-2 d-flex flex-column mt-2">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
@@ -301,9 +298,11 @@
                         </div>
                         <div class="d-flex flex-row justify-content-between align-items-center">
                             <input class="is-connect-enabled" type="color" id="colorpicker" value="#ffffff">
-                            <button class="btn btn-control ms-2 is-connect-enabled flex-fill" onclick="onSetColor()">Set Color</button>
+                            <button class="btn btn-control ms-2 is-connect-enabled flex-fill" onclick="onSetColor()">Set
+                                </button>
+                            <button class="btn btn-control ms-2" onclick="startRainbowMode()">🦄</button>
 
-                            <button class="btn btn-stop is-connect-enabled ms-3">Off</button>
+                            <button onclick="onTurnOffLed()" class="btn btn-stop is-connect-enabled ms-3">Off</button>
                         </div>
                     </div>
                 </div>
@@ -316,7 +315,8 @@
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <button class="btn btn-control is-connect-enabled w-100">Start Recording</button>
+                            <button id="startRecordingButton" class="btn btn-control is-connect-enabled w-100">Start Recording</button>
+                            <button id="stopRecordingButton" class="btn btn-stop is-connect-enabled w-100">Stop Recording</button>
                         </div>
                     </div>
                 </div>
@@ -373,8 +373,7 @@
                                 <div>?</div>
                             </div>
                         </div>
-                        <model-viewer class="w-100 flex-fill" src="./OpenEarableModel.glb" auto-rotate
-                            camera-controls></model-viewer>
+                        <model-viewer class="w-100 flex-fill" disable-tap disable-zoom src="./assets/models/OpenEarable.glb" camera-orbit="0 0 0"></model-viewer>
 
                     </div>
                 </div>
@@ -459,28 +458,22 @@
                                 <button id="btn5" style="border: 3px solid transparent;"
                                     class="btn btn-control flex-fill">Label 5</button>
                                 <button id="btn6" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill ms-2">Label 6</button>
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 6</button>
                                 <button id="btn7" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill ms-2">Label 7</button>
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 7</button>
                                 <button id="btn8" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill ms-2">Label 8</button>
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
                             </div>
                             <div class="d-flex flex-row  mt-2">
-                                <div id="btn9" style="border: 3px solid #77F2A1;"
-                                    class="w-100 btn btn-primary btn-control">
-                                    No Label</div>
-                                <button id="lockButton" class="btn btn-stop ms-2"><i class="bi bi-lock"></i></button>
+                                <button id="btn9" style="border: 3px solid #77F2A1;"
+                                    class="w-100 btn btn-primary btn-control ">
+                                    No Label</button>
+                                <button id="lockButton" class="btn btn-stop flex-fill ms-2  is-record-enabled"><i class="bi bi-lock"></i></button>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex flex-column w-100">
-
-
         </div>
     </div>
 
@@ -493,200 +486,16 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script>
-        var chartIds = [
-            'accelerometerChart',
-            'gyroscopeChart',
-            'magnetometerChart',
-            'pressureSensorChart',
-            'temperatureSensorChart'
-        ];
-
-        var colors = ['#FF33FF', '#33FF33', '#33CCFF', '#FF3366', '#FFFF33'];
-        var units = ['g', '°/s', 'µT', 'hPa', '°C'];  // Units for each sensor.
-        var charts = [];
-
-        chartIds.forEach((chartId, index) => {
-            var ctx = document.getElementById(chartId);
-            var chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [],  // Initially empty; will be populated with indices.
-                    datasets: [{
-                        label: units[index],
-                        data: [],  // Initially empty data.
-                        borderColor: colors[index],
-                        borderWidth: 1,
-                        fill: false,
-                        pointRadius: 0  // Removing dots from the lines.
-                    }]
-                },
-                options: {
-                    responsive: true,         // Make sure the canvas is responsive.
-                    maintainAspectRatio: false,
-                    animation: false,  // Disabling animations for faster rendering.
-                    scales: {
-                        x: {
-                            display: false,
-                            type: 'linear',
-                            title: {
-                                display: false,
-                                text: 'Sample Index'
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: units[index]
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-
-            charts.push(chart);
-        });
-
-        // Adding samples at 30Hz
-        setInterval(() => {
-            charts.forEach((chart) => {
-                if (chart.data.labels.length >= 30 * 5) {  // Assuming you want to keep 10 seconds of data visible
-                    chart.data.labels.shift();
-                    chart.data.datasets[0].data.shift();
-                }
-
-                const nextIndex = chart.data.labels.length > 0
-                    ? chart.data.labels[chart.data.labels.length - 1] + 1
-                    : 0;
-
-                chart.data.labels.push(nextIndex);
-
-                // Update x-axis range
-                chart.options.scales.x.min = chart.data.labels[0];
-                chart.options.scales.x.max = nextIndex;
-
-                // For demonstration purposes, let's just use random values for the samples
-                chart.data.datasets[0].data.push(Math.random() * 20);
-
-                chart.update();
-            });
-        }, 1000 / 30);  // 1/30 seconds = 33.33 milliseconds
-
-
-
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            const buttonIds = ["btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9"];
-            let isLocked = true;
-
-            function resetLabelButtons() {
-                buttonIds.forEach((btnId) => {
-                    $("#" + btnId).css("border", "3px solid transparent");;
-                    $("#" + btnId).css("font-weight", "normal");
-                });
-
-                // If another button is in edit mode, reset it
-                let editingButton = $(".in-edit-mode");
-                    if (editingButton.length) {
-                    let originalText = editingButton.find('.btn-edit-input').val();
-                    editingButton.text(originalText).removeClass("in-edit-mode");
-                }
-            }
-
-            function setLabelButtons() {
-                resetLabelButtons();
-                $("#btn9").css("border", "3px solid #77F2A1");
-                $("#btn9").css("font-weight", "bold");
-            }
-
-            setLabelButtons();
-
-            buttonIds.forEach(function (btnId) {
-                $("#" + btnId).click(function (e) {
-                    e.stopPropagation();
-
-                    if (btnId === "btn9") return;
-
-                    if (isLocked) {
-                        buttonIds.forEach(function (id) {
-                            $("#" + id).css("border", "3px solid transparent");
-                            $("#" + id).css("font-weight", "normal");
-                        });
-
-                        // Add green border to clicked button
-                        $(this).css("border", "3px solid #77F2A1");
-                        $(this).css("font-weight", "bold");
-                        return;
-                    }
-
-                    let currentButton = $(this);
-
-                    // If another button is in edit mode, reset it
-                    let editingButton = $(".in-edit-mode");
-                    if (editingButton.length) {
-                        let originalText = editingButton.find('.btn-edit-input').val();
-                        editingButton.text(originalText).removeClass("in-edit-mode");
-                    }
-
-                    let currentText = currentButton.text();
-
-                    // Create an input field and a confirm button
-                    let inputField = $("<input type='text' class='btn-edit-input' value='" + currentText + "'>");
-                    let confirmButton = $("<button class='btn btn-small btn-confirm'>✓</button>");
-                    let combined = $(`<div class="d-flex flex-row"></div>`);
-                    combined.append(inputField);
-                    combined.append(confirmButton);
-
-                    // Add the confirm button functionality
-                    confirmButton.click(function (e) {
-                        e.stopPropagation();
-                        currentButton.text(inputField.val());
-                        log("Changed label to '" + inputField.val() + "'.");
-                        currentButton.removeClass("in-edit-mode");
-                    });
-
-                    currentButton.text("").append(combined).addClass("in-edit-mode");
-                    inputField.focus();
-
-                    
-                });
-            });
-
-            $("#lockButton").click(function () {
-                isLocked = !isLocked;
-
-                if (isLocked) {
-                    $(this).html('<i class="bi bi-lock"></i>');
-                    $(this).addClass("btn-stop");
-                    $(this).removeClass("btn-play");
-                    setLabelButtons();
-                } else {
-                    $(this).html('<i class="bi bi-unlock"></i>');
-                    $(this).removeClass("btn-stop");
-                    $(this).addClass("btn-play");
-                    resetLabelButtons();
-
-                    $("#btn1").click();
-                }
-            });
-        });
-    </script>
-    <script src="OpenEarable.js"></script>
+    <!-- Note: keep import order -->
+    <script src="./assets/js/www-ahrs.js"></script>
+    <script src="./assets/js/LogManager.js"></script>
+    <script src="./assets/js/OpenEarable.js"></script>
+    <script src="./assets/js/LEDManager.js"></script>
+    <script src="./assets/js/ConnectionManager.js"></script>
+    <script src="./assets/js/ChartManager.js"></script>
+    <script src="./assets/js/RecordingManager.js"></script>
+    <script src="./assets/js/AudioManager.js"></script>
+    <script src="./assets/js/SensorManager.js"></script>
     <script>
         /* initialization tasks */
         $(document).ready(function () {
@@ -698,6 +507,8 @@
             // disable all buttons on initial load
             $(".is-connect-enabled").prop('disabled', true);
 
+            $('#batteryLevel').hide();
+
             // check if bluetooth is supported
             if ('bluetooth' in navigator) {
                 log('Your browser supports WebBLE. You are ready to connect to OpenEarable!');
@@ -705,79 +516,6 @@
                 log('Your browser does not support WebBLE. Enable it or download a browser that supports WebBLE (e.g., Chrome version ≥ 56)!', "ERROR");
             }
         });
-
-        var openEarable = new OpenEarable();
-
-        openEarable.bleManager.onConnect = function() {
-            $('#connectDeviceButton').hide()
-            $('#disconnectDeviceButton').show()
-            $(".is-connect-enabled").prop('disabled', false);
-
-            log("OpenEarable connected.", type = "SUCCESS");
-        };
-
-        openEarable.bleManager.onDisconnect = function() {
-            $('#disconnectDeviceButton').hide()
-            $('#connectDeviceButton').show()
-            log("OpenEarable disconnected.", type = "WARNING")
-
-            $(".is-connect-enabled").prop('disabled', true);
-        };
-
-        /* connection */
-        function onConnectDevice() {
-            log("Scanning for OpenEarables. Please select.", type = "MESSAGE")
-            
-            openEarable.bleManager.connect();
-        }
-
-        function onDisconnectDevice() {
-            log("Disconnecting OpenEarable.", type = "MESSAGE")
-
-            openEarable.bleManager.disconnect();
-        }
-
-        /* audio controls */
-        function onPlay() {
-            var fileName = $('#fileNameInput').val();
-
-            if (fileName === "") log("File name is empty. If a file is already playing, this command will stop the current audio.", type = "WARNING")
-            else if (!fileName.endsWith('.wav')) log("File name is missing the '.wav' ending. Make sure its correct!", type = "WARNING")
-
-            log("Sending 'Play' with file name '" + fileName + "'.", type = "MESSAGE")
-        }
-
-        function onPause() {
-            log("Sending 'Pause'.", type = "MESSAGE")
-        }
-
-        function onStop() {
-            log("Sending 'Stop'.", type = "MESSAGE")
-        }
-
-        function onSetColor() {
-            openEarable.rgbLed.writeLedColor(255, 0, 0)
-        }
-
-        /* logging */
-        function log(message, type = "MESSAGE") {
-            var typeColorMap = {
-                "ERROR": "#f27777",
-                "WARNING": "#e0f277",
-                "SUCCESS": "#77F2A1",
-                "MESSAGE": "#aaa",
-            }
-
-            $("#log").prepend(`<div style="color: ${typeColorMap[type]}"><b>${(new Date().toISOString().replace('T', ' ').substring(0, 23))} - ${type}:</b> <span style="color: white;">${message}</span></div>`)
-        }
-
-        function onClearLog() {
-            $('#log').empty();
-        }
-    </script>
-    <script>
-        
-       
     </script>
 </body>
 
