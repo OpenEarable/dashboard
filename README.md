@@ -48,7 +48,7 @@ sensorManager.writeSensorConfig(0, 30, 0); // 0 sensorId, 30 samplingRate
 ```
 
 #### Play Audio
-OpenEarable allows playing mono, 16-bit, 44.1kHz *.wav files from the internal microSD card. In addition, it is possible to generate a constant frequency on the earable directly or play one of the built-in jingles.
+OpenEarable allows playing mono, 16-bit, 44.1kHz *.wav files from the internal microSD card. In addition, it is possible to generate a constant frequency on the OpenEarable directly or play one of the built-in jingles.
 
 ```js
 // Supported audio states: AUDIO_STATE.PLAY, AUDIO_STATE.PAUSE, AUDIO_STATE.STOP
