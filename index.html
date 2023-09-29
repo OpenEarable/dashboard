@@ -175,11 +175,14 @@
                             </div>
                         </div>
                         <div class="d-flex flex-column">
-                            <div class="card-text"><b></b><span id="connectedDevice" class="" style="font-family: monospace;">OpenEarable-XXXX </span><span
-                                id="batteryLevel" style="font-family: monospace;">(XX%)</span></div>
-                            <div class="mt-1"><b>Firmware</b> <span style="font-family: monospace" id="fwVersion">X.X.X</span> <b class="ms-2">Device</b> <span style="font-family: monospace" id="deviceVersion">X.X.X</span></div>
+                            <div class="card-text"><b></b><span id="connectedDevice" class=""
+                                    style="font-family: monospace;">OpenEarable-XXXX </span><span id="batteryLevel"
+                                    style="font-family: monospace;">(XX%)</span></div>
+                            <div class="mt-1"><b>Firmware</b> <span style="font-family: monospace"
+                                    id="fwVersion">X.X.X</span> <b class="ms-2">Device</b> <span
+                                    style="font-family: monospace" id="deviceVersion">X.X.X</span></div>
                         </div>
-                        
+
                         <div>
                             <button id="connectDeviceButton" class="btn btn-connect w-100">Connect</button>
                             <button id="disconnectDeviceButton" class="btn btn-disconnect w-100">Disconnect</button>
@@ -220,12 +223,13 @@
                             </div>
                             <div class="d-flex flex-row justify-content-between mt-2">
                                 <div class="d-flex flex-row">
-                                    <input type="checkbox" disabled class="is-connect-enabled" id="isPressureSensorEnabled">
+                                    <input type="checkbox" disabled class="is-connect-enabled"
+                                        id="isPressureSensorEnabled">
                                     <div class="ms-2">Pressure Sensor, Temperature Sensor (via BLE)</div>
                                 </div>
                                 <div class="d-flex flex-row" style="width: 120px">
-                                    <select disabled class="ms-3 w-100 is-connect-enabled" name="pressureSensorSamplingRate"
-                                        id="pressureSensorSamplingRate">
+                                    <select disabled class="ms-3 w-100 is-connect-enabled"
+                                        name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
                                         <option value="0">0</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
@@ -256,7 +260,8 @@
                             <div class="d-flex flex-row mt-3 w-100 justify-content-between">
                                 <button disabled id="setSensorConfigurationButton"
                                     class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
-                                <button disabled class="btn btn-disable-sensors btn-stop is-connect-enabled ms-3">Off</button>
+                                <button disabled
+                                    class="btn btn-disable-sensors btn-stop is-connect-enabled ms-3">Off</button>
                             </div>
                         </div>
                     </div>
@@ -282,53 +287,70 @@
                         <div>
                             <div class="d-flex flex-row w-100 justify-content-between">
                                 <div class="d-flex flex-row">
-                                    <button disabled class="btn btn-audio-controls btn-play is-connect-enabled" disbaled
-                                        onclick="onPlay()"><i class="bi bi-play"></i></button>
+                                    <button disabled id="buttonPlayWave"
+                                        class="btn btn-audio-controls btn-play is-connect-enabled"
+                                        ><i class="bi bi-play"></i></button>
                                 </div>
                                 <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100"
                                     placeholder="filename.wav">
-                                <button disabled class="btn btn-audio-controls btn-pause is-connect-enabled ms-3" disbaled
-                                    onclick="onPause()"><i class="bi bi-pause"></i></button>
-                                <button disabled class="btn btn-audio-controls btn-stop is-connect-enabled ms-1" disbaled
-                                    onclick="onStop()"><i class="bi bi-stop"></i></button>
+                                <button disabled id="buttonPauseWave"
+                                    class="btn btn-audio-controls btn-pause is-connect-enabled ms-3"
+                                    ><i class="bi bi-pause"></i></button>
+                                <button disabled id="buttonStopWave"
+                                    class="btn btn-audio-controls btn-stop is-connect-enabled ms-1"
+                                    ><i class="bi bi-stop"></i></button>
                             </div>
-                            <hr style="margin: 0.7rem 0"/>
+                            <hr style="margin: 0.7rem 0" />
                             <div class="d-flex flex-row align-items-center justify-content-between">
                                 <div class="d-flex flex-row w-100">
-                                    <button disabled class="btn btn-audio-controls btn-play is-connect-enabled"><i
-                                            class="bi bi-play"></i></button>
-                                        <select disabled class="ms-1 w-100 is-connect-enabled" name="jingleSelect"
-                                            id="jingleSelect">
-                                            <option value="MESSAGE">MESSAGE jingle</option>
-                                            <option value="SUCCESS">SUCCESS jingle</option>
-                                            <option value="ERROR">ERROR jingle</option>
-                                            <option value="ALARM">ALARM jingle</option>
-                                        </select>
+                                    <button id="buttonPlayJingle" disabled class="btn btn-audio-controls btn-play is-connect-enabled">
+                                        <i class="bi bi-play"></i>
+                                    </button>
+                                    <select disabled class="ms-1 w-100 is-connect-enabled" name="jingleSelect"
+                                        id="jingleSelect">
+                                        <option value="MESSAGE">MESSAGE</option>
+                                        <option value="SUCCESS">SUCCESS</option>
+                                        <option value="ERROR">ERROR</option>
+                                        <option value="ALARM">ALARM</option>
+                                    </select>
                                 </div>
 
-                                <button disabled class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled"><i
-                                    class="bi bi-pause"></i></button>
-                                <button disabled class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled"><i
-                                        class="bi bi-stop"></i></button>
+                                <button id="buttonPauseJingle" disabled class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
+                                    <i class="bi bi-pause"></i>
+                                </button>
+                                <button id="buttonStopJingle" disabled class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
+                                    <i class="bi bi-stop"></i>
+                                </button>
                             </div>
-                            <hr style="margin: 0.7em 0"/>
+                            <hr style="margin: 0.7em 0" />
                             <div class="d-flex flex-row align-items-center justify-content-between">
-                                <div class="d-flex flex-row w-100">
-                                    <button disabled class="btn btn-audio-controls btn-play is-connect-enabled"><i
-                                            class="bi bi-play"></i></button>
-                                    <input disabled min="300" max="22000" value="440" type="number"
-                                        class="ms-1 is-connect-enabled w-100" value="0">
+                                <div class="d-flex flex-row w-100 justify-content-center align-items-stretch">
+                                    <button id="buttonPlayFrequency" disabled class="btn btn-audio-controls btn-play is-connect-enabled">
+                                        <i class="bi bi-play"></i>
+                                    </button>
+                                    <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440" type="number"
+                                        class="ms-1 is-connect-enabled flex-fill" value="0">
+                                    <div
+                                        class="ms-1 is-connect-enabled me-4 d-flex justify-content-center align-items-center">
+                                        <div>Hz</div>
+                                    </div>
+                                    <select disabled class="flex-fill is-connect-enabled" name="waveTypeSelect"
+                                        id="waveTypeSelect">
+                                        <option value="1">sine (1)</option>
+                                        <option value="2">triangle (2)</option>
+                                        <option value="3">square (3)</option>
+                                        <option value="4">saw (4)</option>
+                                    </select>
                                 </div>
 
-                                <div class="d-flex flex-row align-items-center">
-                                    <div class="ms-1 is-connect-enabled me-4">Hz</div>
-                                </div>
-
-
-                                <button disabled class="btn btn-audio-controls btn-stop ms-3 is-connect-enabled"><i
-                                        class="bi bi-stop"></i></button>
+                                <button id="buttonPauseFrequency" disabled class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
+                                    <i class="bi bi-pause"></i>
+                                </button>
+                                <button id="buttonStopFrequency" disabled class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
+                                    <i class="bi bi-stop"></i>
+                                </button>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -347,17 +369,20 @@
                         </p>
                         <div class="d-flex flex-column justify-content-between align-items-stretch flex-fill">
                             <div class="d-flex flex-row justify-content-stretch">
-                                <input class="is-connect-enabled w-100 align-self-stretch" type="color" id="colorpicker" value="#ffffff">
+                                <input class="is-connect-enabled w-100 align-self-stretch" type="color" id="colorpicker"
+                                    value="#ffffff">
                                 <input class="ms-2 is-connect-enabled" id="colorInput">
                             </div>
 
                             <button class="btn btn-control is-connect-enabled mt-2" onclick="onSetColor()">Set
                             </button>
-                            
-                            <hr/>
+
+                            <hr />
                             <div class="d-flex flex-row">
-                                <button class="btn btn-control flex-fill is-connect-enabled" onclick="startRainbowMode()">🦄</button>
-                                <button onclick="onTurnOffLed()" class="btn btn-stop is-connect-enabled flex-fill ms-2">Off</button>
+                                <button class="btn btn-control flex-fill is-connect-enabled"
+                                    onclick="startRainbowMode()">🦄</button>
+                                <button onclick="onTurnOffLed()"
+                                    class="btn btn-stop is-connect-enabled flex-fill ms-2">Off</button>
                             </div>
                         </div>
                     </div>
@@ -475,7 +500,7 @@
                             </div>
                         </div>
 
-                        <div id="log" class="w-100 p-2 mt-3 h-100"
+                        <div id="log" class="w-100 p-2 mt-3 flex-fill"
                             style="color: white; min-height: 100px; max-height: 160px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
                         </div>
                     </div>
@@ -520,7 +545,8 @@
                                     <button id="startRecordingButton"
                                         class="btn btn-play is-connect-enabled w-100">Start
                                         Recording</button>
-                                    <button id="stopRecordingButton" class="btn btn-stop is-connect-enabled w-100 d-none">Stop
+                                    <button id="stopRecordingButton"
+                                        class="btn btn-stop is-connect-enabled w-100 d-none">Stop
                                         Recording</button>
                                 </div>
                                 <button id="btn9" style="border: 3px solid #77F2A1;"

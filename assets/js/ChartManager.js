@@ -157,7 +157,6 @@ openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     switch (sensorData.sensorId) {
         case 0: // Assuming sensorId 0 is the accelerometer, gyroscope, and magnetometer combined data
             var acc_x = -sensorData.ACC.X;
-            console.log(sensorData)
             var acc_y = sensorData.ACC.Z;
             var acc_z = sensorData.ACC.Y;
             var gyr_x = -sensorData.GYRO.X;
