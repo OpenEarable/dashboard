@@ -21,14 +21,18 @@ The following example shows how to use the OpenEarable library.
 ```js
 const openEarable = new OpenEarable();
 
-// Read device identifier once connected
+// Read device information once connected
 openEarable.bleManager.subscribeOnConnected(async () => {
-    const deviceId = await earable.readDeviceIdentifier();
-    console.log(`Connected to device: ${deviceId}`);
+    const deviceId = await openEarable.readDeviceIdentifier();
+    const firmwareVersion = await openEarable.readHardwareVersion();
+    const hardwareVersion = await openEarable.readFirmwareVersion();
 });
 
-// Connect to the BLE device
+// Connect to OpenEarable
 openEarable.bleManager.connect();
+
+// Disconnect from OpenEarable
+openEarable.bleManager.disconnect();
 ```
 
 #### Subscribe to Sensor Data
@@ -40,26 +44,42 @@ openEarable.subscribeOnSensorDataReceived((data) => {
 });
 
 // Enable IMU at 30 Hz
-wait sensorManager.writeSensorConfig(0, 30, 0); // 0 sensorId, 30 samplingRate
+sensorManager.writeSensorConfig(0, 30, 0); // 0 sensorId, 30 samplingRate
 ```
 
 #### Play Audio
 OpenEarable allows playing mono, 16-bit, 44.1kHz *.wav files from the internal microSD card. In addition, it is possible to generate a constant frequency on the earable directly or play one of the built-in jingles.
 
 ```js
+// Supported audio states: AUDIO_STATE.PLAY, AUDIO_STATE.PAUSE, AUDIO_STATE.STOP
+
 // Play audio file from microSD card with the name "music.wav"
 openEarable.audioPlayer.wavFile(AUDIO_STATE.PLAY, "music.wav");
 
 // Play a constant frequency sine wave at 22 kHz
+// Wave types: WAVE_TYPE.SINE, WAVE_TYPE.TRIANGLE, WAVE_TYPE.SQUARE, WAVE_TYPE.SAW
 openEarable.audioPlayer.wavFile(AUDIO_STATE.PLAY, WAVE_TYPE.SINE, 22000);
 
-// Play a default "NOTIFICATION" jingle from the internal OpenEarable storage
-openEarable.audioPlayer.jingle(AUDIO_STATE.PLAY, "NOTIFICATION");
+// Play a default NOTIFICATION jingle from the internal OpenEarable storage
+openEarable.audioPlayer.jingle(AUDIO_STATE.PLAY, JINGLE.NOTIFICATION);
 ```
 
 #### Control RGB LED
 ```js
-openEarable.
+// set the LED color to red (accepts values from 0 to 255 for R, G, B)
+openEarable.rgbLed.writeLedColor(255, 0, 0); 
+```
+
+#### Receive Battery Events
+```js
+openEarable.subscribeBatteryLevelChanged((batteryLevel) => {
+    // process battery level here
+});
+
+// Supported battery states: BATTERY_STATE.CHARGING, BATTERY_STATE.CHARGED, BATTERY_STATE.NOT_CHARGING
+openEarable.subscribeBatteryStateChanged((batteryState) => {
+    // process battery state here
+});
 ```
 
 ## License
