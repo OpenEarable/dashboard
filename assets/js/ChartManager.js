@@ -23,7 +23,7 @@ var charts = [];
 chartIds.forEach((chartId, index) => {
     var ctx = document.getElementById(chartId);
     var datasets = [];
-    
+
     // If it's accel, gyro, or mag, we add 3 datasets. Otherwise, just 1 dataset.
     var numDatasets = (index <= 2) ? 3 : 1;
     for (let j = 0; j < numDatasets; j++) {
@@ -36,7 +36,7 @@ chartIds.forEach((chartId, index) => {
             pointRadius: 0
         });
     }
-    
+
     var chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -54,7 +54,9 @@ chartIds.forEach((chartId, index) => {
                     title: {
                         display: false,
                         text: 'Sample Index'
-                    }
+                    },
+                    min: 0,
+                    max: 149
                 },
                 y: {
                     beginAtZero: false,
@@ -76,57 +78,109 @@ chartIds.forEach((chartId, index) => {
     charts.push(chart);
 });
 
-function computeYaw(pitch, roll, mag) {
-    // Transform magnetometer readings from body frame to Earth frame
-    const magX = mag[0] * Math.cos(pitch) + mag[2] * Math.sin(pitch);
-    const magY = mag[0] * Math.sin(roll) * Math.sin(pitch) + mag[1] * Math.cos(roll) - mag[2] * Math.sin(roll) * Math.cos(pitch);
+let prevRawOrientation = {
+    pitch: 0,
+    roll: 0,
+    yaw: 0
+};
 
-    // Compute yaw angle
-    const yaw = Math.atan2(-magY, magX) * (180 / Math.PI);
+let prevOrientation = {
+    pitch: 0,
+    roll: 0,
+    yaw: 0
+};
 
-    return yaw;
+function unwrapAngle(newAngle, previousAngle) {
+    const diff = newAngle - previousAngle;
+    if (diff > 180) {
+        return newAngle - 360;
+    } else if (diff < -180) {
+        return newAngle + 360;
+    } else {
+        return newAngle;
+    }
 }
 
-function constrainAngle(angle) {
-    while (angle <= -180) angle += 360;
-    while (angle > 180) angle -= 360;
-    return angle;
+function computeOrientation(acc, mag, alpha = 0.2) {
+    let ax = acc[0], ay = acc[1], az = acc[2];
+    let mx = mag[0], my = mag[1], mz = mag[2];
+
+    // Pitch & Roll (assuming accelerometer measures -g when resting)
+    const pitch = Math.atan2(-ax, Math.sqrt(ay * ay + az * az));
+    const roll = Math.atan2(ay, az);
+
+    // Yaw (with tilt compensation)
+    const cosPitch = Math.cos(pitch);
+    const sinPitch = Math.sin(pitch);
+    const cosRoll = Math.cos(roll);
+    const sinRoll = Math.sin(roll);
+    
+    const mxTilt = mx * cosPitch + mz * sinPitch;
+    const myTilt = mx * sinRoll * sinPitch + my * cosRoll - mz * sinRoll * cosPitch;
+    const yaw = Math.atan2(-myTilt, mxTilt);
+    
+    // Convert from radians to degrees
+    const pitchDeg = pitch * (180.0 / Math.PI);
+    const rollDeg = roll * (180.0 / Math.PI);
+    const yawDeg = yaw * (180.0 / Math.PI);
+
+    // Smoothing using Exponential Moving Average
+    let smoothPitch = alpha * pitchDeg + (1 - alpha) * prevOrientation.pitch;
+    let smoothRoll = alpha * rollDeg + (1 - alpha) * prevOrientation.roll;
+    let smoothYaw = alpha * yawDeg + (1 - alpha) * prevOrientation.yaw;
+
+    prevOrientation = {
+        pitch: smoothPitch,
+        roll: smoothRoll,
+        yaw: smoothYaw
+    };
+
+    return prevOrientation;
 }
 
 
-const madgwick = AHRS({
-    sampleInterval: 30,
-    algorithm: 'Madgwick',
-    beta: 0.4,
-    kp: 0.5, // Default: 0.5
-    ki: 0, // Default: 0.0
-    doInitialisation: false,
-  });
 
 function updateOrientation(acc, gyro, mag) {
-    const { pitch, roll } = computePitchAndRollFromAccel(acc);
+    var rpy = computeOrientation(acc, mag);
 
-    adgwick.update(gyro[0], gyro[1], gyro[2], accel[0], accel[1], accel[2], compass[0], compass[1], compass[2]);
-    console.log(madgwick.getEulerAngles());
-
+    // Update the orientation of the model
     const modelViewerElement = document.querySelector('model-viewer');
-    modelViewerElement.setAttribute('orientation', `${pitch}deg ${roll}deg 0`);
+    $('#rollAngleValue').text((rpy.roll).toFixed(2));
+    $('#pitchAngleValue').text(rpy.pitch.toFixed(2));
+    //$('#yawAngleValue').text(0);
+
+    // switch axis because 3d modell has them flipped
+    modelViewerElement.setAttribute('orientation', `${rpy.pitch}deg ${-rpy.roll}deg ${0}deg`);
 }
 
 openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     switch (sensorData.sensorId) {
         case 0: // Assuming sensorId 0 is the accelerometer, gyroscope, and magnetometer combined data
-            updateChart('accelerometerChart', [sensorData.ACC.X, sensorData.ACC.Y, sensorData.ACC.Z]);
-            updateChart('gyroscopeChart', [sensorData.GYRO.X, sensorData.GYRO.Y, sensorData.GYRO.Z]);
-            updateChart('magnetometerChart', [sensorData.MAG.X, sensorData.MAG.Y, sensorData.MAG.Z]);
+            var acc_x = -sensorData.ACC.X;
+            console.log(sensorData)
+            var acc_y = sensorData.ACC.Z;
+            var acc_z = sensorData.ACC.Y;
+            var gyr_x = -sensorData.GYRO.X;
+            var gyr_y = sensorData.GYRO.Z;
+            var gyr_z = sensorData.GYRO.Y;
+            var mag_x = -sensorData.MAG.X;
+            var mag_y = sensorData.MAG.Z;
+            var mag_z = sensorData.MAG.Y;
+            var acc = [acc_x, acc_y, acc_z];
+            var gyro = [gyr_x, gyr_y, gyr_z];
+            var mag = [mag_x, mag_y, mag_z];
+            updateChart('accelerometerChart', acc);
+            updateChart('gyroscopeChart', gyro);
+            updateChart('magnetometerChart', mag);
 
             updateOrientation(
-                [sensorData.ACC.X, sensorData.ACC.Y, sensorData.ACC.Z],
-                [sensorData.GYRO.X, sensorData.GYRO.Y, sensorData.GYRO.Z],
-                [sensorData.MAG.X, sensorData.MAG.Y, sensorData.MAG.Z]
+                acc, gyro, mag
             );
             break;
-        
+        case 1:
+            updateChart('pressureSensorChart', [sensorData.BARO.Pressure]);
+            updateChart('temperatureSensorChart', [sensorData.TEMP.Temperature])
+
     }
 });
 
@@ -134,7 +188,7 @@ function updateChart(chartId, values) {
     const chart = charts.find(chart => chart.id === chartId);
     if (!chart) return;
 
-    if (chart.data.labels.length >= 30 * 5) {
+    if (chart.data.labels.length >= 150) {
         chart.data.labels.shift();
         for (const dataset of chart.data.datasets) {
             dataset.data.shift();
@@ -149,6 +203,15 @@ function updateChart(chartId, values) {
 
     for (let i = 0; i < values.length; i++) {
         chart.data.datasets[i].data.push(values[i]);
+    }
+
+    if (chart.data.labels.length >= 150) {
+        const min = chart.data.labels[0];
+        const max = chart.data.labels[chart.data.labels.length - 1];
+
+        // Assuming you're using Chart.js version 3.x or later
+        chart.options.scales.x.min = min;
+        chart.options.scales.x.max = max;
     }
 
     chart.update();

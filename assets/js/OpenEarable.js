@@ -75,7 +75,6 @@ class BLEManager {
 
     async connect() {
         try {
-            console.log("connecting")
             this.device = await navigator.bluetooth.requestDevice({
                 acceptAllDevices: true,
                 optionalServices: [
@@ -179,7 +178,6 @@ class RGBLed {
     async writeLedColor(r, g, b) {
         this.bleManager.ensureConnected();
         const data = new Uint8Array([r, g, b]);
-        console.log(data)
         await this.bleManager.writeCharacteristic('81040a2e-4819-11ee-be56-0242ac120002', '81040e7a-4819-11ee-be56-0242ac120002', data);
     }
 }
@@ -240,7 +238,6 @@ class SensorManager {
         await this.bleManager.subscribeCharacteristicNotifications('34c2e3bb-34aa-11eb-adc1-0242ac120002', '34c2e3bc-34aa-11eb-adc1-0242ac120002', async (data) => {
             var parsedData = await this.parseData(data.srcElement.value);
             for(let callback of this.onSensorDataReceivedSubscriber) {
-                console.log(parsedData);
                 callback(parsedData);
             }
         });
@@ -271,7 +268,7 @@ class SensorManager {
         const byteData = new DataView(data.buffer);
         let byteIndex = 0;
         const sensorId = byteData.getUint8(byteIndex);
-        byteIndex += 1;
+        byteIndex += 1; // TODO: switch to 2, we can skip size byte based on parse scheme
         const timestamp = byteData.getUint32(byteIndex, true); // true means little-endian
         byteIndex += 4;
         const parsedData = {};
@@ -393,62 +390,103 @@ class OpenEarableSensorConfig {
 }
 
 
+/**
+ * Enumeration for different audio states.
+ */
 const AUDIO_STATE = {
-    PLAY: 0,
-    PAUSE: 1,
-    STOP: 2
+    IDLE: 0,
+    PLAY: 1,
+    PAUSE: 2,
+    STOP: 3
 };
 
+/**
+ * Represents an audio player that communicates with BLE devices.
+ */
 class AudioPlayer {
+    
+    /**
+     * Create an AudioPlayer instance.
+     * @param {Object} bleManager - BLE manager to handle communications with the device.
+     */
     constructor(bleManager) {
         this.bleManager = bleManager;
 
         // Placeholder service and characteristic UUIDs. Replace these with actual UUIDs.
         this.audioServiceUUID = 'placeholder-service-uuid'; 
-        this.wavCharUUID = 'placeholder-wav-characteristic-uuid';
-        this.freqCharUUID = 'placeholder-freq-characteristic-uuid';
-        this.jingleCharUUID = 'placeholder-jingle-characteristic-uuid';
+        this.audioCharUUID = 'placeholder-audio-characteristic-uuid'; 
     }
 
+    /**
+     * Send WAV file details to the BLE device.
+     * @param {number} state - Current state of the audio.
+     * @param {string} fileName - Name of the WAV file.
+     * @returns {Promise} Resolves when data is written, rejects otherwise.
+     */
     async wavFile(state, fileName) {
         try {
-            let data = this.prepareData(state, fileName);
-            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.wavCharUUID, data);
+            let type = 1;  // 1 indicates it's a WAV file
+            let data = this.prepareData(type, state, fileName);
+            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.audioCharUUID, data);
         } catch (error) {
             log("Error writing wavFile data: " + error, "ERROR");
         }
     }
 
-    async frequency(state, frequency) {
+    /**
+     * Send frequency details to the BLE device.
+     * @param {number} state - Current state of the audio.
+     * @param {number} waveType - Type of wave (0 for sine, 1 for triangle, etc.).
+     * @param {number} frequency - Frequency value.
+     * @returns {Promise} Resolves when data is written, rejects otherwise.
+     */
+    async frequency(state, waveType, frequency) {
         try {
-            let data = new Uint8Array(6);
-            data[0] = state;
-            data[1] = 0;  // 0 indicates it's a frequency
+            let type = 2;  // 2 indicates it's a frequency
+            let data = new Uint8Array(8);
+            data[0] = type;
+            data[1] = state;
+            data[2] = waveType; 
             
-            let freqBytes = new Uint32Array([frequency]);
-            data.set(new Uint8Array(freqBytes.buffer), 2);
+            let freqBytes = new Float32Array([frequency]);
+            data.set(new Uint8Array(freqBytes.buffer), 3);
 
-            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.freqCharUUID, data);
+            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.audioCharUUID, data);
         } catch (error) {
             log("Error writing frequency data: " + error, "ERROR");
         }
     }
 
+    /**
+     * Send jingle details to the BLE device.
+     * @param {number} state - Current state of the audio.
+     * @param {string} jingleName - Name of the jingle.
+     * @returns {Promise} Resolves when data is written, rejects otherwise.
+     */
     async jingle(state, jingleName) {
         try {
-            let data = this.prepareData(state, jingleName);
-            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.jingleCharUUID, data);
+            let type = 3;  // 3 indicates it's a jingle
+            let data = this.prepareData(type, state, jingleName);
+            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.audioCharUUID, data);
         } catch (error) {
             log("Error writing jingle data: " + error, "ERROR");
         }
     }
 
-    prepareData(state, name) {
+    /**
+     * Prepares the data buffer to send to the BLE device.
+     * @param {number} type - Type of audio data.
+     * @param {number} state - Current state of the audio.
+     * @param {string} name - Name of the audio file or jingle.
+     * @returns {Uint8Array} Data buffer ready to send.
+     */
+    prepareData(type, state, name) {
         const nameBytes = new TextEncoder().encode(name);
-        let data = new Uint8Array(2 + nameBytes.length);
-        data[0] = state;
-        data[1] = nameBytes.length;
-        data.set(nameBytes, 2);
+        let data = new Uint8Array(3 + nameBytes.length);
+        data[0] = type;
+        data[1] = state;
+        data[2] = nameBytes.length;
+        data.set(nameBytes, 3);
         return data;
     }
 }

@@ -174,7 +174,12 @@
                                 <div>?</div>
                             </div>
                         </div>
-                        <p class="card-text"><span id="connectedDevice">OpenEarable not connected</span><span id="batteryLevel"> (- %)</span>.</p>
+                        <div class="d-flex flex-column">
+                            <div class="card-text"><b></b><span id="connectedDevice" class="" style="font-family: monospace;">OpenEarable-XXXX </span><span
+                                id="batteryLevel" style="font-family: monospace;">(XX%)</span></div>
+                            <div class="mt-1"><b>Firmware</b> <span style="font-family: monospace" id="fwVersion">X.X.X</span> <b class="ms-2">Device</b> <span style="font-family: monospace" id="deviceVersion">X.X.X</span></div>
+                        </div>
+                        
                         <div>
                             <button id="connectDeviceButton" class="btn btn-connect w-100">Connect</button>
                             <button id="disconnectDeviceButton" class="btn btn-disconnect w-100">Disconnect</button>
@@ -197,29 +202,49 @@
                             </p>
                             <div class="d-flex flex-row justify-content-between">
                                 <div class="d-flex flex-row">
-                                    <input type="checkbox" class="is-connect-enabled">
-                                    <div class="ms-2">Accel., Gyro., Mag., Press., Temp. (streamed via BLE)</div>
+                                    <input type="checkbox" disabled class="is-connect-enabled" id="areSensorsEnabled">
+                                    <div class="ms-2">Accelerometer, Gyroscope, Magnetometer (via BLE)</div>
                                 </div>
                                 <div class="d-flex flex-row" style="width: 120px">
-                                    <select class="ms-3 w-100 is-connect-enabled" name="sensorSamplingRate"
+                                    <select disabled class="ms-3 w-100 is-connect-enabled" name="sensorSamplingRate"
                                         id="sensorSamplingRate">
                                         <option value="0">0</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
                                         <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
                                     </select>
                                     <div class="ms-1">Hz</div>
                                 </div>
                             </div>
                             <div class="d-flex flex-row justify-content-between mt-2">
                                 <div class="d-flex flex-row">
-                                    <input type="checkbox" class="is-connect-enabled">
+                                    <input type="checkbox" disabled class="is-connect-enabled" id="isPressureSensorEnabled">
+                                    <div class="ms-2">Pressure Sensor, Temperature Sensor (via BLE)</div>
+                                </div>
+                                <div class="d-flex flex-row" style="width: 120px">
+                                    <select disabled class="ms-3 w-100 is-connect-enabled" name="pressureSensorSamplingRate"
+                                        id="pressureSensorSamplingRate">
+                                        <option value="0">0</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <div class="ms-1">Hz</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between mt-2">
+                                <div class="d-flex flex-row">
+                                    <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
                                     <div class="ms-2">Microphone (written to SD card)</div>
 
                                 </div>
                                 <div class="d-flex flex-row" style="width: 120px">
-                                    <select class="ms-3 w-100 is-connect-enabled" name="sensorSamplingRate"
-                                        id="sensorSamplingRate">
+                                    <select disabled class="ms-3 w-100 is-connect-enabled" name="microphoneSamplingRate"
+                                        id="microphoneSamplingRate">
                                         <option value="0">0</option>
                                         <option value="16000">16,000</option>
                                         <option value="41667">41,667</option>
@@ -229,8 +254,9 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-row mt-3 w-100 justify-content-between">
-                                <button id="setSensorConfigurationButton" class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
-                                <button class="btn btn-stop is-connect-enabled ms-3">Off</button>
+                                <button disabled id="setSensorConfigurationButton"
+                                    class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
+                                <button disabled class="btn btn-disable-sensors btn-stop is-connect-enabled ms-3">Off</button>
                             </div>
                         </div>
                     </div>
@@ -249,29 +275,48 @@
                                 </div>
                             </div>
 
-                            <p class="card-text">Play audio (44kHz, 16-bit, mono, wav) from microSD or a constant tone.
+                            <p class="card-text">Play audio from microSD or a constant tone or a built-in jingle.
                             </p>
                         </div>
 
                         <div>
                             <div class="d-flex flex-row w-100 justify-content-between">
                                 <div class="d-flex flex-row">
-                                    <button class="btn btn-audio-controls btn-play is-connect-enabled" disbaled
+                                    <button disabled class="btn btn-audio-controls btn-play is-connect-enabled" disbaled
                                         onclick="onPlay()"><i class="bi bi-play"></i></button>
                                 </div>
-                                <input id="fileNameInput" class="is-connect-enabled ms-1 w-100"
+                                <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100"
                                     placeholder="filename.wav">
-                                <button class="btn btn-audio-controls btn-pause is-connect-enabled ms-3" disbaled
+                                <button disabled class="btn btn-audio-controls btn-pause is-connect-enabled ms-3" disbaled
                                     onclick="onPause()"><i class="bi bi-pause"></i></button>
-                                <button class="btn btn-audio-controls btn-stop is-connect-enabled ms-1" disbaled
+                                <button disabled class="btn btn-audio-controls btn-stop is-connect-enabled ms-1" disbaled
                                     onclick="onStop()"><i class="bi bi-stop"></i></button>
                             </div>
-                            <hr />
+                            <hr style="margin: 0.7rem 0"/>
                             <div class="d-flex flex-row align-items-center justify-content-between">
                                 <div class="d-flex flex-row w-100">
-                                    <button class="btn btn-audio-controls btn-play is-connect-enabled"><i
+                                    <button disabled class="btn btn-audio-controls btn-play is-connect-enabled"><i
                                             class="bi bi-play"></i></button>
-                                    <input min="300" max="22000" value="440" type="number"
+                                        <select disabled class="ms-1 w-100 is-connect-enabled" name="jingleSelect"
+                                            id="jingleSelect">
+                                            <option value="MESSAGE">MESSAGE jingle</option>
+                                            <option value="SUCCESS">SUCCESS jingle</option>
+                                            <option value="ERROR">ERROR jingle</option>
+                                            <option value="ALARM">ALARM jingle</option>
+                                        </select>
+                                </div>
+
+                                <button disabled class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled"><i
+                                    class="bi bi-pause"></i></button>
+                                <button disabled class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled"><i
+                                        class="bi bi-stop"></i></button>
+                            </div>
+                            <hr style="margin: 0.7em 0"/>
+                            <div class="d-flex flex-row align-items-center justify-content-between">
+                                <div class="d-flex flex-row w-100">
+                                    <button disabled class="btn btn-audio-controls btn-play is-connect-enabled"><i
+                                            class="bi bi-play"></i></button>
+                                    <input disabled min="300" max="22000" value="440" type="number"
                                         class="ms-1 is-connect-enabled w-100" value="0">
                                 </div>
 
@@ -280,51 +325,48 @@
                                 </div>
 
 
-                                <button class="btn btn-audio-controls btn-stop ms-3 is-connect-enabled"><i
+                                <button disabled class="btn btn-audio-controls btn-stop ms-3 is-connect-enabled"><i
                                         class="bi bi-stop"></i></button>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-xl-2 d-flex flex-column mt-2">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column h-100">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">RGB LED Control</h5>
                             <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
                                 <div>?</div>
                             </div>
                         </div>
-                        <div class="d-flex flex-row justify-content-between align-items-center">
-                            <input class="is-connect-enabled" type="color" id="colorpicker" value="#ffffff">
-                            <button class="btn btn-control ms-2 is-connect-enabled flex-fill" onclick="onSetColor()">Set
-                                </button>
-                            <button class="btn btn-control ms-2" onclick="startRainbowMode()">🦄</button>
 
-                            <button onclick="onTurnOffLed()" class="btn btn-stop is-connect-enabled ms-3">Off</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mt-2 flex-fill">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <h5 class="card-title">Web Recorder</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
-                                <div>?</div>
+                        <p class="card-text">Control the RGB LED.
+                        </p>
+                        <div class="d-flex flex-column justify-content-between align-items-stretch flex-fill">
+                            <div class="d-flex flex-row justify-content-stretch">
+                                <input class="is-connect-enabled w-100 align-self-stretch" type="color" id="colorpicker" value="#ffffff">
+                                <input class="ms-2 is-connect-enabled" id="colorInput">
                             </div>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between align-items-center">
-                            <button id="startRecordingButton" class="btn btn-control is-connect-enabled w-100">Start Recording</button>
-                            <button id="stopRecordingButton" class="btn btn-stop is-connect-enabled w-100">Stop Recording</button>
+
+                            <button class="btn btn-control is-connect-enabled mt-2" onclick="onSetColor()">Set
+                            </button>
+                            
+                            <hr/>
+                            <div class="d-flex flex-row">
+                                <button class="btn btn-control flex-fill is-connect-enabled" onclick="startRainbowMode()">🦄</button>
+                                <button onclick="onTurnOffLed()" class="btn btn-stop is-connect-enabled flex-fill ms-2">Off</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-2 gx-2 flex-grow-1" style="flex-basis: 0;">
-            <div class="col-4">
-                <div class="card h-100">
+        <div class="row gx-2 flex-grow-1" style="flex-basis: 0;">
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Accelerometer</h5>
@@ -336,8 +378,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card h-100">
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Gyroscope</h5>
@@ -349,8 +391,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card h-100">
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Magnetometer</h5>
@@ -362,10 +404,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-2 gx-2 flex-grow-1" style="flex-basis: 0;">
-            <div class="col-4">
-                <div class="card h-100">
+            <div class="col-12 col-md-6 col-xl-4 mt-2 d-flex">
+                <div class="card d-flex flex-fill">
                     <div class="card-body h-100 d-flex flex-column">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">3D Model</h5>
@@ -373,13 +413,25 @@
                                 <div>?</div>
                             </div>
                         </div>
-                        <model-viewer class="w-100 flex-fill" disable-tap disable-zoom src="./assets/models/OpenEarable.glb" camera-orbit="0 0 0"></model-viewer>
-
+                        <div class="d-flex flex-row h-100 align-items-center-center">
+                            <model-viewer class="w-100 flex-fill h-100" disable-tap disable-zoom
+                                src="./assets/models/OpenEarable.glb" camera-orbit="0 0 0"></model-viewer>
+                            <div class="ms-2">
+                                <div>
+                                    <div><b>Roll&#160;Angle</b></div>
+                                    <div style="font-family: monospace;" id="rollAngleValue">0.0</div>
+                                </div>
+                                <div>
+                                    <div><b>Pitch&#160;Angle</b></div>
+                                    <div style="font-family: monospace;" id="pitchAngleValue">0.0</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card h-100">
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Pressure Sensor</h5>
@@ -391,8 +443,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card h-100">
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Temperature Sensor</h5>
@@ -405,12 +457,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="row mt-2 gx-2">
-            <div class="col-8">
-                <div class="card">
-                    <div class="card-body d-flex flex-column">
+        <div class="row gx-2">
+            <div class="col-12 col-xl-8 mt-2 ">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column h-100">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <div class="d-flex flex-row justify-content-center align-items-center">
                                 <div>
@@ -424,19 +475,19 @@
                             </div>
                         </div>
 
-                        <div id="log" class="w-100 p-2 mt-3"
-                            style="color: white; min-height: 150px; max-height: 150px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
+                        <div id="log" class="w-100 p-2 mt-3 h-100"
+                            style="color: white; min-height: 100px; max-height: 160px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 d-flex">
+            <div class="col-12 col-xl-4 d-flex mt-2 ">
                 <div class="card flex-fill">
                     <div class="card-body d-flex flex-column h-100">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <div class="d-flex flex-row justify-content-center align-items-center">
                                 <div>
-                                    <h5 class="card-title">Label</h5>
+                                    <h5 class="card-title">Recorder</h5>
                                 </div>
                             </div>
                             <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
@@ -465,10 +516,18 @@
                                     class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
                             </div>
                             <div class="d-flex flex-row  mt-2">
+                                <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
+                                    <button id="startRecordingButton"
+                                        class="btn btn-play is-connect-enabled w-100">Start
+                                        Recording</button>
+                                    <button id="stopRecordingButton" class="btn btn-stop is-connect-enabled w-100 d-none">Stop
+                                        Recording</button>
+                                </div>
                                 <button id="btn9" style="border: 3px solid #77F2A1;"
-                                    class="w-100 btn btn-primary btn-control ">
+                                    class="btn btn-primary btn-control ms-2">
                                     No Label</button>
-                                <button id="lockButton" class="btn btn-stop flex-fill ms-2  is-record-enabled"><i class="bi bi-lock"></i></button>
+                                <button id="lockButton" class="btn btn-stop ms-2  is-record-enabled"><i
+                                        class="bi bi-lock"></i></button>
                             </div>
                         </div>
                     </div>
@@ -487,7 +546,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Note: keep import order -->
-    <script src="./assets/js/www-ahrs.js"></script>
     <script src="./assets/js/LogManager.js"></script>
     <script src="./assets/js/OpenEarable.js"></script>
     <script src="./assets/js/LEDManager.js"></script>
@@ -506,8 +564,6 @@
 
             // disable all buttons on initial load
             $(".is-connect-enabled").prop('disabled', true);
-
-            $('#batteryLevel').hide();
 
             // check if bluetooth is supported
             if ('bluetooth' in navigator) {

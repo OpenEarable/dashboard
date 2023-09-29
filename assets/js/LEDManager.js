@@ -76,3 +76,27 @@ function stopRainbowMode() {
     clearInterval(rainbowInterval);
 }
 
+function isValidHex(hex) {
+    return /^#[0-9A-Fa-f]{6}$/.test(hex);
+}
+
+const colorPicker = document.getElementById('colorpicker');
+const colorInput = document.getElementById('colorInput');
+
+// Function to set the text input based on the color picker value
+function setColorInputValue() {
+    colorInput.value = colorPicker.value;
+}
+
+colorPicker.addEventListener('input', setColorInputValue);
+
+colorInput.addEventListener('blur', function() {
+    if (!isValidHex(this.value)) {
+        setColorInputValue(); // Reset to the color picker value if the entered value isn't valid
+    } else {
+        colorPicker.value = this.value; // Update color picker if the value is valid
+    }
+});
+
+// Populate the text input with the color picker value when the page loads
+setColorInputValue();
