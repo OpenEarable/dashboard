@@ -1,7 +1,7 @@
 # 🦻 OpenEarable Dashboard
-This repository offers comprehensive web interface for controlling and monitoring OpenEarable. The dashboard offers acces to different sensors, audio controls, the button and the RGB LED of OpenEarable. In addition, it shows real-time graphs of accelerometer, gyroscope, magnetomer, pressure sensor, and temperature sensor data. Users can use the dashboard to label incoming data and download the labeled data as csv file ([edge-ml.org](https://edge-ml.org) compatible format).
+This repository offers comprehensive web interface for controlling and monitoring OpenEarable. The dashboard offers acces to different sensors, audio controls, button events and the RGB LED of OpenEarable. In addition, it shows real-time graphs of accelerometer, gyroscope, magnetomer, pressure, and temperature sensor data. Users can use the dashboard to label incoming data and download the labeled data as csv file ([edge-ml.org](https://edge-ml.org) compatible format for no-code machine learning).
 
-This repository also includes the [OpenEarable.js](https://github.com/OpenEarable/dashboard#openearablejs-library) JavaScript library in the assets folder `assets/js/OpenEarable.js`.
+This repository also includes the [OpenEarable.js](https://github.com/OpenEarable/dashboard#openearablejs-library) JavaScript library in the `assets/js/OpenEarable.js` folder. This way, researchers and developers can easily integrate OpenEarable into their own workflows.
 
 ## Usage
 
@@ -44,14 +44,22 @@ wait sensorManager.writeSensorConfig(0, 30, 0); // 0 sensorId, 30 samplingRate
 ```
 
 #### Play Audio
+OpenEarable allows playing mono, 16-bit, 44.1kHz *.wav files from the internal microSD card. In addition, it is possible to generate a constant frequency on the earable directly or play one of the built-in jingles.
+
 ```js
-// Play audio file from microSD card
-openEarable.audioPlayer.wavFile(1, "music.wav"); // 1 state (play), music.wav file to play from microSD card   
+// Play audio file from microSD card with the name "music.wav"
+openEarable.audioPlayer.wavFile(AUDIO_STATE.PLAY, "music.wav");
+
+// Play a constant frequency sine wave at 22 kHz
+openEarable.audioPlayer.wavFile(AUDIO_STATE.PLAY, WAVE_TYPE.SINE, 22000);
+
+// Play a default "NOTIFICATION" jingle from the internal OpenEarable storage
+openEarable.audioPlayer.jingle(AUDIO_STATE.PLAY, "NOTIFICATION");
 ```
 
 #### Control RGB LED
 ```js
-// TODO
+openEarable.
 ```
 
 ## License
