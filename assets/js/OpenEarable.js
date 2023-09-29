@@ -18,7 +18,11 @@ class OpenEarable {
         return new TextDecoder().decode(value);
     }
 
-    async readDeviceGeneration() {
+    async readHardwareVersion() {
+        return "1.3.0"
+    }
+
+    async readFirmwareVersion() {
         this.bleManager.ensureConnected();
         const value = await this.bleManager.readCharacteristic('45622510-6468-465a-b141-0b9b0f96b468', '45622512-6468-465a-b141-0b9b0f96b468');
         return new TextDecoder().decode(value);

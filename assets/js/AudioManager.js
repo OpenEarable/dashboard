@@ -55,6 +55,8 @@ $(document).ready(function() {
     });
 
     $("#buttonPauseJingle").click(function() {
+        var jingleType = $('#jingleSelect').val();
+        
         log("Sending 'Pause' command.", "MESSAGE");
         try {
             openEarable.audioPlayer.jingle(AUDIO_STATE.PAUSE, jingleType);
@@ -64,6 +66,8 @@ $(document).ready(function() {
     });
 
     $("#buttonStopJingle").click(function() {
+        var jingleType = $('#jingleSelect').val();
+
         log("Sending 'Stop' command.", "MESSAGE");
         try {
             openEarable.audioPlayer.jingle(AUDIO_STATE.STOP, jingleType);
