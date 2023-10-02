@@ -1,5 +1,10 @@
 # 🦻 OpenEarable Dashboard
-![Static Badge](https://img.shields.io/badge/Open%20Dashboard%20%F0%9F%A1%95-36353b?link=https%3A%2F%2Fopenearable.github.io%2Fdashboard%2F)
+<object>
+<img alt="Static Badge" src="https://img.shields.io/badge/Open%20Dashboard%20%F0%9F%A1%95-36353b?link=https%3A%2F%2Fopenearable.github.io%2Fdashboard%2F">
+</object>
+
+
+
 
 
 This repository offers comprehensive web interface for controlling and monitoring OpenEarable. A hosted version of this dashboard is available [here](https://openearable.github.io/dashboard/). The dashboard offers acces to different sensors, audio controls, button events and the RGB LED of OpenEarable. In addition, it shows real-time graphs of accelerometer, gyroscope, magnetomer, pressure, and temperature sensor data. Users can use the dashboard to label incoming data and download the labeled data as csv file ([edge-ml.org](https://edge-ml.org) compatible format for no-code machine learning).
