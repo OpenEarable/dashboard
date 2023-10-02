@@ -1,3 +1,109 @@
+/**
+ * Enumeration of different battery states.
+ */
+const BATTERY_STATE = {
+    CHARGING: 0,
+    CHARGED: 1,
+    NOT_CHARGING: 2
+}
+
+/**
+ * Enumeration of different sensor ids.
+ */
+const SENSOR_ID = {
+    IMU: 0,
+    PRESSURE_SENSOR: 1,
+    MICROPHONE: 2
+}
+
+/**
+ * Enumeration for different audio states.
+ */
+const AUDIO_STATE = {
+    IDLE: 0,
+    PLAY: 1,
+    PAUSE: 2,
+    STOP: 3
+};
+
+/**
+ * Enumeration for different jingles.
+ */
+const JINGLE = {
+    IDLE: 0,
+    NOTIFICATION: 1,
+    SUCCESS: 2,
+    ERROR: 3,
+    ALARM: 4,
+    PING: 5,
+    OPEN: 6,
+    CLOSE: 7
+};
+
+/**
+ * Enumeration for different wave types.
+ */
+const WAVE_TYPE = {
+    IDLE: 0,
+    SINE: 1,
+    TRIANGLE: 2,
+    SQUARE: 3,
+    SAW: 4
+};
+
+/**
+ * Dictionary of the different OpenEarable BLE services.
+ */
+const SERVICES = {
+    DEVICE_INFO_SERVICE: {
+        UUID: '45622510-6468-465a-b141-0b9b0f96b468',
+        CHARACTERISTICS: {
+
+        }
+    },
+    BATTERY_SERVICE: {
+        UUID: '0000180f-0000-1000-8000-00805f9b34fb',
+        CHARACTERISTICS: {
+            BATTERY_LEVEL_CHARACTERISTIC: {
+                UUID: '00002a19-0000-1000-8000-00805f9b34fb'
+            }, 
+            BATTERY_STATE_CHARACTERISTIC: {
+                UUID: '00002a1a-0000-1000-8000-00805f9b34fb'
+            }
+        }
+    },
+    PARSE_INFO_SERVICE: {
+        UUID: 'caa25cb7-7e1b-44f2-adc9-e8c06c9ced43',
+        CHARACTERISTICS: {
+
+        }
+    },
+    SENSOR_SERVICE: {
+        UUID: '34c2e3bb-34aa-11eb-adc1-0242ac120002',
+        CHARACTERISTICS: {
+
+        }
+    },
+    BUTTON_SERVICE: {
+        UUID: '29c10bdc-4773-11ee-be56-0242ac120002',
+        CHARACTERISTICS: {
+
+        }
+    },
+    LED_SERVICE: {
+        UUID: '81040a2e-4819-11ee-be56-0242ac120002',
+        CHARACTERISTICS: {
+
+        }
+    },
+    AUDIO_SERVICE: {
+        UUID: '5669146e-476d-11ee-be56-0242ac120002',
+        CHARACTERISTICS: {
+
+        }
+    }
+}
+
 class OpenEarable {
     constructor() {
         this.bleManager = new BLEManager();
@@ -37,33 +143,42 @@ class OpenEarable {
     }
 
     notifyBatteryLevelChanged(value) {
+        if (!value) return;
+
         const batteryLevel = new DataView(value.buffer).getUint8(0);
         this.batteryLevelChangedSubscribers.forEach(callback => callback(batteryLevel));
     }
 
+    notifyBatteryStateChanged(value) {
+        if (!value) return;
+
+        const batteryState = new DataView(value.buffer).getUint8(0);
+        this.batteryStateChangedSubscribers.forEach(callback => callback(batteryState));
+    }
+
     async onDeviceReady() {
-        const value = await this.bleManager.readCharacteristic('0000180f-0000-1000-8000-00805f9b34fb', '00002a19-0000-1000-8000-00805f9b34fb');
-        this.notifyBatteryLevelChanged(value);
+        const batteryLevelValue = await this.bleManager.readCharacteristic(SERVICES.BATTERY_SERVICE.UUID, SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_LEVEL_CHARACTERISTIC.UUID);
+        this.notifyBatteryLevelChanged(batteryLevelValue);
 
         await this.bleManager.subscribeCharacteristicNotifications(
-            '0000180f-0000-1000-8000-00805f9b34fb',
-            '00002a19-0000-1000-8000-00805f9b34fb',
+            SERVICES.BATTERY_SERVICE.UUID,
+            SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_LEVEL_CHARACTERISTIC.UUID,
             (notificationEvent) => {
                 this.notifyBatteryLevelChanged(notificationEvent.srcElement.value);
             }
         );
             
-        /*
-        const chargingState = await this.bleManager.readCharacteristic('0000180f-0000-1000-8000-00805f9b34fb', 'placeholder-charging-state-uuid');
-        this.batteryStateChangedSubscribers.forEach(callback => callback(new TextDecoder().decode(chargingState)));
+
+        const batteryStateValue = await this.bleManager.readCharacteristic(SERVICES.BATTERY_SERVICE.UUID, SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_STATE_CHARACTERISTIC.UUID);
+        this.notifyBatteryStateChanged(batteryStateValue);
     
         await this.bleManager.subscribeCharacteristicNotifications(
-            '0000180f-0000-1000-8000-00805f9b34fb',
-            'placeholder-charging-state-uuid',
-            (value) => {
-                this.batteryStateChangedSubscribers.forEach(callback => callback(new TextDecoder().decode(value)));
+            SERVICES.BATTERY_SERVICE.UUID, 
+            SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_STATE_CHARACTERISTIC.UUID,
+            (notificationEvent) => {
+                this.notifyBatteryStateChanged(notificationEvent.srcElement.value);
             }
-        );*/
+        );
 
         this.sensorManager.init();
     }    
@@ -75,39 +190,56 @@ class BLEManager {
         this.gattServer = null;
         this.onConnectedSubscribers = [];
         this.onDisconnectedSubscribers = [];
+        this.queue = [];
+        this.operationInProgress = false;
     }
 
-    async connect() {
+    async _executeNextOperation() {
+        if (this.queue.length === 0 || this.operationInProgress) {
+            return;
+        }
+        const nextOperation = this.queue.shift();
+        this.operationInProgress = true;
         try {
-            this.device = await navigator.bluetooth.requestDevice({
-                acceptAllDevices: true,
-                optionalServices: [
-                    '45622510-6468-465a-b141-0b9b0f96b468', // Device Info Service
-                    '81040a2e-4819-11ee-be56-0242ac120002', // LED Service
-                    '34c2e3bb-34aa-11eb-adc1-0242ac120002', // Sensor Service
-                    '29c10bdc-4773-11ee-be56-0242ac120002',  // Button Service, remove?
-                    '0000180f-0000-1000-8000-00805f9b34fb', // Battery Service
-                    'caa25cb7-7e1b-44f2-adc9-e8c06c9ced43', // Parse Info Service
-                    '5669146e-476d-11ee-be56-0242ac120002' // Audio Service
-                ]
-            });
-            this.gattServer = await this.device.gatt.connect();
-            
-            this.device.addEventListener('gattserverdisconnected', () => {
-                this.cleanup();
-                this.notifyAll(this.onDisconnectedSubscribers);
-            });
-
-            this.notifyAll(this.onConnectedSubscribers);
-            
+            await nextOperation();
         } catch (error) {
-            console.error("Error connecting to BLE device:", error);
+            console.error('Error during GATT operation:', error);
+        } finally {
+            this.operationInProgress = false;
+            this._executeNextOperation();
         }
     }
+
+    async _enqueueOperation(operation) {
+        return new Promise((resolve, reject) => {
+            this.queue.push(async () => {
+                try {
+                    const result = await operation();
+                    resolve(result);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+            this._executeNextOperation();
+        });
+    }
+    async connect() {
+        return this._enqueueOperation(async () => {
+            this.device = await navigator.bluetooth.requestDevice({
+                acceptAllDevices: true,
+                optionalServices: Object.keys(SERVICES).map((service) => SERVICES[service].UUID)
+            });
+            this.gattServer = await this.device.gatt.connect();
+            this.device.addEventListener('gattserverdisconnected', this.handleDisconnected.bind(this));
+            this.notifyAll(this.onConnectedSubscribers);
+        });
+    }
+
 
     subscribeOnConnected(callback) {
         this.onConnectedSubscribers.push(callback);
     }
+    
 
     subscribeOnDisconnected(callback) {
         this.onDisconnectedSubscribers.push(callback);
@@ -126,49 +258,56 @@ class BLEManager {
     }
 
     cleanup() {
+        if (this.device) {
+            this.device.removeEventListener('gattserverdisconnected', this.handleDisconnected);
+        }
         this.device = null;
         this.gattServer = null;
     }
 
+    handleDisconnected() {
+        this.cleanup();
+        setTimeout(() => {
+            this.notifyAll(this.onDisconnectedSubscribers);
+        },
+            5000); // make sure that system has cleaned up everything by delaying a bit
+        
+    }
+    
+
     ensureConnected() {
-        if (!this.device || !this.device.gatt.connected) {
+        if (!this.device ||  !this.gattServer || !this.device.gatt.connected) {
             throw new Error("No BLE device connected.");
         }
     }
 
     async readCharacteristic(serviceUUID, characteristicUUID) {
-        this.ensureConnected();
-        try {
+        return this._enqueueOperation(async () => {
+            this.ensureConnected();
             const service = await this.gattServer.getPrimaryService(serviceUUID);
             const characteristic = await service.getCharacteristic(characteristicUUID);
             const value = await characteristic.readValue();
             return value; 
-        } catch (error) {
-            console.error('Error reading value:', error);
-        }
+        });
     }
 
     async writeCharacteristic(serviceUUID, characteristicUUID, data) {
-        this.ensureConnected();
-        try {
+        return this._enqueueOperation(async () => {
+            this.ensureConnected();
             const service = await this.gattServer.getPrimaryService(serviceUUID);
             const characteristic = await service.getCharacteristic(characteristicUUID);
             await characteristic.writeValue(data);
-        } catch (error) {
-            console.error('Error writing value:', error);
-        }
+        });
     }
 
     async subscribeCharacteristicNotifications(serviceUUID, characteristicUUID, callback) {
-        this.ensureConnected();
-        try {
+        return this._enqueueOperation(async () => {
+            this.ensureConnected();
             const service = await this.gattServer.getPrimaryService(serviceUUID);
             const characteristic = await service.getCharacteristic(characteristicUUID);
             await characteristic.startNotifications();
             characteristic.addEventListener('characteristicvaluechanged', callback);
-        } catch (error) {
-            console.error('Error subscribing to characteristic:', error);
-        }
+        });
     }
 }
 
@@ -393,15 +532,7 @@ class OpenEarableSensorConfig {
 }
 
 
-/**
- * Enumeration for different audio states.
- */
-const AUDIO_STATE = {
-    IDLE: 0,
-    PLAY: 1,
-    PAUSE: 2,
-    STOP: 3
-};
+
 
 /**
  * Represents an audio player that communicates with BLE devices.

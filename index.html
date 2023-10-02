@@ -176,8 +176,8 @@
                         </div>
                         <div class="d-flex flex-column">
                             <div class="card-text"><b></b><span id="connectedDevice" class=""
-                                    style="font-family: monospace;">OpenEarable-XXXX </span><span id="batteryLevel"
-                                    style="font-family: monospace;">(XX%)</span></div>
+                                    style="font-family: monospace;">OpenEarable-XXXX </span> (<span id="batteryLevel"
+                                    style="font-family: monospace;">XX</span><span style="font-size: 0.8em;">%<i id="batteryChargingIndicator" class="bi bi-lightning-charge"></i><i id="batteryChargedIndicator" class="bi bi-lightning-charge-fill"></i></span>)</div>
                             <div class="mt-1"><b>Firmware</b> <span style="font-family: monospace"
                                     id="fwVersion">X.X.X</span> <b class="ms-2">Device</b> <span
                                     style="font-family: monospace" id="deviceVersion">X.X.X</span></div>
@@ -308,10 +308,13 @@
                                     </button>
                                     <select disabled class="ms-1 w-100 is-connect-enabled" name="jingleSelect"
                                         id="jingleSelect">
-                                        <option value="MESSAGE">MESSAGE</option>
-                                        <option value="SUCCESS">SUCCESS</option>
-                                        <option value="ERROR">ERROR</option>
-                                        <option value="ALARM">ALARM</option>
+                                        <option value="1">NOTIFICATION (1)</option>
+                                        <option value="2">SUCCESS (2)</option>
+                                        <option value="3">ERROR (3)</option>
+                                        <option value="4">ALARM (4)</option>
+                                        <option value="5">PING (5)</option>
+                                        <option value="6">OPEN (6)</option>
+                                        <option value="7">CLOSE (7)</option>
                                     </select>
                                 </div>
 
@@ -583,6 +586,9 @@
     <script>
         /* initialization tasks */
         $(document).ready(function () {
+            $('#batteryChargingIndicator').hide();
+            $('#batteryChargedIndicator').hide();
+
             // enable tooltips
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
