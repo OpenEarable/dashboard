@@ -1,9 +1,37 @@
 # 🦻 OpenEarable Dashboard
+[Open Dashboard 🡕](https://openearable.github.io/dashboard/)
+
+
+
+
+
 This repository offers comprehensive web interface for controlling and monitoring OpenEarable. A hosted version of this dashboard is available [here](https://openearable.github.io/dashboard/). The dashboard offers acces to different sensors, audio controls, button events and the RGB LED of OpenEarable. In addition, it shows real-time graphs of accelerometer, gyroscope, magnetomer, pressure, and temperature sensor data. Users can use the dashboard to label incoming data and download the labeled data as csv file ([edge-ml.org](https://edge-ml.org) compatible format for no-code machine learning).
 
 This repository also includes the [OpenEarable.js](https://github.com/OpenEarable/dashboard#openearablejs-library) JavaScript library in the `assets/js/OpenEarable.js` folder. This way, researchers and developers can easily integrate OpenEarable into their own workflows.
 
+## Table of Contents
+- Usage
+    - Overview
+    - Running the Server
+- OpenEarable.js Library
+    - Installation
+    - Usage Examples
+        - Connect to OpenEarable
+        - Subscribe to Sensor Data
+        - Play Audio
+        - Control RGB LED
+        - Receive Button Events
+        - Receive Battery Events
+
 ## Usage
+
+### Overview
+
+### Running the server yourself
+If you want to run the dashboard yourself and have python3 installed, you can use the following command to run the website from the root of this repository. This will start the webserver at `http://localhost:8000`.
+```bash
+python3 -m http.server
+```
 
 ## OpenEarable.js Library
 OpenEarable.js is a JavaScript library that provides a seamless interface to connect, manage, and interact with OpenEarable. The library abstracts the complexities of BLE communication, making it easy to fetch device details, manage sensors, LED, and audio, and subscribe to device state changes.
@@ -14,7 +42,7 @@ To use OpenEarable.js simply integrate the library found under `assets/js/OpenEa
 <script src="./OpenEarable.js"></script>
 ```
 
-### Usage Example
+### Usage Examples
 The following example shows how to use the OpenEarable library.
 
 #### Connect to OpenEarable
@@ -69,6 +97,9 @@ openEarable.audioPlayer.jingle(AUDIO_STATE.PLAY, JINGLE.NOTIFICATION);
 // set the LED color to red (accepts values from 0 to 255 for R, G, B)
 openEarable.rgbLed.writeLedColor(255, 0, 0); 
 ```
+
+#### Receive Button Events
+TODO
 
 #### Receive Battery Events
 ```js
