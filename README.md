@@ -1,7 +1,5 @@
 # 🦻 OpenEarable Dashboard
-<object>
-<img alt="Static Badge" src="https://img.shields.io/badge/Open%20Dashboard%20%F0%9F%A1%95-36353b?link=https%3A%2F%2Fopenearable.github.io%2Fdashboard%2F">
-</object>
+[Open Dashboard 🡕](https://openearable.github.io/dashboard/)
 
 
 
