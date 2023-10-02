@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#setSensorConfigurationButton').on('click', async function() {
-        console.log("set sensor config")
         // Check if the checkbox for the first set of sensors is checked
         if ($('#areSensorsEnabled').is(':checked')) {
             var sensorSamplingRate = $('#sensorSamplingRate').val();
