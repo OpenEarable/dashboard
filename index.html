@@ -372,19 +372,19 @@
                         </p>
                         <div class="d-flex flex-column justify-content-between align-items-stretch flex-fill">
                             <div class="d-flex flex-row justify-content-stretch">
-                                <input class="is-connect-enabled w-100 align-self-stretch" type="color" id="colorpicker"
+                                <input disabled class="is-connect-enabled w-100 align-self-stretch" type="color" id="colorpicker"
                                     value="#ffffff">
-                                <input class="ms-2 is-connect-enabled" id="colorInput">
+                                <input disabled class="ms-2 is-connect-enabled" id="colorInput">
                             </div>
 
-                            <button class="btn btn-control is-connect-enabled mt-2" onclick="onSetColor()">Set
+                            <button disabled class="btn btn-control is-connect-enabled mt-2" onclick="onSetColor()">Set
                             </button>
 
                             <hr />
                             <div class="d-flex flex-row">
-                                <button class="btn btn-control flex-fill is-connect-enabled"
+                                <button disabled class="btn btn-control flex-fill is-connect-enabled"
                                     onclick="startRainbowMode()">🦄</button>
-                                <button onclick="onTurnOffLed()"
+                                <button disabled onclick="onTurnOffLed()"
                                     class="btn btn-stop is-connect-enabled flex-fill ms-2">Off</button>
                             </div>
                         </div>
@@ -546,7 +546,7 @@
                             <div class="d-flex flex-row  mt-2">
                                 <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
                                     <button id="startRecordingButton"
-                                        class="btn btn-play is-connect-enabled w-100">Start
+                                        class="btn btn-play is-connect-enabled w-100"  disabled>Start
                                         Recording</button>
                                     <button id="stopRecordingButton"
                                         class="btn btn-stop is-connect-enabled w-100 d-none">Stop

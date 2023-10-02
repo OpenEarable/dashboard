@@ -58,7 +58,12 @@ const SERVICES = {
     DEVICE_INFO_SERVICE: {
         UUID: '45622510-6468-465a-b141-0b9b0f96b468',
         CHARACTERISTICS: {
-
+            DEVICE_IDENTIFIER_CHARACTERISTIC: {
+                UUID: '45622511-6468-465a-b141-0b9b0f96b468'
+            },
+            DEVICE_GENERATION_CHARACTERISTIC: {
+                UUID: '45622512-6468-465a-b141-0b9b0f96b468'
+            }
         }
     },
     BATTERY_SERVICE: {
@@ -75,34 +80,48 @@ const SERVICES = {
     PARSE_INFO_SERVICE: {
         UUID: 'caa25cb7-7e1b-44f2-adc9-e8c06c9ced43',
         CHARACTERISTICS: {
-
+            SCHEME_CHARACTERISTIC: {
+                UUID: 'caa25cb8-7e1b-44f2-adc9-e8c06c9ced43'
+            }
         }
     },
     SENSOR_SERVICE: {
         UUID: '34c2e3bb-34aa-11eb-adc1-0242ac120002',
         CHARACTERISTICS: {
-
+            SENSOR_CONFIGURATION_CHARACTERISTIC: {
+                UUID: '34c2e3bd-34aa-11eb-adc1-0242ac120002'
+            },
+            SENSOR_DATA_CHARACTERISTIC: {
+                UUID: '34c2e3bc-34aa-11eb-adc1-0242ac120002'
+            }
         }
     },
     BUTTON_SERVICE: {
         UUID: '29c10bdc-4773-11ee-be56-0242ac120002',
         CHARACTERISTICS: {
-
+            BUTTON_STATE_CHARACTERISTIC: {
+                UUID: '29c10f38-4773-11ee-be56-0242ac120002'
+            }
         }
     },
     LED_SERVICE: {
         UUID: '81040a2e-4819-11ee-be56-0242ac120002',
         CHARACTERISTICS: {
-
+            LED_STATE_CHARACTERISTIC: {
+                UUID: '81040e7a-4819-11ee-be56-0242ac120002'
+            }
         }
     },
     AUDIO_SERVICE: {
         UUID: '5669146e-476d-11ee-be56-0242ac120002',
         CHARACTERISTICS: {
-
+            AUDIO_CONTROL_CHARACTERISTIC: {
+                UUID: '566916a8-476d-11ee-be56-0242ac120002'
+            }
         }
     }
 }
+
 
 class OpenEarable {
     constructor() {
@@ -120,19 +139,26 @@ class OpenEarable {
 
     async readDeviceIdentifier() {
         this.bleManager.ensureConnected();
-        const value = await this.bleManager.readCharacteristic('45622510-6468-465a-b141-0b9b0f96b468', '45622511-6468-465a-b141-0b9b0f96b468');
+        const value = await this.bleManager.readCharacteristic(
+            SERVICES.DEVICE_INFO_SERVICE.UUID,
+            SERVICES.DEVICE_INFO_SERVICE.CHARACTERISTICS.DEVICE_IDENTIFIER_CHARACTERISTIC.UUID
+        );
         return new TextDecoder().decode(value);
     }
-
+    
     async readHardwareVersion() {
-        return "1.3.0"
+        return "1.3.0";
     }
-
+    
     async readFirmwareVersion() {
         this.bleManager.ensureConnected();
-        const value = await this.bleManager.readCharacteristic('45622510-6468-465a-b141-0b9b0f96b468', '45622512-6468-465a-b141-0b9b0f96b468');
+        const value = await this.bleManager.readCharacteristic(
+            SERVICES.DEVICE_INFO_SERVICE.UUID,
+            SERVICES.DEVICE_INFO_SERVICE.CHARACTERISTICS.DEVICE_GENERATION_CHARACTERISTIC.UUID
+        );
         return new TextDecoder().decode(value);
     }
+    
 
     subscribeBatteryLevelChanged(callback) {
         this.batteryLevelChangedSubscribers.push(callback);
@@ -225,9 +251,11 @@ class BLEManager {
     }
     async connect() {
         return this._enqueueOperation(async () => {
+            const optionalServiceUUIDs = Object.keys(SERVICES).map((service) => SERVICES[service].UUID);
+
             this.device = await navigator.bluetooth.requestDevice({
                 acceptAllDevices: true,
-                optionalServices: Object.keys(SERVICES).map((service) => SERVICES[service].UUID)
+                optionalServices: optionalServiceUUIDs
             });
             this.gattServer = await this.device.gatt.connect();
             this.device.addEventListener('gattserverdisconnected', this.handleDisconnected.bind(this));
@@ -270,7 +298,7 @@ class BLEManager {
         setTimeout(() => {
             this.notifyAll(this.onDisconnectedSubscribers);
         },
-            5000); // make sure that system has cleaned up everything by delaying a bit
+            6000); // make sure that system has cleaned up everything by delaying a bit
         
     }
     
@@ -320,8 +348,12 @@ class RGBLed {
     async writeLedColor(r, g, b) {
         this.bleManager.ensureConnected();
         const data = new Uint8Array([r, g, b]);
-        await this.bleManager.writeCharacteristic('81040a2e-4819-11ee-be56-0242ac120002', '81040e7a-4819-11ee-be56-0242ac120002', data);
-    }
+        await this.bleManager.writeCharacteristic(
+            SERVICES.LED_SERVICE.UUID,
+            SERVICES.LED_SERVICE.CHARACTERISTICS.LED_STATE_CHARACTERISTIC.UUID,
+            data
+        );
+    }    
 }
 
 class SensorManager {
@@ -332,7 +364,10 @@ class SensorManager {
     }
 
     async init() {
-        const data = await this.bleManager.readCharacteristic('caa25cb7-7e1b-44f2-adc9-e8c06c9ced43', 'caa25cb8-7e1b-44f2-adc9-e8c06c9ced43');
+        const data = await this.bleManager.readCharacteristic(
+            SERVICES.PARSE_INFO_SERVICE.UUID,
+            SERVICES.PARSE_INFO_SERVICE.CHARACTERISTICS.SCHEME_CHARACTERISTIC.UUID
+        );
         const byteStream = new Uint8Array(data.buffer);
     
         let currentIndex = 0;
@@ -377,12 +412,16 @@ class SensorManager {
         this.sensorSchemes = tempSensorSchemes;
 
 
-        await this.bleManager.subscribeCharacteristicNotifications('34c2e3bb-34aa-11eb-adc1-0242ac120002', '34c2e3bc-34aa-11eb-adc1-0242ac120002', async (data) => {
-            var parsedData = await this.parseData(data.srcElement.value);
-            for(let callback of this.onSensorDataReceivedSubscriber) {
-                callback(parsedData);
+        await this.bleManager.subscribeCharacteristicNotifications(
+            SERVICES.SENSOR_SERVICE.UUID,
+            SERVICES.SENSOR_SERVICE.CHARACTERISTICS.SENSOR_DATA_CHARACTERISTIC.UUID,
+            async (data) => {
+                var parsedData = await this.parseData(data.srcElement.value);
+                for(let callback of this.onSensorDataReceivedSubscriber) {
+                    callback(parsedData);
+                }
             }
-        });
+        );        
     }
 
     async writeSensorConfig(sensorId, samplingRate, latency) {
@@ -392,7 +431,11 @@ class SensorManager {
         view.setUint8(0, sensorId);
         view.setFloat32(1, samplingRate, true); 
         view.setUint32(5, latency, true);    
-        await this.bleManager.writeCharacteristic('34c2e3bb-34aa-11eb-adc1-0242ac120002', '34c2e3bd-34aa-11eb-adc1-0242ac120002', data);
+        await this.bleManager.writeCharacteristic(
+            SERVICES.SENSOR_SERVICE.UUID,
+            SERVICES.SENSOR_SERVICE.CHARACTERISTICS.SENSOR_CONFIGURATION_CHARACTERISTIC.UUID,
+            data
+        );        
     }
     
     async parseData(data) {
@@ -545,10 +588,6 @@ class AudioPlayer {
      */
     constructor(bleManager) {
         this.bleManager = bleManager;
-
-        // Placeholder service and characteristic UUIDs. Replace these with actual UUIDs.
-        this.audioServiceUUID = '5669146e-476d-11ee-be56-0242ac120002'; 
-        this.audioCharUUID = '566916a8-476d-11ee-be56-0242ac120002'; 
     }
 
     /**
@@ -561,7 +600,11 @@ class AudioPlayer {
         try {
             let type = 1;  // 1 indicates it's a WAV file
             let data = this.prepareData(type, state, fileName);
-            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.audioCharUUID, data);
+            await this.bleManager.writeCharacteristic(
+                SERVICES.AUDIO_SERVICE.UUID,
+                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_CONTROL_CHARACTERISTIC.UUID,
+                data
+            );            
         } catch (error) {
             log("Error writing wavFile data: " + error, "ERROR");
         }
@@ -585,7 +628,11 @@ class AudioPlayer {
             let freqBytes = new Float32Array([frequency]);
             data.set(new Uint8Array(freqBytes.buffer), 3);
 
-            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.audioCharUUID, data);
+            await this.bleManager.writeCharacteristic(
+                SERVICES.AUDIO_SERVICE.UUID,
+                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_CONTROL_CHARACTERISTIC.UUID,
+                data
+            );            
         } catch (error) {
             log("Error writing frequency data: " + error, "ERROR");
         }
@@ -601,7 +648,11 @@ class AudioPlayer {
         try {
             let type = 3;  // 3 indicates it's a jingle
             let data = this.prepareData(type, state, jingleName);
-            await this.bleManager.writeCharacteristic(this.audioServiceUUID, this.audioCharUUID, data);
+            await this.bleManager.writeCharacteristic(
+                SERVICES.AUDIO_SERVICE.UUID,
+                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_CONTROL_CHARACTERISTIC.UUID,
+                data
+            );            
         } catch (error) {
             log("Error writing jingle data: " + error, "ERROR");
         }
