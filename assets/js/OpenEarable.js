@@ -87,9 +87,8 @@ class BLEManager {
                     '34c2e3bb-34aa-11eb-adc1-0242ac120002', // Sensor Service
                     '29c10bdc-4773-11ee-be56-0242ac120002',  // Button Service, remove?
                     '0000180f-0000-1000-8000-00805f9b34fb', // Battery Service
-                    'caa25cb7-7e1b-44f2-adc9-e8c06c9ced43' // Parse Info Service
-                    //'' Audio Service
-                    // TODO: add remaining services
+                    'caa25cb7-7e1b-44f2-adc9-e8c06c9ced43', // Parse Info Service
+                    '5669146e-476d-11ee-be56-0242ac120002' // Audio Service
                 ]
             });
             this.gattServer = await this.device.gatt.connect();
@@ -417,8 +416,8 @@ class AudioPlayer {
         this.bleManager = bleManager;
 
         // Placeholder service and characteristic UUIDs. Replace these with actual UUIDs.
-        this.audioServiceUUID = 'placeholder-service-uuid'; 
-        this.audioCharUUID = 'placeholder-audio-characteristic-uuid'; 
+        this.audioServiceUUID = '5669146e-476d-11ee-be56-0242ac120002'; 
+        this.audioCharUUID = '566916a8-476d-11ee-be56-0242ac120002'; 
     }
 
     /**
