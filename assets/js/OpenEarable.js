@@ -641,13 +641,16 @@ class AudioPlayer {
     /**
      * Send jingle details to the BLE device.
      * @param {number} state - Current state of the audio.
-     * @param {string} jingleName - Name of the jingle.
+     * @param {number} jingleId- Id of the jingle.
      * @returns {Promise} Resolves when data is written, rejects otherwise.
      */
-    async jingle(state, jingleName) {
+    async jingle(state, jingleId) {
         try {
             let type = 3;  // 3 indicates it's a jingle
-            let data = this.prepareData(type, state, jingleName);
+            let data = new Uint8Array(8);
+            data[0] = type;
+            data[1] = state;
+            data[2] = jingleId; 
             await this.bleManager.writeCharacteristic(
                 SERVICES.AUDIO_SERVICE.UUID,
                 SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_CONTROL_CHARACTERISTIC.UUID,
