@@ -1,5 +1,5 @@
 # 🦻 OpenEarable - Dashboard v1.3.0
-[Open Dashboard 🡕](https://openearable.github.io/dashboard/)
+[Open Dashboard ↗️](https://openearable.github.io/dashboard/)
 
 
 
