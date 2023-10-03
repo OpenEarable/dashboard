@@ -11,8 +11,6 @@ This repository also includes the [OpenEarable.js](https://github.com/OpenEarabl
 
 ## Table of Contents
 - Usage
-    - Overview
-    - Running the Server
 - OpenEarable.js Library
     - Installation
     - Usage Examples
@@ -24,10 +22,11 @@ This repository also includes the [OpenEarable.js](https://github.com/OpenEarabl
         - Receive Battery Events
 
 ## Usage
+The dashboard runs directly in your browser. You can connect to OpenEarable without having to install anything as it works via WebBLE (latest Chrome version is recommended).
 
-### Overview
+https://github.com/OpenEarable/dashboard/assets/11386075/e9e2a116-a4f6-42e4-9f19-0ce223112ff2
 
-### Running the server yourself
+
 If you want to run the dashboard yourself and have python3 installed, you can use the following command to run the website from the root of this repository. This will start the webserver at `http://localhost:8000`.
 ```bash
 python3 -m http.server
