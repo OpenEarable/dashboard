@@ -615,9 +615,10 @@ class AudioPlayer {
      * @param {number} state - Current state of the audio.
      * @param {number} waveType - Type of wave (0 for sine, 1 for triangle, etc.).
      * @param {number} frequency - Frequency value.
+     * @param {number} loudness - Controls the loudness of the sound.
      * @returns {Promise} Resolves when data is written, rejects otherwise.
      */
-    async frequency(state, waveType, frequency) {
+    async frequency(state, waveType, frequency, loudness) {
         try {
             let type = 2;  // 2 indicates it's a frequency
             let data = new Uint8Array(8);
@@ -626,7 +627,9 @@ class AudioPlayer {
             data[2] = waveType; 
             
             let freqBytes = new Float32Array([frequency]);
+            let loudnessBytes = new Float32Array([loudness]);
             data.set(new Uint8Array(freqBytes.buffer), 3);
+            data.set(new Uint8Array(loudnessBytes.buffer), 4);
 
             await this.bleManager.writeCharacteristic(
                 SERVICES.AUDIO_SERVICE.UUID,

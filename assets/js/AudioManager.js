@@ -79,6 +79,7 @@ $(document).ready(function() {
     // Frequency controls
     $("#buttonPlayFrequency").click(function() {
         var frequencyValue = parseFloat($("#frequencyNumberSelector").val());
+        var loudnessValue = parseFloat($("#loudnessInput").val());
         var waveType = parseInt($('#waveTypeSelect').val());
 
         if (!frequencyValue) {
@@ -86,9 +87,9 @@ $(document).ready(function() {
             return;
         }
 
-        log("Sending 'Play' with frequency value '" + frequencyValue + "' Hz and wave type '" + waveType + "'.", "MESSAGE");
+        log("Sending 'Play' with frequency value '" + frequencyValue + "' Hz, wave type '" + waveType + "', and loudness '" + loudnessValue + "'.", "MESSAGE");
         try {
-            openEarable.audioPlayer.frequency(AUDIO_STATE.PLAY, waveType, frequencyValue);
+            openEarable.audioPlayer.frequency(AUDIO_STATE.PLAY, waveType, frequencyValue, loudnessValue);
         } catch (error) {
             log("Error occurred while trying to play frequency: " + error, "ERROR");
         }
