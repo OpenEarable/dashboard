@@ -182,7 +182,10 @@
                         <div class="d-flex flex-column">
                             <div class="card-text"><b></b><span id="connectedDevice" class=""
                                     style="font-family: monospace;">OpenEarable-XXXX </span> (<span id="batteryLevel"
-                                    style="font-family: monospace;">XX</span><span style="font-size: 0.8em;">%<i id="batteryChargingIndicator" class="bi bi-lightning-charge"></i><i id="batteryChargedIndicator" class="bi bi-lightning-charge-fill"></i></span>)</div>
+                                    style="font-family: monospace;">XX</span><span style="font-size: 0.8em;">%<i
+                                        id="batteryChargingIndicator" class="bi bi-lightning-charge"></i><i
+                                        id="batteryChargedIndicator" class="bi bi-lightning-charge-fill"></i></span>)
+                            </div>
                             <div class="mt-1"><b>Firmware</b> <span style="font-family: monospace"
                                     id="fwVersion">X.X.X</span> <b class="ms-2">Device</b> <span
                                     style="font-family: monospace" id="deviceVersion">X.X.X</span></div>
@@ -206,54 +209,80 @@
                         </div>
                         <div class="d-flex flex-column">
                             <p class="card-text">Select sensors and sampling rate to capture.</p>
-                        
+
                             <div class="d-flex flex-row justify-content-between">
                                 <!-- Checkbox & Text Column -->
                                 <div class="d-flex flex-column flex-shrink-1 mr-3" style="width: calc(100% - 140px)">
                                     <div class="d-flex flex-row align-items-center">
-                                        <input type="checkbox" disabled class="is-connect-enabled" id="areSensorsEnabled">
-                                        <div class="ms-2" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Accelerometer, Gyroscope, Magnetometer (via BLE)</div>
+                                        <input type="checkbox" disabled class="is-connect-enabled"
+                                            id="areSensorsEnabled">
+                                        <div class="ms-2"
+                                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                            Accelerometer, Gyroscope, Magnetometer (via BLE)</div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mt-2">
-                                        <input type="checkbox" disabled class="is-connect-enabled" id="isPressureSensorEnabled">
-                                        <div class="ms-2" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Pressure Sensor, Temperature Sensor (via BLE)</div>
+                                        <input type="checkbox" disabled class="is-connect-enabled"
+                                            id="isPressureSensorEnabled">
+                                        <div class="ms-2"
+                                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                            Pressure Sensor, Temperature Sensor (via BLE)</div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mt-2">
                                         <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
-                                        <div class="ms-2" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Microphone (written to SD card)</div>
+                                        <div class="ms-2"
+                                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                            Microphone (written to SD card)</div>
                                     </div>
                                 </div>
-                        
+
                                 <!-- Dropdown & Hz Column -->
                                 <div class="d-flex flex-column flex-shrink-0">
                                     <div class="d-flex flex-row align-items-center">
-                                        <select disabled class="w-100 is-connect-enabled ms-1 sampling-rate-input" name="sensorSamplingRate" id="sensorSamplingRate">
-                                            <!-- options... -->
+                                        <select disabled class="w-100 is-connect-enabled ms-1 sampling-rate-input"
+                                            name="sensorSamplingRate" id="sensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
                                         </select>
                                         <div class="ms-1">Hz</div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mt-2">
-                                        <select disabled class="w-100 is-connect-enabled ms-1 sampling-rate-input" name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
-                                            <!-- options... -->
+                                        <select disabled class="w-100 is-connect-enabled ms-1 sampling-rate-input"
+                                            name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
                                         </select>
                                         <div class="ms-1">Hz</div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mt-2 ms-1">
-                                        <select disabled class="w-100 is-connect-enabled  sampling-rate-input" name="microphoneSamplingRate" id="microphoneSamplingRate">
-                                            <!-- options... -->
+                                        <select disabled class="w-100 is-connect-enabled  sampling-rate-input"
+                                            name="microphoneSamplingRate" id="microphoneSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="41667">41,667</option>
+                                            <option value="62500">62,500</option>
                                         </select>
                                         <div class="ms-1">Hz</div>
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <div class="d-flex flex-row mt-3 w-100 justify-content-between">
-                                <button disabled id="setSensorConfigurationButton" class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
-                                <button disabled class="btn btn-disable-sensors btn-stop is-connect-enabled ms-3">Off</button>
+                                <button disabled id="setSensorConfigurationButton"
+                                    class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
+                                <button disabled
+                                    class="btn btn-disable-sensors btn-stop is-connect-enabled ms-3">Off</button>
                             </div>
                         </div>
-                        
-                        
+
+
                     </div>
                 </div>
 
@@ -278,22 +307,23 @@
                             <div class="d-flex flex-row w-100 justify-content-between">
                                 <div class="d-flex flex-row">
                                     <button disabled id="buttonPlayWave"
-                                        class="btn btn-audio-controls btn-play is-connect-enabled"
-                                        ><i class="bi bi-play"></i></button>
+                                        class="btn btn-audio-controls btn-play is-connect-enabled"><i
+                                            class="bi bi-play"></i></button>
                                 </div>
                                 <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100"
                                     placeholder="filename.wav">
                                 <button disabled id="buttonPauseWave"
-                                    class="btn btn-audio-controls btn-pause is-connect-enabled ms-3"
-                                    ><i class="bi bi-pause"></i></button>
+                                    class="btn btn-audio-controls btn-pause is-connect-enabled ms-3"><i
+                                        class="bi bi-pause"></i></button>
                                 <button disabled id="buttonStopWave"
-                                    class="btn btn-audio-controls btn-stop is-connect-enabled ms-1"
-                                    ><i class="bi bi-stop"></i></button>
+                                    class="btn btn-audio-controls btn-stop is-connect-enabled ms-1"><i
+                                        class="bi bi-stop"></i></button>
                             </div>
                             <hr style="margin: 0.7rem 0" />
                             <div class="d-flex flex-row align-items-center justify-content-between">
                                 <div class="d-flex flex-row w-100">
-                                    <button id="buttonPlayJingle" disabled class="btn btn-audio-controls btn-play is-connect-enabled">
+                                    <button id="buttonPlayJingle" disabled
+                                        class="btn btn-audio-controls btn-play is-connect-enabled">
                                         <i class="bi bi-play"></i>
                                     </button>
                                     <select disabled class="ms-1 w-100 is-connect-enabled" name="jingleSelect"
@@ -308,21 +338,24 @@
                                     </select>
                                 </div>
 
-                                <button id="buttonPauseJingle" disabled class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
+                                <button id="buttonPauseJingle" disabled
+                                    class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
                                     <i class="bi bi-pause"></i>
                                 </button>
-                                <button id="buttonStopJingle" disabled class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
+                                <button id="buttonStopJingle" disabled
+                                    class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
                                     <i class="bi bi-stop"></i>
                                 </button>
                             </div>
                             <hr style="margin: 0.7em 0" />
                             <div class="d-flex flex-row align-items-center justify-content-between">
                                 <div class="d-flex flex-row w-100 justify-content-center align-items-stretch">
-                                    <button id="buttonPlayFrequency" disabled class="btn btn-audio-controls btn-play is-connect-enabled">
+                                    <button id="buttonPlayFrequency" disabled
+                                        class="btn btn-audio-controls btn-play is-connect-enabled">
                                         <i class="bi bi-play"></i>
                                     </button>
-                                    <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440" type="number"
-                                        class="ms-1 is-connect-enabled flex-fill" value="0">
+                                    <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440"
+                                        type="number" class="ms-1 is-connect-enabled flex-fill" value="0">
                                     <div
                                         class="ms-1 is-connect-enabled me-4 d-flex justify-content-center align-items-center">
                                         <div>Hz</div>
@@ -334,13 +367,16 @@
                                         <option value="3">square (3)</option>
                                         <option value="4">saw (4)</option>
                                     </select>
-                                    <input id="loudnessInput" class="ms-4 is-connect-enabled" type="number" step="0.01" min="0" max="1" value="0.5">
+                                    <input id="loudnessInput" class="ms-4 is-connect-enabled" type="number" step="0.01"
+                                        min="0" max="1" value="0.5">
                                 </div>
 
-                                <button id="buttonPauseFrequency" disabled class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
+                                <button id="buttonPauseFrequency" disabled
+                                    class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
                                     <i class="bi bi-pause"></i>
                                 </button>
-                                <button id="buttonStopFrequency" disabled class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
+                                <button id="buttonStopFrequency" disabled
+                                    class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
                                     <i class="bi bi-stop"></i>
                                 </button>
                             </div>
@@ -364,12 +400,13 @@
                         <div class="d-flex flex-column justify-content-between align-items-stretch flex-fill">
                             <div class="d-flex flex-row justify-content-between">
                                 <div style="flex: 0 0 40px;">
-                                    <input disabled class="is-connect-enabled w-100 h-100" type="color" id="colorpicker" value="#ffffff">
+                                    <input disabled class="is-connect-enabled w-100 h-100" type="color" id="colorpicker"
+                                        value="#ffffff">
                                 </div>
                                 <input disabled class="ms-2" style="width: calc(100% - 40px)" id="colorInput">
                             </div>
-                            
-                            
+
+
 
                             <button disabled class="btn btn-control is-connect-enabled mt-2" onclick="onSetColor()">Set
                             </button>
@@ -388,7 +425,7 @@
         </div>
         <div class="row gx-2 flex-grow-1">
             <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-                <div class="card h-100">
+                < <div class="card h-100">
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Accelerometer</h5>
@@ -398,165 +435,165 @@
                         </div>
                         <div class="chartWrapper"><canvas class="w-100" id="accelerometerChart"></canvas></div>
                     </div>
-                </div>
             </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <h5 class="card-title">Gyroscope</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                                <div>?</div>
-                            </div>
-                        </div>
-                        <div class="chartWrapper"><canvas class="w-100" id="gyroscopeChart"></canvas></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <h5 class="card-title">Magnetometer</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                                <div>?</div>
-                            </div>
-                        </div>
-                        <div class="chartWrapper"><canvas class="w-100" id="magnetometerChart"></canvas></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-2 d-flex">
-                <div class="card d-flex flex-fill">
-                    <div class="card-body h-100 d-flex flex-column">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <h5 class="card-title">3D Model</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                                <div>?</div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row h-100 align-items-center-center">
-                            <model-viewer class="w-100 flex-fill h-100" disable-tap disable-zoom
-                                src="./assets/models/OpenEarable.glb" camera-orbit="0 0 0"></model-viewer>
-                            <div class="ms-2">
-                                <div>
-                                    <div><b>Roll&#160;Angle</b></div>
-                                    <div style="font-family: monospace;" id="rollAngleValue">0.0</div>
-                                </div>
-                                <div>
-                                    <div><b>Pitch&#160;Angle</b></div>
-                                    <div style="font-family: monospace;" id="pitchAngleValue">0.0</div>
-                                </div>
-                            </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex flex-row w-100 justify-content-between">
+                        <h5 class="card-title">Gyroscope</h5>
+                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                            <div>?</div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <h5 class="card-title">Pressure Sensor</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                                <div>?</div>
-                            </div>
-                        </div>
-                        <div class="chartWrapper"><canvas class="w-100" id="pressureSensorChart"></canvas></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-                <div class="card h-100">
-                    <div class="card-body h-100">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <h5 class="card-title">Temperature Sensor</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                                <div>?</div>
-                            </div>
-                        </div>
-                        <div class="chartWrapper"><canvas class="w-100" id="temperatureSensorChart"></canvas></div>
-
-                    </div>
+                    <div class="chartWrapper"><canvas class="w-100" id="gyroscopeChart"></canvas></div>
                 </div>
             </div>
         </div>
-        <div class="row gx-2 mb-2">
-            <div class="col-12 col-xl-8 mt-2 ">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column h-100">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <div class="d-flex flex-row justify-content-center align-items-center">
-                                <div>
-                                    <h5 class="card-title">Log </h5>
-                                </div>
-                                <div class="btn btn-clear ms-2" onclick="onClearLog()">Clear</div>
-                            </div>
-
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
-                                <div>?</div>
-                            </div>
-                        </div>
-
-                        <div id="log" class="w-100 p-2 mt-3 flex-fill"
-                            style="color: white; min-height: 100px; max-height: 160px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
+        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex flex-row w-100 justify-content-between">
+                        <h5 class="card-title">Magnetometer</h5>
+                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                            <div>?</div>
                         </div>
                     </div>
+                    <div class="chartWrapper"><canvas class="w-100" id="magnetometerChart"></canvas></div>
                 </div>
             </div>
-            <div class="col-12 col-xl-4 d-flex mt-2 ">
-                <div class="card flex-fill">
-                    <div class="card-body d-flex flex-column h-100">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <div class="d-flex flex-row justify-content-center align-items-center">
-                                <div>
-                                    <h5 class="card-title">Recorder</h5>
-                                </div>
-                            </div>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
-                                <div>?</div>
-                            </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4 mt-2 d-flex">
+            <div class="card d-flex flex-fill">
+                <div class="card-body h-100 d-flex flex-column">
+                    <div class="d-flex flex-row w-100 justify-content-between">
+                        <h5 class="card-title">3D Model</h5>
+                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                            <div>?</div>
                         </div>
-                        <div class="d-flex flex-column w-100 flex-fill" style="font-family: monospace;">
-                            <div class="d-flex w-100 flex-row justify-content-between flex-grow-1">
-                                <button id="btn1" style="border: 3px solid transparent;"
-                                    class="btn flex-fill btn-control">Label 1</button>
-                                <button id="btn2" style="border: 3px solid transparent;"
-                                    class="btn flex-fill ms-2 btn-control">Label 2</button>
-                                <button id="btn3" style="border: 3px solid transparent;"
-                                    class="btn flex-fill ms-2 btn-control">Label 3</button>
-                                <button id="btn4" style="border: 3px solid transparent;"
-                                    class="btn flex-fill ms-2 btn-control">Label 4</button>
+                    </div>
+                    <div class="d-flex flex-row h-100 align-items-center-center">
+                        <model-viewer class="w-100 flex-fill h-100" disable-tap disable-zoom
+                            src="./assets/models/OpenEarable.glb" camera-orbit="0 0 0"></model-viewer>
+                        <div class="ms-2">
+                            <div>
+                                <div><b>Roll&#160;Angle</b></div>
+                                <div style="font-family: monospace;" id="rollAngleValue">0.0</div>
                             </div>
-                            <div class="d-flex w-100 flex-row justify-content-between mt-2 flex-grow-1">
-                                <button id="btn5" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill">Label 5</button>
-                                <button id="btn6" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill flex-fill ms-2">Label 6</button>
-                                <button id="btn7" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill flex-fill ms-2">Label 7</button>
-                                <button id="btn8" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
-                            </div>
-                            <div class="d-flex flex-row  mt-2">
-                                <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
-                                    <button id="startRecordingButton"
-                                        class="btn btn-play is-connect-enabled w-100"  disabled>Start
-                                        Recording</button>
-                                    <button id="stopRecordingButton"
-                                        class="btn btn-stop is-connect-enabled w-100 d-none">Stop
-                                        Recording</button>
-                                </div>
-                                <button id="btn9" style="border: 3px solid #77F2A1;"
-                                    class="btn btn-primary btn-control ms-2">
-                                    No Label</button>
-                                <button id="lockButton" class="btn btn-stop ms-2  is-record-enabled"><i
-                                        class="bi bi-lock"></i></button>
+                            <div>
+                                <div><b>Pitch&#160;Angle</b></div>
+                                <div style="font-family: monospace;" id="pitchAngleValue">0.0</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex flex-row w-100 justify-content-between">
+                        <h5 class="card-title">Pressure Sensor</h5>
+                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                            <div>?</div>
+                        </div>
+                    </div>
+                    <div class="chartWrapper"><canvas class="w-100" id="pressureSensorChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+            <div class="card h-100">
+                <div class="card-body h-100">
+                    <div class="d-flex flex-row w-100 justify-content-between">
+                        <h5 class="card-title">Temperature Sensor</h5>
+                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                            <div>?</div>
+                        </div>
+                    </div>
+                    <div class="chartWrapper"><canvas class="w-100" id="temperatureSensorChart"></canvas></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-2 mb-2">
+        <div class="col-12 col-xl-8 mt-2 ">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column h-100">
+                    <div class="d-flex flex-row w-100 justify-content-between">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            <div>
+                                <h5 class="card-title">Log </h5>
+                            </div>
+                            <div class="btn btn-clear ms-2" onclick="onClearLog()">Clear</div>
+                        </div>
+
+                        <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
+                            <div>?</div>
+                        </div>
+                    </div>
+
+                    <div id="log" class="w-100 p-2 mt-3 flex-fill"
+                        style="color: white; min-height: 100px; max-height: 160px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-4 d-flex mt-2 ">
+            <div class="card flex-fill">
+                <div class="card-body d-flex flex-column h-100">
+                    <div class="d-flex flex-row w-100 justify-content-between">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            <div>
+                                <h5 class="card-title">Recorder</h5>
+                            </div>
+                        </div>
+                        <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
+                            <div>?</div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column w-100 flex-fill" style="font-family: monospace;">
+                        <div class="d-flex w-100 flex-row justify-content-between flex-grow-1">
+                            <button id="btn1" style="border: 3px solid transparent;"
+                                class="btn flex-fill btn-control">Label 1</button>
+                            <button id="btn2" style="border: 3px solid transparent;"
+                                class="btn flex-fill ms-2 btn-control">Label 2</button>
+                            <button id="btn3" style="border: 3px solid transparent;"
+                                class="btn flex-fill ms-2 btn-control">Label 3</button>
+                            <button id="btn4" style="border: 3px solid transparent;"
+                                class="btn flex-fill ms-2 btn-control">Label 4</button>
+                        </div>
+                        <div class="d-flex w-100 flex-row justify-content-between mt-2 flex-grow-1">
+                            <button id="btn5" style="border: 3px solid transparent;"
+                                class="btn btn-control flex-fill">Label 5</button>
+                            <button id="btn6" style="border: 3px solid transparent;"
+                                class="btn btn-control flex-fill flex-fill ms-2">Label 6</button>
+                            <button id="btn7" style="border: 3px solid transparent;"
+                                class="btn btn-control flex-fill flex-fill ms-2">Label 7</button>
+                            <button id="btn8" style="border: 3px solid transparent;"
+                                class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
+                        </div>
+                        <div class="d-flex flex-row  mt-2">
+                            <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
+                                <button id="startRecordingButton" class="btn btn-play is-connect-enabled w-100"
+                                    disabled>Start
+                                    Recording</button>
+                                <button id="stopRecordingButton"
+                                    class="btn btn-stop is-connect-enabled w-100 d-none">Stop
+                                    Recording</button>
+                            </div>
+                            <button id="btn9" style="border: 3px solid #77F2A1;"
+                                class="btn btn-primary btn-control ms-2">
+                                No Label</button>
+                            <button id="lockButton" class="btn btn-stop ms-2  is-record-enabled"><i
+                                    class="bi bi-lock"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
