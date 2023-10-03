@@ -425,7 +425,7 @@
         </div>
         <div class="row gx-2 flex-grow-1">
             <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-                < <div class="card h-100">
+                <div class="card h-100">
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Accelerometer</h5>
@@ -435,165 +435,165 @@
                         </div>
                         <div class="chartWrapper"><canvas class="w-100" id="accelerometerChart"></canvas></div>
                     </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex flex-row w-100 justify-content-between">
-                        <h5 class="card-title">Gyroscope</h5>
-                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                            <div>?</div>
-                        </div>
-                    </div>
-                    <div class="chartWrapper"><canvas class="w-100" id="gyroscopeChart"></canvas></div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex flex-row w-100 justify-content-between">
-                        <h5 class="card-title">Magnetometer</h5>
-                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                            <div>?</div>
-                        </div>
-                    </div>
-                    <div class="chartWrapper"><canvas class="w-100" id="magnetometerChart"></canvas></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-4 mt-2 d-flex">
-            <div class="card d-flex flex-fill">
-                <div class="card-body h-100 d-flex flex-column">
-                    <div class="d-flex flex-row w-100 justify-content-between">
-                        <h5 class="card-title">3D Model</h5>
-                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                            <div>?</div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row h-100 align-items-center-center">
-                        <model-viewer class="w-100 flex-fill h-100" disable-tap disable-zoom
-                            src="./assets/models/OpenEarable.glb" camera-orbit="0 0 0"></model-viewer>
-                        <div class="ms-2">
-                            <div>
-                                <div><b>Roll&#160;Angle</b></div>
-                                <div style="font-family: monospace;" id="rollAngleValue">0.0</div>
-                            </div>
-                            <div>
-                                <div><b>Pitch&#160;Angle</b></div>
-                                <div style="font-family: monospace;" id="pitchAngleValue">0.0</div>
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <h5 class="card-title">Gyroscope</h5>
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                                <div>?</div>
                             </div>
                         </div>
+                        <div class="chartWrapper"><canvas class="w-100" id="gyroscopeChart"></canvas></div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex flex-row w-100 justify-content-between">
-                        <h5 class="card-title">Pressure Sensor</h5>
-                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                            <div>?</div>
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <h5 class="card-title">Magnetometer</h5>
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                                <div>?</div>
+                            </div>
                         </div>
+                        <div class="chartWrapper"><canvas class="w-100" id="magnetometerChart"></canvas></div>
                     </div>
-                    <div class="chartWrapper"><canvas class="w-100" id="pressureSensorChart"></canvas></div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-4 mt-2 ">
-            <div class="card h-100">
-                <div class="card-body h-100">
-                    <div class="d-flex flex-row w-100 justify-content-between">
-                        <h5 class="card-title">Temperature Sensor</h5>
-                        <div class="tooltip-indicator" data-toggle="tooltip" title="">
-                            <div>?</div>
+            <div class="col-12 col-md-6 col-xl-4 mt-2 d-flex">
+                <div class="card d-flex flex-fill">
+                    <div class="card-body h-100 d-flex flex-column">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <h5 class="card-title">3D Model</h5>
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                                <div>?</div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row h-100 align-items-center-center">
+                            <model-viewer class="w-100 flex-fill h-100" disable-tap disable-zoom
+                                src="./assets/models/OpenEarable.glb" camera-orbit="0 0 0"></model-viewer>
+                            <div class="ms-2">
+                                <div>
+                                    <div><b>Roll&#160;Angle</b></div>
+                                    <div style="font-family: monospace;" id="rollAngleValue">0.0</div>
+                                </div>
+                                <div>
+                                    <div><b>Pitch&#160;Angle</b></div>
+                                    <div style="font-family: monospace;" id="pitchAngleValue">0.0</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="chartWrapper"><canvas class="w-100" id="temperatureSensorChart"></canvas></div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <h5 class="card-title">Pressure Sensor</h5>
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                                <div>?</div>
+                            </div>
+                        </div>
+                        <div class="chartWrapper"><canvas class="w-100" id="pressureSensorChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-4 mt-2 ">
+                <div class="card h-100">
+                    <div class="card-body h-100">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <h5 class="card-title">Temperature Sensor</h5>
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="">
+                                <div>?</div>
+                            </div>
+                        </div>
+                        <div class="chartWrapper"><canvas class="w-100" id="temperatureSensorChart"></canvas></div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row gx-2 mb-2">
-        <div class="col-12 col-xl-8 mt-2 ">
-            <div class="card h-100">
-                <div class="card-body d-flex flex-column h-100">
-                    <div class="d-flex flex-row w-100 justify-content-between">
-                        <div class="d-flex flex-row justify-content-center align-items-center">
-                            <div>
-                                <h5 class="card-title">Log </h5>
+        <div class="row gx-2 mb-2">
+            <div class="col-12 col-xl-8 mt-2 ">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column h-100">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div>
+                                    <h5 class="card-title">Log </h5>
+                                </div>
+                                <div class="btn btn-clear ms-2" onclick="onClearLog()">Clear</div>
                             </div>
-                            <div class="btn btn-clear ms-2" onclick="onClearLog()">Clear</div>
+
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
+                                <div>?</div>
+                            </div>
                         </div>
 
-                        <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
-                            <div>?</div>
+                        <div id="log" class="w-100 p-2 mt-3 flex-fill"
+                            style="color: white; min-height: 100px; max-height: 160px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
                         </div>
-                    </div>
-
-                    <div id="log" class="w-100 p-2 mt-3 flex-fill"
-                        style="color: white; min-height: 100px; max-height: 160px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-xl-4 d-flex mt-2 ">
-            <div class="card flex-fill">
-                <div class="card-body d-flex flex-column h-100">
-                    <div class="d-flex flex-row w-100 justify-content-between">
-                        <div class="d-flex flex-row justify-content-center align-items-center">
-                            <div>
-                                <h5 class="card-title">Recorder</h5>
+            <div class="col-12 col-xl-4 d-flex mt-2 ">
+                <div class="card flex-fill">
+                    <div class="card-body d-flex flex-column h-100">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div>
+                                    <h5 class="card-title">Recorder</h5>
+                                </div>
+                            </div>
+                            <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
+                                <div>?</div>
                             </div>
                         </div>
-                        <div class="tooltip-indicator" data-toggle="tooltip" title="TODO">
-                            <div>?</div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column w-100 flex-fill" style="font-family: monospace;">
-                        <div class="d-flex w-100 flex-row justify-content-between flex-grow-1">
-                            <button id="btn1" style="border: 3px solid transparent;"
-                                class="btn flex-fill btn-control">Label 1</button>
-                            <button id="btn2" style="border: 3px solid transparent;"
-                                class="btn flex-fill ms-2 btn-control">Label 2</button>
-                            <button id="btn3" style="border: 3px solid transparent;"
-                                class="btn flex-fill ms-2 btn-control">Label 3</button>
-                            <button id="btn4" style="border: 3px solid transparent;"
-                                class="btn flex-fill ms-2 btn-control">Label 4</button>
-                        </div>
-                        <div class="d-flex w-100 flex-row justify-content-between mt-2 flex-grow-1">
-                            <button id="btn5" style="border: 3px solid transparent;"
-                                class="btn btn-control flex-fill">Label 5</button>
-                            <button id="btn6" style="border: 3px solid transparent;"
-                                class="btn btn-control flex-fill flex-fill ms-2">Label 6</button>
-                            <button id="btn7" style="border: 3px solid transparent;"
-                                class="btn btn-control flex-fill flex-fill ms-2">Label 7</button>
-                            <button id="btn8" style="border: 3px solid transparent;"
-                                class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
-                        </div>
-                        <div class="d-flex flex-row  mt-2">
-                            <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
-                                <button id="startRecordingButton" class="btn btn-play is-connect-enabled w-100"
-                                    disabled>Start
-                                    Recording</button>
-                                <button id="stopRecordingButton"
-                                    class="btn btn-stop is-connect-enabled w-100 d-none">Stop
-                                    Recording</button>
+                        <div class="d-flex flex-column w-100 flex-fill" style="font-family: monospace;">
+                            <div class="d-flex w-100 flex-row justify-content-between flex-grow-1">
+                                <button id="btn1" style="border: 3px solid transparent;"
+                                    class="btn flex-fill btn-control">Label 1</button>
+                                <button id="btn2" style="border: 3px solid transparent;"
+                                    class="btn flex-fill ms-2 btn-control">Label 2</button>
+                                <button id="btn3" style="border: 3px solid transparent;"
+                                    class="btn flex-fill ms-2 btn-control">Label 3</button>
+                                <button id="btn4" style="border: 3px solid transparent;"
+                                    class="btn flex-fill ms-2 btn-control">Label 4</button>
                             </div>
-                            <button id="btn9" style="border: 3px solid #77F2A1;"
-                                class="btn btn-primary btn-control ms-2">
-                                No Label</button>
-                            <button id="lockButton" class="btn btn-stop ms-2  is-record-enabled"><i
-                                    class="bi bi-lock"></i></button>
+                            <div class="d-flex w-100 flex-row justify-content-between mt-2 flex-grow-1">
+                                <button id="btn5" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill">Label 5</button>
+                                <button id="btn6" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 6</button>
+                                <button id="btn7" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 7</button>
+                                <button id="btn8" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
+                            </div>
+                            <div class="d-flex flex-row  mt-2">
+                                <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
+                                    <button id="startRecordingButton" class="btn btn-play is-connect-enabled w-100"
+                                        disabled>Start
+                                        Recording</button>
+                                    <button id="stopRecordingButton"
+                                        class="btn btn-stop is-connect-enabled w-100 d-none">Stop
+                                        Recording</button>
+                                </div>
+                                <button id="btn9" style="border: 3px solid #77F2A1;"
+                                    class="btn btn-primary btn-control ms-2">
+                                    No Label</button>
+                                <button id="lockButton" class="btn btn-stop ms-2  is-record-enabled"><i
+                                        class="bi bi-lock"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
