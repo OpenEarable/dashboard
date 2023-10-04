@@ -69,7 +69,8 @@ openEarable.audioPlayer.wavFile(AUDIO_STATE.PLAY, "music.wav");
 
 // Play a constant frequency sine wave at 22 kHz
 // Wave types: WAVE_TYPE.SINE, WAVE_TYPE.TRIANGLE, WAVE_TYPE.SQUARE, WAVE_TYPE.SAW
-openEarable.audioPlayer.wavFile(AUDIO_STATE.PLAY, WAVE_TYPE.SINE, 22000);
+// Loudness: 0 to 1.0
+openEarable.audioPlayer.frequency(AUDIO_STATE.PLAY, WAVE_TYPE.SINE, 22000, 0.5);
 
 // Play a default NOTIFICATION jingle from the internal OpenEarable storage
 openEarable.audioPlayer.jingle(AUDIO_STATE.PLAY, JINGLE.NOTIFICATION);
