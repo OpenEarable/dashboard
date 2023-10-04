@@ -6,6 +6,10 @@ openEarable.bleManager.subscribeOnConnected(async () => {
     const firmwareVersion = await openEarable.readFirmwareVersion();
     const hardwareVersion = await openEarable.readHardwareVersion();
 
+    openEarable.buttonManager.subscribeOnButtonStateChanged((state) => {
+        fadeBackground(state);
+    })
+
     $('#disconnectDeviceButton').prop('disabled', false);
 
     // Update the DOM with the obtained values
@@ -74,3 +78,14 @@ $('#disconnectDeviceButton').click(() => {
     log("Disconnecting OpenEarable.", type = "MESSAGE")
     openEarable.bleManager.disconnect();
 });
+
+function fadeBackground(value) {
+    console.log(value)
+    if (value === 1) {
+        $('body').addClass('bg-green');
+
+        setTimeout(() => {
+            $('body').removeClass('bg-green');
+        }, 500);
+    }
+}
