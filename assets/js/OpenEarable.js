@@ -129,6 +129,7 @@ class OpenEarable {
         this.sensorManager = new SensorManager(this.bleManager);
         this.rgbLed = new RGBLed(this.bleManager);
         this.audioPlayer = new AudioPlayer(this.bleManager);
+        this.buttonManager = new ButtonManager(this.bleManager)
 
         // Attach event listeners for BLEManager
         this.bleManager.subscribeOnConnected(this.onDeviceReady.bind(this));
@@ -207,6 +208,7 @@ class OpenEarable {
         );
 
         this.sensorManager.init();
+        this.buttonManager.init();
     }    
 }
 
@@ -679,5 +681,23 @@ class AudioPlayer {
         data[2] = nameBytes.length;
         data.set(nameBytes, 3);
         return data;
+    }
+}
+
+
+class ButtonManager {
+    constructor(bleManager) {
+        this.bleManager = bleManager;
+        this.buttonStateChangedSubscribers = [];
+    }
+
+    subscribeOnButtonStateChanged(callback) {
+        this.buttonStateChangedSubscribers.push(callback);
+    }
+
+    init() {
+        this.bleManager.subscribeCharacteristicNotifications(SERVICES.BUTTON_SERVICE.UUID, SERVICES.BUTTON_SERVICE.CHARACTERISTICS.BUTTON_STATE_CHARACTERISTIC.UUID, (notification) => {
+            this.buttonStateChangedSubscribers.forEach(callback => callback(new DataView(notification.srcElement.value.buffer).getUint8(0)));
+        });
     }
 }
