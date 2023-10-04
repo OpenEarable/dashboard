@@ -82,7 +82,11 @@ openEarable.rgbLed.writeLedColor(255, 0, 0);
 ```
 
 #### Receive Button Events
-TODO
+```js
+openEarable.buttonManager.subscribeOnButtonStateChanged((state) => {
+    // process button state here
+})
+```
 
 #### Receive Battery Events
 ```js
