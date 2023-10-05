@@ -167,6 +167,15 @@
         .sampling-rate-input {
             min-width: 100px;
         }
+
+        .form-select,
+        .form-control {
+            padding: 0px 5px;
+        }
+
+        input[disabled], select[disabled] {
+            opacity: 0.5 !important;
+        }
     </style>
 </head>
 
@@ -215,76 +224,83 @@
                     <div class="card-body h-100 flex-column d-flex">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Sensor Control</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="Enable and disable the sensors of OpenEarable. Note that sampling all sensors at the maximum sampling rate can lead to lag on some devices.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="Enable and disable the sensors of OpenEarable. Note that sampling all sensors at the maximum sampling rate can lead to lag on some devices.">
                                 <div>?</div>
                             </div>
                         </div>
                         <div class="d-flex flex-column flex-fill justify-content-between">
                             <p class="card-text">Select sensors and sampling rate to capture.</p>
 
-                            <div class="d-flex flex-row justify-content-between">
-                                <!-- Checkbox & Text Column -->
-                                <div class="d-flex flex-column flex-shrink-1 mr-3" style="width: calc(100% - 140px)">
-                                    <div class="d-flex flex-row align-items-center">
-                                        <input type="checkbox" disabled class="is-connect-enabled"
-                                            id="areSensorsEnabled">
-                                        <div class="ms-2"
-                                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                            Accelerometer, Gyroscope, Magnetometer (via BLE)</div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mt-2">
-                                        <input type="checkbox" disabled class="is-connect-enabled"
-                                            id="isPressureSensorEnabled">
-                                        <div class="ms-2"
-                                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                            Pressure Sensor, Temperature Sensor (via BLE)</div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mt-2">
-                                        <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
-                                        <div class="ms-2"
-                                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                            Microphone (written to SD card)</div>
-                                    </div>
+                            <!-- Grid Layout Starts Here -->
+                            <div
+                                style="display: grid; grid-template-columns: auto 1fr auto auto; gap: 16px; align-items: center;">
+                                <!-- First Row -->
+                                <div>
+                                    <input type="checkbox" disabled class="is-connect-enabled" id="areSensorsEnabled">
                                 </div>
+                                <div class="ms-2"
+                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                    Accelerometer, Gyroscope, Magnetometer (via BLE)
+                                </div>
+                                <div>
+                                    <select disabled
+                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                        name="sensorSamplingRate" id="sensorSamplingRate">
+                                        <option value="0">0</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <div class="ms-1">Hz</div>
 
-                                <!-- Dropdown & Hz Column -->
-                                <div class="d-flex flex-column flex-shrink-0">
-                                    <div class="d-flex flex-row align-items-center">
-                                        <select disabled class="w-100 is-connect-enabled ms-1 sampling-rate-input"
-                                            name="sensorSamplingRate" id="sensorSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                            <option value="40">40</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                        <div class="ms-1">Hz</div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mt-2">
-                                        <select disabled class="w-100 is-connect-enabled ms-1 sampling-rate-input"
-                                            name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                            <option value="40">40</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                        <div class="ms-1">Hz</div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mt-2 ms-1">
-                                        <select disabled class="w-100 is-connect-enabled  sampling-rate-input"
-                                            name="microphoneSamplingRate" id="microphoneSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="16000">16,000</option>
-                                            <option value="41667">41,667</option>
-                                            <option value="62500">62,500</option>
-                                        </select>
-                                        <div class="ms-1">Hz</div>
-                                    </div>
+                                <!-- Second Row -->
+                                <div>
+                                    <input type="checkbox" disabled class="is-connect-enabled"
+                                        id="isPressureSensorEnabled">
                                 </div>
+                                <div class="ms-2"
+                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                    Pressure Sensor, Temperature Sensor (via BLE)
+                                </div>
+                                <div>
+                                    <select disabled
+                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                        name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
+                                        <option value="0">0</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <div class="ms-1">Hz</div>
+
+                                <!-- Third Row -->
+                                <div>
+                                    <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
+                                </div>
+                                <div class="ms-2"
+                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                    Microphone (written to SD card)
+                                </div>
+                                <div>
+                                    <select disabled
+                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                        name="microphoneSamplingRate" id="microphoneSamplingRate">
+                                        <option value="0">0</option>
+                                        <option value="16000">16,000</option>
+                                        <option value="41667">41,667</option>
+                                        <option value="62500">62,500</option>
+                                    </select>
+                                </div>
+                                <div class="ms-1">Hz</div>
                             </div>
+                            <!-- Grid Layout Ends Here -->
 
                             <div class="d-flex flex-row mt-3 w-100 justify-content-between">
                                 <button disabled id="setSensorConfigurationButton"
@@ -293,6 +309,8 @@
                                     class="btn btn-disable-sensors btn-stop is-connect-enabled ms-3">Off</button>
                             </div>
                         </div>
+
+
 
 
                     </div>
@@ -315,63 +333,69 @@
                             </p>
                         </div>
 
-                        <div>
-                            <div class="d-flex flex-row w-100 justify-content-between">
-                                <input type="radio" checked id="file" name="audio_source" value="file" class="me-2 is-connect-enabled">
-                                
-                                <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100"
-                                    placeholder="filename.wav">
-                            </div>
-                            <div class="d-flex flex-row align-items-center justify-content-between mt-2">
-                                <div class="d-flex flex-row w-100">
-                                    <input type="radio" id="jingle" name="audio_source" value="jingle" class="me-2  is-connect-enabled">
-                                    <select disabled class="ms-1 w-100 is-connect-enabled" name="jingleSelect"
-                                        id="jingleSelect">
-                                        <option value="1">NOTIFICATION (1)</option>
-                                        <option value="2">SUCCESS (2)</option>
-                                        <option value="3">ERROR (3)</option>
-                                        <option value="4">ALARM (4)</option>
-                                        <option value="5">PING (5)</option>
-                                        <option value="6">OPEN (6)</option>
-                                        <option value="7">CLOSE (7)</option>
-                                        <option value="8">CLICK (8)</option>
-                                    </select>
-                                </div>
 
-                            </div>
-                            <div class="d-flex flex-row align-items-center justify-content-between mt-2">
-                                <div class="d-flex flex-row w-100 justify-content-center align-items-stretch">
-                                    <input type="radio" id="frequency" name="audio_source" value="frequency" class="me-2  is-connect-enabled">
+                        <div class="d-flex flex-row w-100 justify-content-between mt-2">
+                            <input type="radio" checked id="file" name="audio_source" value="file"
+                                class="me-2 is-connect-enabled">
 
-                                    <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440"
-                                        type="number" class="ms-1 is-connect-enabled flex-fill" value="0">
-                                    <div
-                                        class="ms-1 is-connect-enabled me-2 d-flex justify-content-center align-items-center">
-                                        <div>Hz</div>
-                                    </div>
-                                    <input id="loudnessInput" class="ms-1 is-connect-enabled" type="number" step="1"
-                                        min="0" max="100" value="50">
-                                        <div
-                                        class="ms-1 is-connect-enabled d-flex justify-content-center align-items-center">
-                                        <div>%</div>
-                                    </div>
-
-                                    <select disabled class="ms-3 flex-fill is-connect-enabled" name="waveTypeSelect"
-                                        id="waveTypeSelect">
-                                        <option value="1">sine (1)</option>
-                                        <option value="2">square (2)</option>
-                                        <option value="3">triangle (3)</option>
-                                        <option value="4">saw (4)</option>
-                                    </select>
-                                </div>
-
+                            <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100 form-control"
+                                placeholder="filename.wav">
+                        </div>
+                        <div class="d-flex flex-row align-items-center justify-content-between mt-2">
+                            <div class="d-flex flex-row w-100">
+                                <input type="radio" id="jingle" name="audio_source" value="jingle"
+                                    class="me-2  is-connect-enabled">
+                                <select disabled class="ms-1 w-100 is-connect-enabled form-select" name="jingleSelect"
+                                    id="jingleSelect">
+                                    <option value="1">NOTIFICATION (1)</option>
+                                    <option value="2">SUCCESS (2)</option>
+                                    <option value="3">ERROR (3)</option>
+                                    <option value="4">ALARM (4)</option>
+                                    <option value="5">PING (5)</option>
+                                    <option value="6">OPEN (6)</option>
+                                    <option value="7">CLOSE (7)</option>
+                                    <option value="8">CLICK (8)</option>
+                                </select>
                             </div>
 
                         </div>
-                        <div class="d-flex w-100 justify-content-center">
-                            <button id="button-play-audio" class="btn btn-play btn-block ms-4 is-connect-enabled" disabled><i class="bi bi-play"></i></button>
-                            <button id="button-pause-audio" class="btn btn-pause btn-block ms-2 is-connect-enabled" disabled><i class="bi bi-pause"></i></button>
-                            <button id="button-stop-audio" class="btn btn-stop btn-block ms-2 is-connect-enabled" disabled><i class="bi bi-stop"></i></button>
+                        <div class="d-flex flex-row align-items-center justify-content-between mt-2">
+                            <div class="d-flex flex-row w-100 justify-content-center align-items-stretch">
+                                <input type="radio" id="frequency" name="audio_source" value="frequency"
+                                    class="me-2  is-connect-enabled">
+
+                                <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440"
+                                    type="number" class="ms-1 is-connect-enabled flex-fill form-control" value="0">
+                                <div
+                                    class="ms-1 is-connect-enabled me-2 d-flex justify-content-center align-items-center">
+                                    <div>Hz</div>
+                                </div>
+                                <input id="loudnessInput" class="ms-1 is-connect-enabled  form-control" type="number"
+                                    step="1" min="0" max="100" value="50">
+                                <div class="ms-1 is-connect-enabled d-flex justify-content-center align-items-center">
+                                    <div>%</div>
+                                </div>
+
+                                <select disabled class="ms-3 flex-fill is-connect-enabled form-select"
+                                    name="waveTypeSelect" id="waveTypeSelect">
+                                    <option value="1">sine (1)</option>
+                                    <option value="2">square (2)</option>
+                                    <option value="3">triangle (3)</option>
+                                    <option value="4">saw (4)</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex w-100 justify-content-center mt-2">
+                            <button id="button-play-audio" class="btn btn-play btn-block is-connect-enabled"
+                                disabled><i class="bi bi-play"></i></button>
+                            <button id="button-pause-audio" class="btn btn-pause btn-block ms-2 is-connect-enabled"
+                                disabled><i class="bi bi-pause"></i></button>
+                            <button id="button-stop-audio" class="btn btn-stop btn-block ms-2 is-connect-enabled"
+                                disabled><i class="bi bi-stop"></i></button>
+                            <button class="btn btn-control flex-fill ms-2">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -381,7 +405,8 @@
                     <div class="card-body d-flex flex-column h-100">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">RGB LED Control</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="You can set the RGB color LED. The rainbow mode shifts through the RGB colors.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="You can set the RGB color LED. The rainbow mode shifts through the RGB colors.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -394,7 +419,8 @@
                                     <input disabled class="is-connect-enabled w-100 h-100" type="color" id="colorpicker"
                                         value="#ffffff">
                                 </div>
-                                <input disabled class="ms-2" style="width: calc(100% - 40px)" id="colorInput">
+                                <input disabled class="ms-2  form-control" style="width: calc(100% - 40px)"
+                                    id="colorInput">
                             </div>
 
 
@@ -420,7 +446,8 @@
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Accelerometer</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="This panel shows live data once the accelerometer is activated.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="This panel shows live data once the accelerometer is activated.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -433,7 +460,8 @@
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Gyroscope</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="This panel shows live data once the gyroscope is activated.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="This panel shows live data once the gyroscope is activated.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -446,7 +474,8 @@
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Magnetometer</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="This panel shows live data once the magnetometer is activated.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="This panel shows live data once the magnetometer is activated.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -459,7 +488,8 @@
                     <div class="card-body h-100 d-flex flex-column">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">3D Model</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="This panel shows the orientation of the earable in realtime if the IMU is activated.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="This panel shows the orientation of the earable in realtime if the IMU is activated.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -485,7 +515,8 @@
                     <div class="card-body">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Pressure Sensor</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="This panel shows live data once the pressure sensor is activated.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="This panel shows live data once the pressure sensor is activated.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -498,7 +529,8 @@
                     <div class="card-body h-100">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Temperature Sensor</h5>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="This panel shows live data once the temperature sensor is activated.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="This panel shows live data once the temperature sensor is activated.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -520,7 +552,8 @@
                                 <div class="btn btn-clear ms-2" onclick="onClearLog()">Clear</div>
                             </div>
 
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="Prints relevant events and shows debug information.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="Prints relevant events and shows debug information.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -540,7 +573,8 @@
                                     <h5 class="card-title">Recorder</h5>
                                 </div>
                             </div>
-                            <div class="tooltip-indicator" data-toggle="tooltip" title="You can record data directly in your browser. The format is compataible with edge-ml.org, a tool for embedded machine learning.">
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="You can record data directly in your browser. The format is compataible with edge-ml.org, a tool for embedded machine learning.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -567,6 +601,12 @@
                             </div>
                             <div class="d-flex flex-row  mt-2">
                                 <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
+                                    <button id="startRecordingButton" class="btn btn-play is-connect-enabled w-100"
+                                        disabled>Start
+                                        Recording</button>
+                                    <button id="stopRecordingButton"
+                                        class="btn btn-stop is-connect-enabled w-100 d-none">Stop
+                                        Recording</button>
                                 </div>
                                 <button id="btn9" style="border: 3px solid #77F2A1;"
                                     class="btn btn-primary btn-control ms-2">
