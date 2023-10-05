@@ -114,16 +114,19 @@
         .btn-play {
             background-color: #77F2A1 !important;
             color: black !important;
+            font-size: 1.2em;
         }
 
         .btn-pause {
             background-color: #e0f277 !important;
             color: black !important;
+            font-size: 1.2em;
         }
 
         .btn-stop {
             background-color: #f27777 !important;
             color: black !important;
+            font-size: 1.2em;
         }
 
         /* Sensor Control Card */
@@ -209,14 +212,14 @@
             </div>
             <div class="col-12 col-md-6 col-xl-4 mt-2">
                 <div class="card h-100">
-                    <div class="card-body">
+                    <div class="card-body h-100 flex-column d-flex">
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Sensor Control</h5>
                             <div class="tooltip-indicator" data-toggle="tooltip" title="Enable and disable the sensors of OpenEarable. Note that sampling all sensors at the maximum sampling rate can lead to lag on some devices.">
                                 <div>?</div>
                             </div>
                         </div>
-                        <div class="d-flex flex-column">
+                        <div class="d-flex flex-column flex-fill justify-content-between">
                             <p class="card-text">Select sensors and sampling rate to capture.</p>
 
                             <div class="d-flex flex-row justify-content-between">
@@ -314,27 +317,14 @@
 
                         <div>
                             <div class="d-flex flex-row w-100 justify-content-between">
-                                <div class="d-flex flex-row">
-                                    <button disabled id="buttonPlayWave"
-                                        class="btn btn-audio-controls btn-play is-connect-enabled"><i
-                                            class="bi bi-play"></i></button>
-                                </div>
+                                <input type="radio" checked id="file" name="audio_source" value="file" class="me-2 is-connect-enabled">
+                                
                                 <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100"
                                     placeholder="filename.wav">
-                                <button disabled id="buttonPauseWave"
-                                    class="btn btn-audio-controls btn-pause is-connect-enabled ms-3"><i
-                                        class="bi bi-pause"></i></button>
-                                <button disabled id="buttonStopWave"
-                                    class="btn btn-audio-controls btn-stop is-connect-enabled ms-1"><i
-                                        class="bi bi-stop"></i></button>
                             </div>
-                            <hr style="margin: 0.7rem 0" />
-                            <div class="d-flex flex-row align-items-center justify-content-between">
+                            <div class="d-flex flex-row align-items-center justify-content-between mt-2">
                                 <div class="d-flex flex-row w-100">
-                                    <button id="buttonPlayJingle" disabled
-                                        class="btn btn-audio-controls btn-play is-connect-enabled">
-                                        <i class="bi bi-play"></i>
-                                    </button>
+                                    <input type="radio" id="jingle" name="audio_source" value="jingle" class="me-2  is-connect-enabled">
                                     <select disabled class="ms-1 w-100 is-connect-enabled" name="jingleSelect"
                                         id="jingleSelect">
                                         <option value="1">NOTIFICATION (1)</option>
@@ -344,52 +334,44 @@
                                         <option value="5">PING (5)</option>
                                         <option value="6">OPEN (6)</option>
                                         <option value="7">CLOSE (7)</option>
+                                        <option value="8">CLICK (8)</option>
                                     </select>
                                 </div>
 
-                                <button id="buttonPauseJingle" disabled
-                                    class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
-                                    <i class="bi bi-pause"></i>
-                                </button>
-                                <button id="buttonStopJingle" disabled
-                                    class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
-                                    <i class="bi bi-stop"></i>
-                                </button>
                             </div>
-                            <hr style="margin: 0.7em 0" />
-                            <div class="d-flex flex-row align-items-center justify-content-between">
+                            <div class="d-flex flex-row align-items-center justify-content-between mt-2">
                                 <div class="d-flex flex-row w-100 justify-content-center align-items-stretch">
-                                    <button id="buttonPlayFrequency" disabled
-                                        class="btn btn-audio-controls btn-play is-connect-enabled">
-                                        <i class="bi bi-play"></i>
-                                    </button>
+                                    <input type="radio" id="frequency" name="audio_source" value="frequency" class="me-2  is-connect-enabled">
+
                                     <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440"
                                         type="number" class="ms-1 is-connect-enabled flex-fill" value="0">
                                     <div
-                                        class="ms-1 is-connect-enabled me-4 d-flex justify-content-center align-items-center">
+                                        class="ms-1 is-connect-enabled me-2 d-flex justify-content-center align-items-center">
                                         <div>Hz</div>
                                     </div>
-                                    <select disabled class="flex-fill is-connect-enabled" name="waveTypeSelect"
+                                    <input id="loudnessInput" class="ms-1 is-connect-enabled" type="number" step="1"
+                                        min="0" max="100" value="50">
+                                        <div
+                                        class="ms-1 is-connect-enabled d-flex justify-content-center align-items-center">
+                                        <div>%</div>
+                                    </div>
+
+                                    <select disabled class="ms-3 flex-fill is-connect-enabled" name="waveTypeSelect"
                                         id="waveTypeSelect">
                                         <option value="1">sine (1)</option>
-                                        <option value="2">triangle (2)</option>
-                                        <option value="3">square (3)</option>
+                                        <option value="2">square (2)</option>
+                                        <option value="3">triangle (3)</option>
                                         <option value="4">saw (4)</option>
                                     </select>
-                                    <input id="loudnessInput" class="ms-4 is-connect-enabled" type="number" step="0.01"
-                                        min="0" max="1" value="0.5">
                                 </div>
 
-                                <button id="buttonPauseFrequency" disabled
-                                    class="btn btn-audio-controls btn-pause ms-3 is-connect-enabled">
-                                    <i class="bi bi-pause"></i>
-                                </button>
-                                <button id="buttonStopFrequency" disabled
-                                    class="btn btn-audio-controls btn-stop ms-1 is-connect-enabled">
-                                    <i class="bi bi-stop"></i>
-                                </button>
                             </div>
 
+                        </div>
+                        <div class="d-flex w-100 justify-content-center">
+                            <button id="button-play-audio" class="btn btn-play btn-block ms-4 is-connect-enabled" disabled><i class="bi bi-play"></i></button>
+                            <button id="button-pause-audio" class="btn btn-pause btn-block ms-2 is-connect-enabled" disabled><i class="bi bi-pause"></i></button>
+                            <button id="button-stop-audio" class="btn btn-stop btn-block ms-2 is-connect-enabled" disabled><i class="bi bi-stop"></i></button>
                         </div>
                     </div>
                 </div>
@@ -585,12 +567,6 @@
                             </div>
                             <div class="d-flex flex-row  mt-2">
                                 <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
-                                    <button id="startRecordingButton" class="btn btn-play is-connect-enabled w-100"
-                                        disabled>Start
-                                        Recording</button>
-                                    <button id="stopRecordingButton"
-                                        class="btn btn-stop is-connect-enabled w-100 d-none">Stop
-                                        Recording</button>
                                 </div>
                                 <button id="btn9" style="border: 3px solid #77F2A1;"
                                     class="btn btn-primary btn-control ms-2">

@@ -37,7 +37,8 @@ const JINGLE = {
     ALARM: 4,
     PING: 5,
     OPEN: 6,
-    CLOSE: 7
+    CLOSE: 7,
+    CLICK: 8
 };
 
 /**
@@ -46,8 +47,8 @@ const JINGLE = {
 const WAVE_TYPE = {
     IDLE: 0,
     SINE: 1,
-    TRIANGLE: 2,
-    SQUARE: 3,
+    SQUARE: 2,
+    TRIANGLE: 3,
     SAW: 4
 };
 
@@ -623,7 +624,7 @@ class AudioPlayer {
     async frequency(state, waveType, frequency, loudness) {
         try {
             let type = 2;  // 2 indicates it's a frequency
-            let data = new Uint8Array(8);
+            let data = new Uint8Array(12);
             data[0] = type;
             data[1] = state;
             data[2] = waveType; 
@@ -631,7 +632,7 @@ class AudioPlayer {
             let freqBytes = new Float32Array([frequency]);
             let loudnessBytes = new Float32Array([loudness]);
             data.set(new Uint8Array(freqBytes.buffer), 3);
-            data.set(new Uint8Array(loudnessBytes.buffer), 4);
+            data.set(new Uint8Array(loudnessBytes.buffer), 7);
 
             await this.bleManager.writeCharacteristic(
                 SERVICES.AUDIO_SERVICE.UUID,
