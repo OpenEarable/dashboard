@@ -274,8 +274,6 @@
                                         <option value="10">10</option>
                                         <option value="20">20</option>
                                         <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
                                     </select>
                                 </div>
                                 <div class="ms-1">Hz</div>
@@ -335,7 +333,7 @@
 
 
                         <div class="d-flex flex-row w-100 justify-content-between mt-2">
-                            <input type="radio" checked id="file" name="audio_source" value="file"
+                            <input type="radio" disabled checked id="file" name="audio_source" value="file"
                                 class="me-2 is-connect-enabled">
 
                             <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100 form-control"
@@ -343,7 +341,7 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-between mt-2">
                             <div class="d-flex flex-row w-100">
-                                <input type="radio" id="jingle" name="audio_source" value="jingle"
+                                <input type="radio" disabled id="jingle" name="audio_source" value="jingle"
                                     class="me-2  is-connect-enabled">
                                 <select disabled class="ms-1 w-100 is-connect-enabled form-select" name="jingleSelect"
                                     id="jingleSelect">
@@ -361,7 +359,7 @@
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-between mt-2">
                             <div class="d-flex flex-row w-100 justify-content-center align-items-stretch">
-                                <input type="radio" id="frequency" name="audio_source" value="frequency"
+                                <input type="radio" disabled id="frequency" name="audio_source" value="frequency"
                                     class="me-2  is-connect-enabled">
 
                                 <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440"
@@ -370,8 +368,8 @@
                                     class="ms-1 is-connect-enabled me-2 d-flex justify-content-center align-items-center">
                                     <div>Hz</div>
                                 </div>
-                                <input id="loudnessInput" class="ms-1 is-connect-enabled  form-control" type="number"
-                                    step="1" min="0" max="100" value="50">
+                                <input id="loudnessInput" class="ms-1 is-connect-enabled form-control" type="number"
+                                    step="1" min="0" max="100" value="50" disabled>
                                 <div class="ms-1 is-connect-enabled d-flex justify-content-center align-items-center">
                                     <div>%</div>
                                 </div>
