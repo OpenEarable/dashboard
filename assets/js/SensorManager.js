@@ -1,4 +1,16 @@
 $(document).ready(function () {
+    $('.sampling-rate-input').on('change', function() {
+        // Get the checkbox for the corresponding row
+        var checkbox = $(this).parent().prev().prev().find('input[type="checkbox"]');
+        
+        // Check if selected value is not 0
+        if ($(this).val() != '0') {
+            checkbox.prop('checked', true);
+        } else {
+            checkbox.prop('checked', false);
+        }
+    });    
+
     $('#setSensorConfigurationButton').on('click', async function() {
         // Check if the checkbox for the first set of sensors is checked
         if ($('#areSensorsEnabled').is(':checked')) {
