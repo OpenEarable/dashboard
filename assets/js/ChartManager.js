@@ -215,3 +215,18 @@ function updateChart(chartId, values) {
 
     chart.update();
 }
+
+function onClearGraphs() {
+    chartIds.forEach((chartId) => {
+        const chart = charts.find(chart => chart.id === chartId);
+        if (chart) {
+            chart.data.labels = [];
+            if (chart.data.datasets) {
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data = [];
+                });
+            }
+            chart.update();
+        }
+    });
+}
