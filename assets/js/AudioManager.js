@@ -146,5 +146,5 @@ $(document).ready(function() {
                 log("Error occurred while trying to stop frequency: " + error, "ERROR");
             }
         }
-    });    
+    });
 });

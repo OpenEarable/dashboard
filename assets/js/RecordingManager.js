@@ -28,8 +28,6 @@ $(document).ready(function () {
         $("#" + btnId).click(function (e) {
             e.stopPropagation();
 
-            if (btnId === "btn9") return;
-
             if (isLocked) {
                 buttonIds.forEach(function (id) {
                     $("#" + id).css("border", "3px solid transparent");
@@ -104,7 +102,7 @@ $(document).ready(function () {
             return $("#" + selectedButton[0]).text();
         }
         return null;
-    }    
+    }
 
     let recordingActive = false;
     let recordingStartTime;
@@ -174,35 +172,41 @@ $(document).ready(function () {
             "sensor_magX[µT]", "sensor_magY[µT]", "sensor_magZ[µT]",
             "sensor_pressure[hPa]", "sensor_temperature[°C]"
         ];
-    
+
         for (let i = 0; i < buttonIds.length - 1; i++) {
             let buttonId = buttonIds[i];
             headers.push("label_OpenEarable_" + $('#' + buttonId).text());
         }
-    
+
         let rows = [];
-    
+
         // Sorting the timestamps and generating the CSV lines
         Object.keys(dataCache).sort().forEach(timestamp => {
             let data = dataCache[timestamp];
             let row = [timestamp];
-    
+
             // Push sensor data ensuring the correct float format
-            row.push(...data.acc.map(val => val.toString().replace(',', '.')));
-            row.push(...data.gyro.map(val => val.toString().replace(',', '.')));
-            row.push(...data.mag.map(val => val.toString().replace(',', '.')));
-            row.push(data.pressure.toString().replace(',', '.'));
-            row.push(data.temperature.toString().replace(',', '.'));
-    
+            ["acc", "gyro", "mag"].forEach(sensorType => {
+                if (data[sensorType] && data[sensorType].length === 3) {
+                    row.push(...data[sensorType].map(val => val.toString().replace(',', '.')));
+                } else {
+                    row.push('', '', ''); // Push empty values if sensor data isn't available or isn't valid
+                }
+            });
+
+            row.push(data.pressure ? data.pressure.toString().replace(',', '.') : '');
+            row.push(data.temperature ? data.temperature.toString().replace(',', '.') : '');
+
+
             for (let i = 0; i < buttonIds.length - 1; i++) {
                 let buttonId = buttonIds[i];
                 let labelName = $('#' + buttonId).text();
                 row.push(data.labels.includes(labelName) ? "x" : "");
             }
-    
+
             rows.push(row);
         });
-    
+
         // Check if any columns are empty across all rows and remove them
         for (let colIdx = headers.length - 1; colIdx >= 0; colIdx--) {
             if (rows.every(row => !row[colIdx])) {
@@ -210,10 +214,10 @@ $(document).ready(function () {
                 rows.forEach(row => row.splice(colIdx, 1));
             }
         }
-    
+
         // Construct the CSV content
         let csv = headers.join(",") + "\n" + rows.map(row => row.join(",")).join("\n");
-    
+
         // Trigger a download
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
@@ -224,7 +228,7 @@ $(document).ready(function () {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-    }    
+    }
 
 
 });
