@@ -252,12 +252,16 @@ class BLEManager {
             this._executeNextOperation();
         });
     }
+
     async connect() {
         return this._enqueueOperation(async () => {
             const optionalServiceUUIDs = Object.keys(SERVICES).map((service) => SERVICES[service].UUID);
 
             this.device = await navigator.bluetooth.requestDevice({
-                acceptAllDevices: true,
+                filters: [
+                    { namePrefix: "OpenEarable" }
+                ],
+                acceptAllDevices: false,
                 optionalServices: optionalServiceUUIDs
             });
             this.gattServer = await this.device.gatt.connect();
