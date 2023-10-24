@@ -460,7 +460,7 @@ class SensorManager {
         const byteData = new DataView(data.buffer);
         let byteIndex = 0;
         const sensorId = byteData.getUint8(byteIndex);
-        byteIndex += 1; // TODO: switch to 2, we can skip size byte based on parse scheme
+        byteIndex += 2;
         const timestamp = byteData.getUint32(byteIndex, true); // true means little-endian
         byteIndex += 4;
         const parsedData = {};
