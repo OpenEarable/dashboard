@@ -116,8 +116,11 @@ const SERVICES = {
     AUDIO_SERVICE: {
         UUID: '5669146e-476d-11ee-be56-0242ac120002',
         CHARACTERISTICS: {
-            AUDIO_CONTROL_CHARACTERISTIC: {
+            AUDIO_SOURCE_CHARACTERISTIC: {
                 UUID: '566916a8-476d-11ee-be56-0242ac120002'
+            },
+            AUDIO_STATE_CHARACTERISTIC: {
+                UUID: '566916a9-476d-11ee-be56-0242ac120002'
             }
         }
     }
@@ -599,17 +602,16 @@ class AudioPlayer {
 
     /**
      * Send WAV file details to the BLE device.
-     * @param {number} state - Current state of the audio.
      * @param {string} fileName - Name of the WAV file.
      * @returns {Promise} Resolves when data is written, rejects otherwise.
      */
-    async wavFile(state, fileName) {
+    async wavFile(fileName) {
         try {
             let type = 1;  // 1 indicates it's a WAV file
-            let data = this.prepareData(type, state, fileName);
+            let data = this.prepareData(type, fileName);
             await this.bleManager.writeCharacteristic(
                 SERVICES.AUDIO_SERVICE.UUID,
-                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_CONTROL_CHARACTERISTIC.UUID,
+                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_SOURCE_CHARACTERISTIC.UUID,
                 data
             );            
         } catch (error) {
@@ -619,28 +621,26 @@ class AudioPlayer {
 
     /**
      * Send frequency details to the BLE device.
-     * @param {number} state - Current state of the audio.
      * @param {number} waveType - Type of wave (0 for sine, 1 for triangle, etc.).
      * @param {number} frequency - Frequency value.
      * @param {number} loudness - Controls the loudness of the sound.
      * @returns {Promise} Resolves when data is written, rejects otherwise.
      */
-    async frequency(state, waveType, frequency, loudness) {
+    async frequency(waveType, frequency, loudness) {
         try {
             let type = 2;  // 2 indicates it's a frequency
-            let data = new Uint8Array(12);
+            let data = new Uint8Array(10);
             data[0] = type;
-            data[1] = state;
-            data[2] = waveType; 
+            data[1] = waveType; 
             
             let freqBytes = new Float32Array([frequency]);
             let loudnessBytes = new Float32Array([loudness]);
-            data.set(new Uint8Array(freqBytes.buffer), 3);
-            data.set(new Uint8Array(loudnessBytes.buffer), 7);
+            data.set(new Uint8Array(freqBytes.buffer), 2);
+            data.set(new Uint8Array(loudnessBytes.buffer), 6);
 
             await this.bleManager.writeCharacteristic(
                 SERVICES.AUDIO_SERVICE.UUID,
-                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_CONTROL_CHARACTERISTIC.UUID,
+                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_SOURCE_CHARACTERISTIC.UUID,
                 data
             );            
         } catch (error) {
@@ -650,20 +650,18 @@ class AudioPlayer {
 
     /**
      * Send jingle details to the BLE device.
-     * @param {number} state - Current state of the audio.
      * @param {number} jingleId- Id of the jingle.
      * @returns {Promise} Resolves when data is written, rejects otherwise.
      */
-    async jingle(state, jingleId) {
+    async jingle(jingleId) {
         try {
             let type = 3;  // 3 indicates it's a jingle
-            let data = new Uint8Array(8);
+            let data = new Uint8Array(2);
             data[0] = type;
-            data[1] = state;
-            data[2] = jingleId; 
+            data[1] = jingleId; 
             await this.bleManager.writeCharacteristic(
                 SERVICES.AUDIO_SERVICE.UUID,
-                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_CONTROL_CHARACTERISTIC.UUID,
+                SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_SOURCE_CHARACTERISTIC.UUID,
                 data
             );            
         } catch (error) {
@@ -674,18 +672,26 @@ class AudioPlayer {
     /**
      * Prepares the data buffer to send to the BLE device.
      * @param {number} type - Type of audio data.
-     * @param {number} state - Current state of the audio.
      * @param {string} name - Name of the audio file or jingle.
      * @returns {Uint8Array} Data buffer ready to send.
      */
-    prepareData(type, state, name) {
+    prepareData(type, name) {
         const nameBytes = new TextEncoder().encode(name);
-        let data = new Uint8Array(3 + nameBytes.length);
+        let data = new Uint8Array(2 + nameBytes.length);
         data[0] = type;
-        data[1] = state;
-        data[2] = nameBytes.length;
-        data.set(nameBytes, 3);
+        data[1] = nameBytes.length;
+        data.set(nameBytes, 2);
         return data;
+    }
+
+    async setState(state) {
+        let data = new Uint8Array(1);
+        data[0] = state;
+        await this.bleManager.writeCharacteristic(
+            SERVICES.AUDIO_SERVICE.UUID,
+            SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_STATE_CHARACTERISTIC.UUID,
+            data
+        );  
     }
 }
 

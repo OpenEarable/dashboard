@@ -15,40 +15,40 @@ $(document).ready(function() {
         }
         return null;
     }
-    
-    $("#button-play-audio").click(function() {
+
+    $('#button-set-source').click(function() {
         let audioType = getSelectedAudioType();
     
         if (audioType === "file") {
-            // WAV file play logic
+            // WAV file set logic
             var fileName = $('#fileNameInput').val();
     
             if (fileName === "") {
-                log("File name is empty. If a file is already playing, this command will stop the current audio.", "WARNING");
+                log("File name is empty.", "WARNING");
             } else if (!fileName.endsWith('.wav')) {
                 log("File name is missing the '.wav' ending. Make sure it's correct!", "ERROR");
                 return;
             }
     
-            log("Sending 'Play' with file name '" + fileName + "'.", "MESSAGE");
+            log("Setting source with file name '" + fileName + "'.", "MESSAGE");
             try {
-                openEarable.audioPlayer.wavFile(AUDIO_STATE.PLAY, fileName);
+                openEarable.audioPlayer.wavFile(fileName);
             } catch (error) {
-                log("Error occurred while trying to play: " + error, "ERROR");
+                log("Error occurred while trying to set source: " + error, "ERROR");
             }
     
         } else if (audioType === "jingle") {
             // Jingle play logic
             var jingleType = $('#jingleSelect').val();
-            log("Sending 'Play' with jingle type '" + jingleType + "'.", "MESSAGE");
+            log("Setting source jingle type '" + jingleType + "'.", "MESSAGE");
             try {
-                openEarable.audioPlayer.jingle(AUDIO_STATE.PLAY, jingleType);
+                openEarable.audioPlayer.jingle(jingleType);
             } catch (error) {
-                log("Error occurred while trying to play jingle: " + error, "ERROR");
+                log("Error occurred while trying to set jingle source: " + error, "ERROR");
             }
     
         } else if (audioType === "frequency") {
-            // Frequency play logic
+            // Frequency set logic
             var frequencyValue = parseFloat($("#frequencyNumberSelector").val());
             var loudnessValue = parseFloat($("#loudnessInput").val()) / 100;
             var waveType = parseInt($('#waveTypeSelect').val());
@@ -58,93 +58,27 @@ $(document).ready(function() {
                 return;
             }
     
-            log("Sending 'Play' with frequency value '" + frequencyValue + "' Hz, wave type '" + waveType + "', and loudness '" + loudnessValue + "'.", "MESSAGE");
+            log("Setting source with frequency value '" + frequencyValue + "' Hz, wave type '" + waveType + "', and loudness '" + loudnessValue + "'.", "MESSAGE");
             try {
-                openEarable.audioPlayer.frequency(AUDIO_STATE.PLAY, waveType, frequencyValue, loudnessValue);
+                openEarable.audioPlayer.frequency(waveType, frequencyValue, loudnessValue);
             } catch (error) {
-                log("Error occurred while trying to play frequency: " + error, "ERROR");
+                log("Error occurred while trying to set frequency source: " + error, "ERROR");
             }
         }
+    });
+    
+    $("#button-play-audio").click(function() {
+        log("Sending audio 'Play' command.", "MESSAGE");
+        openEarable.audioPlayer.setState(AUDIO_STATE.PLAY);
     });
     
     $("#button-pause-audio").click(function() {
-        let audioType = getSelectedAudioType();
-        
-    
-        if (audioType === "file") {
-            var fileName = $('#fileNameInput').val();
-            // WAV file pause logic
-            log("Sending 'Pause' command.", "MESSAGE");
-            try {
-                openEarable.audioPlayer.wavFile(AUDIO_STATE.PAUSE, fileName);
-            } catch (error) {
-                log("Error occurred while trying to pause: " + error, "ERROR");
-            }
-    
-        } else if (audioType === "jingle") {
-            // Jingle pause logic
-            var jingleType = $('#jingleSelect').val();
-            log("Sending 'Pause' command.", "MESSAGE");
-            try {
-                openEarable.audioPlayer.jingle(AUDIO_STATE.PAUSE, jingleType);
-            } catch (error) {
-                log("Error occurred while trying to pause jingle: " + error, "ERROR");
-            }
-    
-        } else if (audioType === "frequency") {
-            // Frequency pause logic
-            log("Sending 'Pause' command.", "MESSAGE");
-    
-            var frequencyValue = parseFloat($("#frequencyNumberSelector").val());
-            var waveType = parseInt($('#waveTypeSelect').val());
-            var loudnessValue = parseFloat($("#loudnessInput").val()) / 100;
-    
-            try {
-                openEarable.audioPlayer.frequency(AUDIO_STATE.PAUSE, waveType, frequencyValue, loudnessValue);
-            } catch (error) {
-                log("Error occurred while trying to pause frequency: " + error, "ERROR");
-            }
-        }
+        log("Sending audio 'Stop' command.", "MESSAGE");
+        openEarable.audioPlayer.setState(AUDIO_STATE.PAUSE);
     });
     
     $("#button-stop-audio").click(function() {
-        let audioType = getSelectedAudioType();
-        if (audioType === "file") {
-            var fileName = $('#fileNameInput').val();
-        
-            // WAV file stop logic
-            log("Sending 'Stop' command.", "MESSAGE");
-
-            try {
-                openEarable.audioPlayer.wavFile(AUDIO_STATE.STOP, fileName);
-            } catch (error) {
-                log("Error occurred while trying to stop: " + error, "ERROR");
-            }
-    
-        } else if (audioType === "jingle") {
-            // Jingle stop logic
-            var jingleType = $('#jingleSelect').val();
-    
-            log("Sending 'Stop' command.", "MESSAGE");
-            try {
-                openEarable.audioPlayer.jingle(AUDIO_STATE.STOP, jingleType);
-            } catch (error) {
-                log("Error occurred while trying to stop jingle: " + error, "ERROR");
-            }
-    
-        } else if (audioType === "frequency") {
-            // Frequency stop logic
-            log("Sending 'Stop' command.", "MESSAGE");
-    
-            var frequencyValue = parseFloat($("#frequencyNumberSelector").val());
-            var waveType = parseInt($('#waveTypeSelect').val());
-            var loudnessValue = parseFloat($("#loudnessInput").val()) / 100;
-    
-            try {
-                openEarable.audioPlayer.frequency(AUDIO_STATE.STOP, waveType, frequencyValue, loudnessValue);
-            } catch (error) {
-                log("Error occurred while trying to stop frequency: " + error, "ERROR");
-            }
-        }
+        log("Sending audio 'Stop' command.", "MESSAGE");
+        openEarable.audioPlayer.setState(AUDIO_STATE.STOP);
     });
 });
