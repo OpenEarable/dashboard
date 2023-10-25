@@ -16,7 +16,7 @@ var colors = {
 };
 
 
-var units = ['g', '°/s', 'µT', 'hPa', '°C'];
+var units = ['g', '°/s', 'µT', 'Pa', '°C'];
 
 var charts = [];
 
@@ -156,9 +156,9 @@ function updateOrientation(acc, gyro, mag) {
 openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     switch (sensorData.sensorId) {
         case 0: // Assuming sensorId 0 is the accelerometer, gyroscope, and magnetometer combined data
-            var acc_x = -sensorData.ACC.X;
-            var acc_y = sensorData.ACC.Z;
-            var acc_z = sensorData.ACC.Y;
+            var acc_x = sensorData.ACC.X;
+            var acc_y = sensorData.ACC.Y;
+            var acc_z = sensorData.ACC.Z;
             var gyr_x = -sensorData.GYRO.X;
             var gyr_y = sensorData.GYRO.Z;
             var gyr_z = sensorData.GYRO.Y;

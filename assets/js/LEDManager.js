@@ -67,7 +67,7 @@ function startRainbowMode() {
 
         h += increment;
         if (h > 1) h = 0; // Reset hue value
-    }, 300); // Adjust interval for speed as well, e.g., 100ms
+    }, 200); // Adjust interval for speed as well, e.g., 100ms
 }
 
 function stopRainbowMode() {
