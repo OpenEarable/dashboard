@@ -16,7 +16,7 @@ var colors = {
 };
 
 
-var units = ['g', '°/s', 'µT', 'Pa', '°C'];
+var units = ['g', '°/s', 'µT', 'hPa', '°C'];
 
 var charts = [];
 
