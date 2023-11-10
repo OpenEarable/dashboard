@@ -170,7 +170,7 @@ $(document).ready(function () {
             "time", "sensor_accX[m/s]", "sensor_accY[m/s]", "sensor_accZ[m/s]",
             "sensor_gyroX[°/s]", "sensor_gyroY[°/s]", "sensor_gyroZ[°/s]",
             "sensor_magX[µT]", "sensor_magY[µT]", "sensor_magZ[µT]",
-            "sensor_pressure[hPa]", "sensor_temperature[°C]"
+            "sensor_pressure[Pa]", "sensor_temperature[°C]"
         ];
 
         for (let i = 0; i < buttonIds.length - 1; i++) {
