@@ -37,8 +37,8 @@ const openEarable = new OpenEarable();
 // Read device information once connected
 openEarable.bleManager.subscribeOnConnected(async () => {
     const deviceId = await openEarable.readDeviceIdentifier();
-    const firmwareVersion = await openEarable.readHardwareVersion();
-    const hardwareVersion = await openEarable.readFirmwareVersion();
+    const firmwareVersion = await openEarable.readFirmwareVersion();
+    const hardwareVersion = await openEarable.readHardwareVersion();
 });
 
 // Connect to OpenEarable
