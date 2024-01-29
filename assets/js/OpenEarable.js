@@ -65,9 +65,9 @@ const SERVICES = {
             FIRMWARE_REVISION_CHARACTERISTIC: {
                 UUID: '45622512-6468-465a-b141-0b9b0f96b468'
             },
-            HARDWARE_REVISION_CHARACTERISTIC: {
+            HARDWARE_GENERATION_CHARACTERISTIC: {
                 UUID: '45622513-6468-465a-b141-0b9b0f96b468'
-            },
+            }
         }
     },
     BATTERY_SERVICE: {
@@ -168,6 +168,15 @@ class OpenEarable {
         const value = await this.bleManager.readCharacteristic(
             SERVICES.DEVICE_INFO_SERVICE.UUID,
             SERVICES.DEVICE_INFO_SERVICE.CHARACTERISTICS.HARDWARE_REVISION_CHARACTERISTIC.UUID
+        );
+        return new TextDecoder().decode(value);
+    }
+
+    async readHardwareVersion() {
+        this.bleManager.ensureConnected();
+        const value = await this.bleManager.readCharacteristic(
+            SERVICES.DEVICE_INFO_SERVICE.UUID,
+            SERVICES.DEVICE_INFO_SERVICE.CHARACTERISTICS.HARDWARE_GENERATION_CHARACTERISTIC.UUID
         );
         return new TextDecoder().decode(value);
     }

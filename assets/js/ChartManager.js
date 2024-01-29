@@ -16,7 +16,7 @@ var colors = {
 };
 
 
-var units = ['g', '°/s', 'µT', 'Pa', '°C'];
+var units = ['m/s\u00B2', '°/s', 'µT', 'Pa', '°C'];
 
 var charts = [];
 
@@ -220,13 +220,13 @@ function onClearGraphs() {
     chartIds.forEach((chartId) => {
         const chart = charts.find(chart => chart.id === chartId);
         if (chart) {
-            chart.data.labels = [];
-            if (chart.data.datasets) {
-                chart.data.datasets.forEach((dataset) => {
-                    dataset.data = [];
-                });
-            }
-            chart.update();
+            chart.data.labels.length = 0;
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.length = 0;
+            });
+            chart.options.scales.x.min = 0;
+            chart.options.scales.x.max = 149;
+            setTimeout(() => chart.update(), 0);
         }
     });
 }
