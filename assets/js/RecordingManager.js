@@ -172,7 +172,7 @@ $(document).ready(function () {
 
     function generateAndDownloadIMUCSV(dataCache, recordingStartTime) {
         let headers = [
-            "time", "sensor_accX[m/s]", "sensor_accY[m/s]", "sensor_accZ[m/s]",
+            "time", "sensor_accX[g]", "sensor_accY[g]", "sensor_accZ[g]",
             "sensor_gyroX[°/s]", "sensor_gyroY[°/s]", "sensor_gyroZ[°/s]",
             "sensor_magX[µT]", "sensor_magY[µT]", "sensor_magZ[µT]"
         ];
