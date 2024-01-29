@@ -185,15 +185,20 @@ $(document).ready(function () {
             let row = [timestamp];
     
             // Push IMU sensor data ensuring the correct float format
+            let hasData = false;
             ["acc", "gyro", "mag"].forEach(sensorType => {
                 if (data[sensorType] && data[sensorType].length === 3) {
                     row.push(...data[sensorType].map(val => val.toString().replace(',', '.')));
+                    hasData = true;
                 } else {
-                    row.push('', '', ''); // Push empty values if sensor data isn't available or isn't valid
+                    row.push('', '', ''); // Fill with empty values but do not count as data
                 }
             });
     
-            rows.push(row);
+            // Only add rows with data to the CSV
+            if (hasData) {
+                rows.push(row);
+            }
         });
     
         let csv = headers.join(",") + "\n" + rows.map(row => row.join(",")).join("\n");
@@ -209,6 +214,7 @@ $(document).ready(function () {
         a.click();
         document.body.removeChild(a);
     }
+    
 
     function generateAndDownloadTempPressCSV(dataCache, recordingStartTime) {
         let headers = [
@@ -223,10 +229,14 @@ $(document).ready(function () {
             let row = [timestamp];
     
             // Push temperature and pressure data ensuring the correct float format
-            row.push(data.pressure ? data.pressure.toString().replace(',', '.') : '');
-            row.push(data.temperature ? data.temperature.toString().replace(',', '.') : '');
+            let pressure = data.pressure ? data.pressure.toString().replace(',', '.') : '';
+            let temperature = data.temperature ? data.temperature.toString().replace(',', '.') : '';
     
-            rows.push(row);
+            // Only add rows with temperature or pressure data
+            if (pressure || temperature) {
+                row.push(pressure, temperature);
+                rows.push(row);
+            }
         });
     
         let csv = headers.join(",") + "\n" + rows.map(row => row.join(",")).join("\n");
@@ -242,6 +252,7 @@ $(document).ready(function () {
         a.click();
         document.body.removeChild(a);
     }
+    
     
     
 
