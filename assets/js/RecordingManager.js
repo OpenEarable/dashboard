@@ -166,26 +166,25 @@ $(document).ready(function () {
     });
 
     function generateAndDownloadCSV(dataCache, recordingStartTime) {
+        generateAndDownloadIMUCSV(dataCache, recordingStartTime);
+        generateAndDownloadTempPressCSV(dataCache, recordingStartTime);
+    }
+
+    function generateAndDownloadIMUCSV(dataCache, recordingStartTime) {
         let headers = [
             "time", "sensor_accX[m/s]", "sensor_accY[m/s]", "sensor_accZ[m/s]",
             "sensor_gyroX[°/s]", "sensor_gyroY[°/s]", "sensor_gyroZ[°/s]",
-            "sensor_magX[µT]", "sensor_magY[µT]", "sensor_magZ[µT]",
-            "sensor_pressure[hPa]", "sensor_temperature[°C]"
+            "sensor_magX[µT]", "sensor_magY[µT]", "sensor_magZ[µT]"
         ];
-
-        for (let i = 0; i < buttonIds.length - 1; i++) {
-            let buttonId = buttonIds[i];
-            headers.push("label_OpenEarable_" + $('#' + buttonId).text());
-        }
-
+    
         let rows = [];
-
+    
         // Sorting the timestamps and generating the CSV lines
         Object.keys(dataCache).sort().forEach(timestamp => {
             let data = dataCache[timestamp];
             let row = [timestamp];
-
-            // Push sensor data ensuring the correct float format
+    
+            // Push IMU sensor data ensuring the correct float format
             ["acc", "gyro", "mag"].forEach(sensorType => {
                 if (data[sensorType] && data[sensorType].length === 3) {
                     row.push(...data[sensorType].map(val => val.toString().replace(',', '.')));
@@ -193,42 +192,58 @@ $(document).ready(function () {
                     row.push('', '', ''); // Push empty values if sensor data isn't available or isn't valid
                 }
             });
-
-            row.push(data.pressure ? data.pressure.toString().replace(',', '.') : '');
-            row.push(data.temperature ? data.temperature.toString().replace(',', '.') : '');
-
-
-            for (let i = 0; i < buttonIds.length - 1; i++) {
-                let buttonId = buttonIds[i];
-                let labelName = $('#' + buttonId).text();
-                row.push(data.labels.includes(labelName) ? "x" : "");
-            }
-
+    
             rows.push(row);
         });
-
-        // Check if any columns are empty across all rows and remove them
-        for (let colIdx = headers.length - 1; colIdx >= 0; colIdx--) {
-            if (rows.every(row => !row[colIdx])) {
-                headers.splice(colIdx, 1);
-                rows.forEach(row => row.splice(colIdx, 1));
-            }
-        }
-
-        // Construct the CSV content
+    
         let csv = headers.join(",") + "\n" + rows.map(row => row.join(",")).join("\n");
-
+    
         // Trigger a download
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.setAttribute('hidden', '');
         a.setAttribute('href', url);
-        a.setAttribute('download', `recording_${recordingStartTime}.csv`); // filename based on when the recording was started
+        a.setAttribute('download', `IMU_recording_${recordingStartTime}.csv`);
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
     }
+
+    function generateAndDownloadTempPressCSV(dataCache, recordingStartTime) {
+        let headers = [
+            "time", "sensor_pressure[Pa]", "sensor_temperature[°C]"
+        ];
+    
+        let rows = [];
+    
+        // Sorting the timestamps and generating the CSV lines
+        Object.keys(dataCache).sort().forEach(timestamp => {
+            let data = dataCache[timestamp];
+            let row = [timestamp];
+    
+            // Push temperature and pressure data ensuring the correct float format
+            row.push(data.pressure ? data.pressure.toString().replace(',', '.') : '');
+            row.push(data.temperature ? data.temperature.toString().replace(',', '.') : '');
+    
+            rows.push(row);
+        });
+    
+        let csv = headers.join(",") + "\n" + rows.map(row => row.join(",")).join("\n");
+    
+        // Trigger a download
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('hidden', '');
+        a.setAttribute('href', url);
+        a.setAttribute('download', `TempPress_recording_${recordingStartTime}.csv`);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    
+    
 
 
 });
