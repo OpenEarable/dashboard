@@ -1,36 +1,67 @@
-var chartIds = [
-    'accelerometerChart',
-    'gyroscopeChart',
-    'magnetometerChart',
-    'pressureSensorChart',
-    'temperatureSensorChart'
+var chartsProperties = [
+    {
+        id: 'accelerometerChart',
+        labels: ['X', 'Y', 'Z'],
+        colors: ['#FF6347', '#3CB371', '#1E90FF'], // Tomatillo, Medium Sea Green, Dodger Blue
+        unit: 'm/s\u00B2',
+    },
+    {
+        id: 'gyroscopeChart',
+        labels: ['X', 'Y', 'Z'],
+        colors: ['#FFD700', '#FF4500', '#D8BFD8'], // Gold, OrangeRed, Indigo
+        unit: '°/s',
+    },
+    {
+        id: 'magnetometerChart',
+        labels: ['X', 'Y', 'Z'],
+        colors: ['#F08080', '#98FB98', '#ADD8E6'], // Light Coral, Pale Green, Light Blue
+        unit: 'µT',
+    },
+    {
+        id: 'pressureSensorChart',
+        labels: ['pressure'],
+        colors: ['#32CD32'],                       // Lime Green
+        unit: 'Pa',
+    },
+    {
+        id: 'temperatureSensorChart',
+        labels: ['temperature'],
+        colors: ['#FFA07A'],                       // Light Salmon
+        unit: '°C',
+    },
+    {
+        id: 'heartRateChart',
+        labels: ['heart rate'],
+        colors: ['#FF6347'],                       // Tomatillo
+        unit: 'bpm',
+    },
+    {
+        id: 'SpO2Chart',
+        labels: ['blood oxygen saturation'],
+        colors: ['#ADD8E6'],                       // Light Coral
+        unit: '%',
+    },
+    {
+        id: 'ppgChart',
+        labels: ['PPG (green)', 'PPG (infrared)'],
+        colors: ['#32CD32', '#B22222'],            // Lime Green, Firebrick
+        unit: 'amplitude',
+    }
 ];
-
-// Modern colors for each axis and sensor type
-var colors = {
-    'accelerometerChart': ['#FF6347', '#3CB371', '#1E90FF'],  // Tomatillo, Medium Sea Green, Dodger Blue
-    'gyroscopeChart': ['#FFD700', '#FF4500', '#D8BFD8'],      // Gold, OrangeRed, Indigo
-    'magnetometerChart': ['#F08080', '#98FB98', '#ADD8E6'],   // Light Coral, PaleGreen, Light Blue
-    'pressureSensorChart': ['#32CD32'],                       // LimeGreen
-    'temperatureSensorChart': ['#FFA07A']                      // Light Salmon
-};
-
-
-var units = ['m/s\u00B2', '°/s', 'µT', 'Pa', '°C'];
 
 var charts = [];
 
-chartIds.forEach((chartId, index) => {
-    var ctx = document.getElementById(chartId);
+chartsProperties.forEach((chartProperties) => {
+    var ctx = document.getElementById(chartProperties.id);
+    console.log(chartProperties.id);
     var datasets = [];
 
     // If it's accel, gyro, or mag, we add 3 datasets. Otherwise, just 1 dataset.
-    var numDatasets = (index <= 2) ? 3 : 1;
-    for (let j = 0; j < numDatasets; j++) {
+    for (let j = 0; j < chartProperties.labels.length; j++) {
         datasets.push({
-            label: (numDatasets == 3) ? ['X', 'Y', 'Z'][j] : 'value',
+            label: chartProperties.labels[j],
             data: [],
-            borderColor: colors[chartId][j],
+            borderColor: chartProperties.colors[j],
             borderWidth: 1,
             fill: false,
             pointRadius: 0
@@ -62,7 +93,7 @@ chartIds.forEach((chartId, index) => {
                     beginAtZero: false,
                     title: {
                         display: true,
-                        text: units[index]
+                        text: chartProperties.unit
                     }
                 }
             },
@@ -74,7 +105,7 @@ chartIds.forEach((chartId, index) => {
         }
     });
 
-    chart.id = chartId; // Assign an ID to each chart for easy identification
+    chart.id = chartProperties.id; // Assign an ID to each chart for easy identification
     charts.push(chart);
 });
 
@@ -217,8 +248,8 @@ function updateChart(chartId, values) {
 }
 
 function onClearGraphs() {
-    chartIds.forEach((chartId) => {
-        const chart = charts.find(chart => chart.id === chartId);
+    chartsProperties.forEach((chartProperties) => {
+        const chart = charts.find(chart => chart.id === chartProperties.id);
         if (chart) {
             chart.data.labels.length = 0;
             chart.data.datasets.forEach((dataset) => {
