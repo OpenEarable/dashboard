@@ -106,11 +106,6 @@
             /* default is hidden */
         }
 
-        /* Audio Player Card */
-        .btn-audio-controls {
-            font-size: 1.3em;
-        }
-
         .btn-play {
             background-color: #77F2A1 !important;
             color: black !important;
@@ -313,95 +308,6 @@
 
 
 
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-2">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <div class="d-flex flex-row w-100 justify-content-between">
-                                <h5 class="card-title">Audio Control </h5>
-                                <div class="tooltip-indicator" data-toggle="tooltip"
-                                    title="Audio files are played locally from the microSD card inside OpenEarable. The supported file formats are single channel, 16-bit, 44.1 kHz *.wav files.">
-                                    <div>?</div>
-                                </div>
-                            </div>
-
-                            <p class="card-text">Play audio from microSD or a constant tone or a built-in jingle.
-                            </p>
-                        </div>
-
-
-                        <div class="d-flex flex-row w-100 justify-content-between mt-2">
-                            <input type="radio" disabled checked id="file" name="audio_source" value="file"
-                                class="me-2 is-connect-enabled">
-
-                            <input disabled id="fileNameInput" class="is-connect-enabled ms-1 w-100 form-control"
-                                placeholder="filename.wav">
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-between mt-2">
-                            <div class="d-flex flex-row w-100">
-                                <input type="radio" disabled id="jingle" name="audio_source" value="jingle"
-                                    class="me-2  is-connect-enabled">
-                                <select disabled class="ms-1 w-100 is-connect-enabled form-select" name="jingleSelect"
-                                    id="jingleSelect">
-                                    <option value="1">NOTIFICATION (1)</option>
-                                    <option value="2">SUCCESS (2)</option>
-                                    <option value="3">ERROR (3)</option>
-                                    <option value="4">ALARM (4)</option>
-                                    <option value="5">PING (5)</option>
-                                    <option value="6">OPEN (6)</option>
-                                    <option value="7">CLOSE (7)</option>
-                                    <option value="8">CLICK (8)</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="d-flex flex-row align-items-center justify-content-between mt-2">
-                            <div class="d-flex flex-row w-100 justify-content-center align-items-stretch">
-                                <input type="radio" disabled id="frequency" name="audio_source" value="frequency"
-                                    class="me-2  is-connect-enabled">
-
-                                <input id="frequencyNumberSelector" disabled min="300" max="22000" value="440"
-                                    type="number" class="ms-1 is-connect-enabled flex-fill form-control" value="0">
-                                <div
-                                    class="ms-1 is-connect-enabled me-2 d-flex justify-content-center align-items-center">
-                                    <div>Hz</div>
-                                </div>
-                                <input id="loudnessInput" class="ms-1 is-connect-enabled form-control" type="number"
-                                    step="1" min="0" max="100" value="50" disabled>
-                                <div class="ms-1 is-connect-enabled d-flex justify-content-center align-items-center">
-                                    <div>%</div>
-                                </div>
-
-                                <select disabled class="ms-3 flex-fill is-connect-enabled form-select"
-                                    name="waveTypeSelect" id="waveTypeSelect">
-                                    <option value="1">sine (1)</option>
-                                    <option value="2">square (2)</option>
-                                    <option value="3">triangle (3)</option>
-                                    <option value="4">saw (4)</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="d-flex w-100 justify-content-between align-items-center mt-2">
-                            <div>
-                                <button id="button-set-source" class="btn btn-control is-connect-enabled">Set Source</button>
-                                <button id="button-play-audio" class="btn btn-play btn-block ms-2 is-connect-enabled"
-                                    disabled><i class="bi bi-play"></i></button>
-                                <button id="button-pause-audio" class="btn btn-pause btn-block ms-2 is-connect-enabled"
-                                    disabled><i class="bi bi-pause"></i></button>
-                                <button id="button-stop-audio" class="btn btn-stop btn-block ms-2 is-connect-enabled"
-                                    disabled><i class="bi bi-stop"></i></button>
-                            </div>
-                            <div>
-                                <i style="color: #f27777">⚠️ Audio can be very loud! ⚠️</i>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
             </div>
@@ -643,7 +549,6 @@
     <script src="./assets/js/ConnectionManager.js"></script>
     <script src="./assets/js/ChartManager.js"></script>
     <script src="./assets/js/RecordingManager.js"></script>
-    <script src="./assets/js/AudioManager.js"></script>
     <script src="./assets/js/SensorManager.js"></script>
     <script>
         /* initialization tasks */
