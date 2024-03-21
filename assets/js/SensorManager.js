@@ -42,6 +42,19 @@ $(document).ready(function () {
             log("Setting microphone disabled.")
             await openEarable.sensorManager.writeSensorConfig(2, 0, 0);
         }
+
+        // Check if the checkbox for the microphone is checked
+        if ($('#isPPGEnabled').is(':checked')) {
+            var ppgSamplingRate = $('#ppgSamplingRate').val();
+            log("Setting sampling rate for PPG sensor: " + ppgSamplingRate + " Hz")
+            // TODO
+            // await openEarable.sensorManager.writeSensorConfig(?, ppgSamplingRate, 0);
+        } else {
+            // If the checkbox is not checked, set the sampling rate to 0
+            log("Setting PPG sensor disabled.")
+            // TODO
+            // await openEarable.sensorManager.writeSensorConfig(?, 0, 0);
+        }
     });
 
     $('.btn-disable-sensors').on('click', async function() {
@@ -49,11 +62,12 @@ $(document).ready(function () {
         await openEarable.sensorManager.writeSensorConfig(0, 0, 0);
         await openEarable.sensorManager.writeSensorConfig(1, 0, 0);
         await openEarable.sensorManager.writeSensorConfig(2, 0, 0);
+        //await openEarable.sensorManager.writeSensorConfig(?, 0, 0); PPG Sensor
 
         // Uncheck the checkboxes
-        $('#areSensorsEnabled, #isMicEnabled, #isPressureSensorEnabled').prop('checked', false);
+        $('#areSensorsEnabled, #isMicEnabled, #isPressureSensorEnabled, #isPPGEnabled').prop('checked', false);
 
         // Reset the dropdowns to 0
-        $('#sensorSamplingRate, #microphoneSamplingRate, #pressureSensorSamplingRate').val('0');
+        $('#sensorSamplingRate, #microphoneSamplingRate, #pressureSensorSamplingRate, #ppgSamplingRate').val('0');
     });
 });
