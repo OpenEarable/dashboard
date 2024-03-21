@@ -294,6 +294,26 @@
                                     </select>
                                 </div>
                                 <div class="ms-1">Hz</div>
+
+                                <!-- Fourth Row -->
+                                <div>
+                                    <input disabled type="checkbox" class="is-connect-enabled" id="isPPGEnabled">
+                                </div>
+                                <div class="ms-2"
+                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                    Heart Rate, SpO2, PPG
+                                </div>
+                                <div>
+                                    <select disabled
+                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                        name="ppgSamplingRate" id="ppgSamplingRate">
+                                        <option value="30">0</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <div class="ms-1">Hz</div>
                             </div>
                             <!-- Grid Layout Ends Here -->
 
@@ -364,6 +384,7 @@
                                 <div>?</div>
                             </div>
                         </div>
+                        <p class="card-text">Record and label data from OpenEarable.</p>
                         <div class="d-flex flex-column w-100 flex-fill" style="font-family: monospace;">
                             <div class="d-flex w-100 flex-row justify-content-between flex-grow-1">
                                 <button id="btn1" style="border: 3px solid transparent;"
