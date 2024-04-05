@@ -32,9 +32,9 @@ $(document).ready(function () {
             await openEarable.sensorManager.writeSensorConfig(1, 0, 0);
         }
 
-        // Check if the checkbox for the microphone is checked
+        // Check if the checkbox for the left microphone is checked
         if ($('#isMicEnabled').is(':checked')) {
-            var microphoneSamplingRate = $('#microphoneSamplingRate').val();
+            var microphoneSamplingRate = $('#microphoneLSamplingRate').val();
             log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz")
             await openEarable.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
         } else {
@@ -68,6 +68,6 @@ $(document).ready(function () {
         $('#areSensorsEnabled, #isMicEnabled, #isPressureSensorEnabled, #isPPGEnabled').prop('checked', false);
 
         // Reset the dropdowns to 0
-        $('#sensorSamplingRate, #microphoneSamplingRate, #pressureSensorSamplingRate, #ppgSamplingRate').val('0');
+        $('#sensorSamplingRate, #microphoneLSamplingRate, #pressureSensorSamplingRate, #ppgSamplingRate').val('0');
     });
 });
