@@ -172,6 +172,19 @@
         select[disabled] {
             opacity: 0.5 !important;
         }
+        
+        /* "Fake" disabled look of a select */
+        .fake-disabled-select {
+            opacity: 0.5;
+            background-color: #e9ecef;
+            color: #2c2d32;
+            cursor: not-allowed;
+        }
+
+        .fake-disabled-select:disabled {
+            background-color: #e9ecef;
+            color: #2c2d32;
+        }
     </style>
 </head>
 
@@ -244,257 +257,269 @@
                                 <div></div>
                                 
                                 <!-- First Row -->
-                                <div>
-                                    <input type="checkbox" disabled class="is-connect-enabled" id="areSensorsEnabled">
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input type="checkbox" disabled class="is-connect-enabled" id="areSensorsEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Accelerometer, Gyroscope, Magnetometer
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="sensorSamplingRate" id="sensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="60">60</option>
+                                            <option value="70">70</option>
+                                            <option value="80">80</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="sensorSamplingRateSD" id="sensorSamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="60">60</option>
+                                            <option value="70">70</option>
+                                            <option value="80">80</option>
+                                            <option value="90">90</option>
+                                            <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="400">400</option>
+                                            <option value="500">500</option>
+                                            <option value="600">600</option>
+                                            <option value="700">700</option>
+                                            <option value="800">800</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
                                 </div>
-                                <div class="ms-2"
-                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    Accelerometer, Gyroscope, Magnetometer
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="sensorSamplingRate" id="sensorSamplingRate">
-                                        <option value="0">0</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                        <option value="70">70</option>
-                                        <option value="80">80</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="sensorSamplingRateSD" id="sensorSamplingRateSD">
-                                        <option value="0">0</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                        <option value="70">70</option>
-                                        <option value="80">80</option>
-                                        <option value="90">90</option>
-                                        <option value="100">100</option>
-                                        <option value="200">200</option>
-                                        <option value="300">300</option>
-                                        <option value="400">400</option>
-                                        <option value="500">500</option>
-                                        <option value="600">600</option>
-                                        <option value="700">700</option>
-                                        <option value="800">800</option>
-                                    </select>
-                                </div>
-                                <div class="ms-1">Hz</div>
 
                                 <!-- Second Row -->
-                                <div>
-                                    <input type="checkbox" disabled class="is-connect-enabled"
-                                        id="isPressureSensorEnabled">
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input type="checkbox" disabled class="is-connect-enabled"
+                                            id="isPressureSensorEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Pressure Sensor, Temperature Sensor
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="pressureSensorSamplingRateSD" id="pressureSensorSamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="60">60</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
                                 </div>
-                                <div class="ms-2"
-                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    Pressure Sensor, Temperature Sensor
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="pressureSensorSamplingRateSD" id="pressureSensorSamplingRateSD">
-                                        <option value="0">0</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                    </select>
-                                </div>
-                                <div class="ms-1">Hz</div>
 
                                 <!-- Third Row -->
-                                <div>
-                                    <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Microphone L
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphoneLSamplingRate" id="microphoneLSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphoneLSamplingRateSD" id="microphoneLSamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                            <option value="62500">62,500</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
                                 </div>
-                                <div class="ms-2"
-                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    Microphone L
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="microphoneLSamplingRate" id="microphoneLSamplingRate">
-                                        <option value="0">0</option>
-                                        <option value="8000">8,000</option>
-                                        <option value="11025">11,025</option>
-                                        <option value="16000">16,000</option>
-                                        <option value="22050">22,050</option>
-                                        <option value="44100">44,100</option>
-                                        <option value="48000">48,000</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="microphoneLSamplingRateSD" id="microphoneLSamplingRateSD">
-                                        <option value="0">0</option>
-                                        <option value="8000">8,000</option>
-                                        <option value="11025">11,025</option>
-                                        <option value="16000">16,000</option>
-                                        <option value="22050">22,050</option>
-                                        <option value="44100">44,100</option>
-                                        <option value="48000">48,000</option>
-                                        <option value="62500">62,500</option>
-                                    </select>
-                                </div>
-                                <div class="ms-1">Hz</div>
 
                                 <!-- Fourth Row -->
-                                <div>
-                                    <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Microphone R
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphoneRSamplingRate" id="microphoneRSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphoneRSamplingRateSD" id="microphoneRSamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                            <option value="62500">62,500</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
                                 </div>
-                                <div class="ms-2"
-                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    Microphone R
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="microphoneRSamplingRate" id="microphoneRSamplingRate">
-                                        <option value="0">0</option>
-                                        <option value="8000">8,000</option>
-                                        <option value="11025">11,025</option>
-                                        <option value="16000">16,000</option>
-                                        <option value="22050">22,050</option>
-                                        <option value="44100">44,100</option>
-                                        <option value="48000">48,000</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="microphoneRSamplingRateSD" id="microphoneRSamplingRateSD">
-                                        <option value="0">0</option>
-                                        <option value="8000">8,000</option>
-                                        <option value="11025">11,025</option>
-                                        <option value="16000">16,000</option>
-                                        <option value="22050">22,050</option>
-                                        <option value="44100">44,100</option>
-                                        <option value="48000">48,000</option>
-                                        <option value="62500">62,500</option>
-                                    </select>
-                                </div>
-                                <div class="ms-1">Hz</div>
 
                                 <!-- Fifth Row -->
-                                <div>
-                                    <input disabled type="checkbox" class="is-connect-enabled" id="isPPGEnabled">
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input disabled type="checkbox" class="is-connect-enabled" id="isPPGEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Pulse Oximeter ADC (Red/Infrared)
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="ppgSamplingRate" id="ppgSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="60">60</option>
+                                            <option value="70">70</option>
+                                            <option value="80">80</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="ppgSamplingRateSD" id="ppgSamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="60">60</option>
+                                            <option value="70">70</option>
+                                            <option value="80">80</option>
+                                            <option value="90">90</option>
+                                            <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="400">400</option>
+                                            <option value="500">500</option>
+                                            <option value="600">600</option>
+                                            <option value="700">700</option>
+                                            <option value="800">800</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
                                 </div>
-                                <div class="ms-2"
-                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    Pulse Oximeter ADC (Red/Infrared)
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="ppgSamplingRate" id="ppgSamplingRate">
-                                        <option value="0">0</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                        <option value="70">70</option>
-                                        <option value="80">80</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="ppgSamplingRateSD" id="ppgSamplingRateSD">
-                                        <option value="0">0</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                        <option value="70">70</option>
-                                        <option value="80">80</option>
-                                        <option value="90">90</option>
-                                        <option value="100">100</option>
-                                        <option value="200">200</option>
-                                        <option value="300">300</option>
-                                        <option value="400">400</option>
-                                        <option value="500">500</option>
-                                        <option value="600">600</option>
-                                        <option value="700">700</option>
-                                        <option value="800">800</option>
-                                    </select>
-                                </div>
-                                <div class="ms-1">Hz</div>
 
                                 <!-- Sixth Row -->
-                                <div>
-                                    <input disabled type="checkbox" class="is-connect-enabled" id="isPPGEnabled">
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input disabled type="checkbox" class="is-connect-enabled" id="isPPGEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Heart Rate, SpO2
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="heartRateAndSpO2SamlingRate" id="heartRateAndSpO2SamlingRate">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="heartRateAndSpO2SamlingRateSD" id="heartRateAndSpO2SamlingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
                                 </div>
-                                <div class="ms-2"
-                                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    Heart Rate, SpO2
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="heartRateAndSpO2SamlingRate" id="heartRateAndSpO2SamlingRate">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="heartRateAndSpO2SamlingRateSD" id="heartRateAndSpO2SamlingRateSD">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="ms-1">Hz</div>
                             </div>
                             <!-- Grid Layout Ends Here -->
 

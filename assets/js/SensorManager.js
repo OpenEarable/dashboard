@@ -1,13 +1,23 @@
 $(document).ready(function () {
     $('.sampling-rate-input').on('change', function() {
-        // Get the checkbox for the corresponding row
-        var checkbox = $(this).parent().prev().prev().find('input[type="checkbox"]');
-        
-        // Check if selected value is not 0
-        if ($(this).val() != '0') {
-            checkbox.prop('checked', true);
-        } else {
-            checkbox.prop('checked', false);
+
+        var selects = $('.sampling-rate-input');
+        var changedElem = $(this);
+        var changedIndex = selects.index(changedElem);
+        var neighborIndex = changedIndex % 2 === 0 ? changedIndex + 1 : changedIndex - 1;
+    
+        var checkbox = $(this).closest('.grid-row').find('input[type="checkbox"]');
+    
+        if (neighborIndex >= 0 && neighborIndex < selects.length) {
+            var neighborElem = selects.eq(neighborIndex);
+            if (changedElem.val() !== '0') {
+                changedElem.removeClass('fake-disabled-select');
+                neighborElem.addClass('fake-disabled-select').val('0');
+                checkbox.prop('checked', true);
+            } else {
+                neighborElem.removeClass('fake-disabled-select');
+                checkbox.prop('checked', false);
+            }
         }
     });    
 
