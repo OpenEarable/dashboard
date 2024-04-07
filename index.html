@@ -37,7 +37,7 @@
             border-width: 0px;
             overflow: hidden;
             background: #36353b;
-            color: b0b0b0;
+            color: #b0b0b0;
         }
 
         .card-title {
@@ -184,6 +184,13 @@
             background-color: #e9ecef;
             color: #2c2d32;
         }
+
+        .grid-line {
+            grid-column: 1 / -1; /* Span across all grid columns */
+            height: 1px; /* Line thickness */
+            background: #b0b0b0; /* Line color */
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -228,7 +235,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-2">
+            <div class="col-12 col-md-6 col-xl-6 mt-2">
                 <div class="card h-100">
                     <div class="card-body h-100 flex-column d-flex">
                         <div class="d-flex flex-row w-100 justify-content-between">
@@ -239,11 +246,11 @@
                             </div>
                         </div>
                         <div class="d-flex flex-column flex-fill justify-content-between">
-                            <p class="card-text">Select sensors and sampling rate to capture.</p>
+                            <p class="card-text" style="margin-bottom: 0;">Select sensors and sampling rate to capture.</p>
 
                             <!-- Grid Layout Starts Here -->
                             <div
-                                style="display: grid; grid-template-columns: auto 1fr auto auto auto; gap: 8px; align-items: center;">
+                                style="display: grid; grid-template-columns: auto 1fr auto auto auto; gap: 8px; align-items: center; margin-top: 0;">
                                 <!-- Headlines -->
                                 <div></div>
                                 <div></div>
@@ -256,6 +263,85 @@
                                 <div></div>
                                 
                                 <!-- First Row -->
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Microphone 1
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphone1SamplingRate" id="microphone1SamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphone1SamplingRateSD" id="microphone1SamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                            <option value="62500">62,500</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
+                                </div>
+
+                                <!-- Second Row -->
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Microphone 2
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphone2SamplingRate" id="microphone2SamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphone2SamplingRateSD" id="microphone2SamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="8000">8,000</option>
+                                            <option value="11025">11,025</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="22050">22,050</option>
+                                            <option value="44100">44,100</option>
+                                            <option value="48000">48,000</option>
+                                            <option value="62500">62,500</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
+                                </div>
+
+                                <div class="grid-line" aria-hidden="true"></div>
+                                <!-- Third Row -->
                                 <div class="grid-row" style="display: contents;">
                                     <div>
                                         <input type="checkbox" disabled class="is-connect-enabled" id="areSensorsEnabled">
@@ -305,129 +391,8 @@
                                     </div>
                                     <div class="ms-1">Hz</div>
                                 </div>
-
-                                <!-- Second Row -->
-                                <div class="grid-row" style="display: contents;">
-                                    <div>
-                                        <input type="checkbox" disabled class="is-connect-enabled"
-                                            id="isPressureSensorEnabled">
-                                    </div>
-                                    <div class="ms-2"
-                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                        Pressure Sensor, Temperature Sensor
-                                    </div>
-                                    <div>
-                                        <select disabled
-                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                            name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <select disabled
-                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                            name="pressureSensorSamplingRateSD" id="pressureSensorSamplingRateSD">
-                                            <option value="0">0</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                            <option value="40">40</option>
-                                            <option value="50">50</option>
-                                            <option value="60">60</option>
-                                        </select>
-                                    </div>
-                                    <div class="ms-1">Hz</div>
-                                </div>
-
-                                <!-- Third Row -->
-                                <div class="grid-row" style="display: contents;">
-                                    <div>
-                                        <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
-                                    </div>
-                                    <div class="ms-2"
-                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                        Microphone L
-                                    </div>
-                                    <div>
-                                        <select disabled
-                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                            name="microphoneLSamplingRate" id="microphoneLSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="8000">8,000</option>
-                                            <option value="11025">11,025</option>
-                                            <option value="16000">16,000</option>
-                                            <option value="22050">22,050</option>
-                                            <option value="44100">44,100</option>
-                                            <option value="48000">48,000</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <select disabled
-                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                            name="microphoneLSamplingRateSD" id="microphoneLSamplingRateSD">
-                                            <option value="0">0</option>
-                                            <option value="8000">8,000</option>
-                                            <option value="11025">11,025</option>
-                                            <option value="16000">16,000</option>
-                                            <option value="22050">22,050</option>
-                                            <option value="44100">44,100</option>
-                                            <option value="48000">48,000</option>
-                                            <option value="62500">62,500</option>
-                                        </select>
-                                    </div>
-                                    <div class="ms-1">Hz</div>
-                                </div>
-
+                                
                                 <!-- Fourth Row -->
-                                <div class="grid-row" style="display: contents;">
-                                    <div>
-                                        <input disabled type="checkbox" class="is-connect-enabled" id="isMicEnabled">
-                                    </div>
-                                    <div class="ms-2"
-                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                        Microphone R
-                                    </div>
-                                    <div>
-                                        <select disabled
-                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                            name="microphoneRSamplingRate" id="microphoneRSamplingRate">
-                                            <option value="0">0</option>
-                                            <option value="8000">8,000</option>
-                                            <option value="11025">11,025</option>
-                                            <option value="16000">16,000</option>
-                                            <option value="22050">22,050</option>
-                                            <option value="44100">44,100</option>
-                                            <option value="48000">48,000</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <select disabled
-                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                            name="microphoneRSamplingRateSD" id="microphoneRSamplingRateSD">
-                                            <option value="0">0</option>
-                                            <option value="8000">8,000</option>
-                                            <option value="11025">11,025</option>
-                                            <option value="16000">16,000</option>
-                                            <option value="22050">22,050</option>
-                                            <option value="44100">44,100</option>
-                                            <option value="48000">48,000</option>
-                                            <option value="62500">62,500</option>
-                                        </select>
-                                    </div>
-                                    <div class="ms-1">Hz</div>
-                                </div>
-
-                                <!-- Fifth Row -->
                                 <div class="grid-row" style="display: contents;">
                                     <div>
                                         <input disabled type="checkbox" class="is-connect-enabled" id="isPPGEnabled">
@@ -474,7 +439,7 @@
                                     <div class="ms-1">Hz</div>
                                 </div>
 
-                                <!-- Sixth Row -->
+                                <!-- Fifth Row -->
                                 <div class="grid-row" style="display: contents;">
                                     <div>
                                         <input disabled type="checkbox" class="is-connect-enabled" id="isPPGEnabled">
@@ -515,6 +480,49 @@
                                             <option value="8">8</option>
                                             <option value="9">9</option>
                                             <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-1">Hz</div>
+                                </div>
+
+                                <!-- Sixth Row -->
+                                <div class="grid-row" style="display: contents;">
+                                    <div>
+                                        <input type="checkbox" disabled class="is-connect-enabled"
+                                            id="isPressureSensorEnabled">
+                                    </div>
+                                    <div class="ms-2"
+                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        Temperature, Pressure
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="pressureSensorSamplingRate" id="pressureSensorSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="pressureSensorSamplingRateSD" id="pressureSensorSamplingRateSD">
+                                            <option value="0">0</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="60">60</option>
                                         </select>
                                     </div>
                                     <div class="ms-1">Hz</div>
@@ -575,7 +583,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-xl-4 d-flex mt-2 ">
+            <div class="col-12 col-md-6 col-xl-2 d-flex mt-2 ">
                 <div class="card flex-fill">
                     <div class="card-body d-flex flex-column h-100">
                         <div class="d-flex flex-row w-100 justify-content-between">
