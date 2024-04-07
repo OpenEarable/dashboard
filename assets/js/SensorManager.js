@@ -4,21 +4,58 @@ $(document).ready(function () {
         var selects = $('.sampling-rate-input');
         var changedElem = $(this);
         var changedIndex = selects.index(changedElem);
-        var neighborIndex = changedIndex % 2 === 0 ? changedIndex + 1 : changedIndex - 1;
-    
-        var checkbox = $(this).closest('.grid-row').find('input[type="checkbox"]');
-    
-        if (neighborIndex >= 0 && neighborIndex < selects.length) {
-            var neighborElem = selects.eq(neighborIndex);
+        
+        // Handle select behavior of Microphone 1 and Microphone 2
+        if (changedIndex === 0) {
+            console.log(changedIndex);
             if (changedElem.val() !== '0') {
                 changedElem.removeClass('fake-disabled-select');
-                neighborElem.addClass('fake-disabled-select').val('0');
-                checkbox.prop('checked', true);
+                selects.eq(1).addClass('fake-disabled-select').val('0');
+                selects.eq(2).addClass('fake-disabled-select').val('0');
+                selects.eq(3).removeClass('fake-disabled-select');
             } else {
-                neighborElem.removeClass('fake-disabled-select');
-                checkbox.prop('checked', false);
+                selects.eq(1).removeClass('fake-disabled-select');
+                if (selects.eq(3).val() === '0') {
+                    selects.eq(2).removeClass('fake-disabled-select');
+                }
+            }
+        } else if (changedIndex === 2) {
+            if (changedElem.val() !== '0') {
+                changedElem.removeClass('fake-disabled-select');
+                selects.eq(0).addClass('fake-disabled-select').val('0');
+                selects.eq(3).addClass('fake-disabled-select').val('0');
+                selects.eq(1).removeClass('fake-disabled-select');
+            } else {
+                selects.eq(3).removeClass('fake-disabled-select');
+                if (selects.eq(1).val() === '0') {
+                    selects.eq(0).removeClass('fake-disabled-select');
+                }
+            }
+        } else if (changedIndex === 1 || changedIndex == 3) {
+            if (changedElem.val() !== '0') {
+                changedElem.removeClass('fake-disabled-select');
+                selects.eq(changedIndex - 1).addClass('fake-disabled-select').val('0');
+            } else {
+                if (selects.eq(changedIndex + 1).val() === '0') {
+                    selects.eq(changedIndex - 1).removeClass('fake-disabled-select');
+                }
             }
         }
+
+        // update checkboxes
+        selects.each(function(index) {
+            if (index % 2 === 0) {
+                var checkbox = $(this).closest('.grid-row').find('input[type="checkbox"]');
+                var neighbor = selects.eq(index+1);
+                if ($(this).val() !== '0' || neighbor.val() !== '0') {
+                    checkbox.prop('checked', true);
+                } else {
+                    checkbox.prop('checked', false);
+                }
+                
+            }
+            
+        })
     });    
 
     $('#setSensorConfigurationButton').on('click', async function() {
