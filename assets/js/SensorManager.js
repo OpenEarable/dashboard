@@ -1,4 +1,22 @@
+const earableButtonIds = ["btnL", "btnR"];
 $(document).ready(function () {
+    $("#btnL").css("border", "3px solid #77F2A1");
+    $("#btlL").css("font-weight", "bold");
+
+    earableButtonIds.forEach(function (btnId) {
+        $("#" + btnId).click(function (e) {
+            e.stopPropagation();
+            earableButtonIds.forEach(function (id) {
+                $("#" + id).css("border", "3px solid transparent");
+                $("#" + id).css("font-weight", "normal");
+            });
+            // Add green border to clicked button
+            $(this).css("border", "3px solid #77F2A1");
+            $(this).css("font-weight", "bold");
+        });
+    });
+
+
     $('.sampling-rate-input').on('change', function() {
 
         var selects = $('.sampling-rate-input');
