@@ -186,11 +186,17 @@
         }
 
         .grid-line {
-            grid-column: 1 / -1; /* Span across all grid columns */
-            height: 1px; /* Line thickness */
-            background: #b0b0b0; /* Line color */
+            grid-column: 1 / -1;
+            height: 1px;
+            background: #b0b0b0;
             width: 100%;
         }
+
+        .btn img {
+            max-width: 90%;
+            object-fit: cover;
+        }
+
     </style>
 </head>
 
@@ -215,22 +221,59 @@
                                 <div>?</div>
                             </div>
                         </div>
-                        <div class="d-flex flex-column">
-                            <div class="card-text"><b></b><span id="connectedDevice" class=""
-                                    style="font-family: monospace;">OpenEarable-XXXX </span> (<span id="batteryLevel"
-                                    style="font-family: monospace;">XX</span><span style="font-size: 0.8em;">%<i
-                                        id="batteryChargingIndicator" class="bi bi-lightning-charge"></i><i 
-                                        style="color: #77F2A1"
-                                        id="batteryChargedIndicator" class="bi bi-lightning-charge-fill"></i></span>)
+                        <div class="row flex-grow-1 mb-2">
+                            <div class="col d-flex flex-column pe-1">
+                                <button id="btnL" style="border: 3px solid transparent; position: relative;" class="btn btn-control flex-grow-1">
+                                    <div class="card-text" style="font-size: 0.75rem; text-align: left;">
+                                        <span id="connectedDeviceL" class="" style="font-family: monospace;">OpenEarable-XXXX </span>
+                                        (<span id="batteryLevelL"
+                                                style="font-family: monospace;">XX</span><span style="font-size: 0.75em;">%<i
+                                                    id="batteryChargingIndicatorL" class="bi bi-lightning-charge"></i><i 
+                                                    style="color: #77F2A1"
+                                                    id="batteryChargedIndicatorL" class="bi bi-lightning-charge-fill"></i></span>)
+                                    </div>
+                                    <img src="assets/images/OpenEarableV2-L.png" class="mt-2 mb-2" alt="Left Earable" style="max-width: 100%; max-height: 100%;">
+                                
+                                    <div style="font-size: 0.75rem; text-align: left;">
+                                        <b>Firmware</b> <span style="font-family: monospace" id="fwVersionL">X.X.X</span>
+                                    </div>
+                                    <div style="font-size: 0.75rem; text-align: left;">
+                                        <b>Device</b> <span style="font-family: monospace" id="deviceVersionL">X.X.X</span>
+                                    </div>
+                                </button>
                             </div>
-                            <div class="mt-1"><b>Firmware</b> <span style="font-family: monospace"
-                                    id="fwVersion">X.X.X</span> <b class="ms-2">Device</b> <span
-                                    style="font-family: monospace" id="deviceVersion">X.X.X</span></div>
+                            <div class="col d-flex flex-column ps-1">
+                                <button id="btnR" style="border: 3px solid transparent; position: relative;" class="btn btn-control flex-grow-1">
+                                    <div class="card-text" style="font-size: 0.75rem; text-align: left;">
+                                        <span id="connectedDeviceR" class="" style="font-family: monospace;">OpenEarable-XXXX </span>
+                                        (<span id="batteryLevelR"
+                                                style="font-family: monospace;">XX</span><span style="font-size: 0.75em;">%<i
+                                                    id="batteryChargingIndicatorR" class="bi bi-lightning-charge"></i><i 
+                                                    style="color: #77F2A1"
+                                                    id="batteryChargedIndicatorR" class="bi bi-lightning-charge-fill"></i></span>)
+                                    </div>
+                                    <img src="assets/images/OpenEarableV2-R.png" class="mt-2 mb-2" alt="Right Earable" style="max-width: 100%; max-height: 100%;">
+                                
+                                    
+                                
+                                    <div style="font-size: 0.75rem; text-align: left;">
+                                        <b>Firmware</b> <span style="font-family: monospace" id="fwVersionR">X.X.X</span>
+                                    </div>
+                                    <div style="font-size: 0.75rem; text-align: left;">
+                                        <b>Device</b> <span style="font-family: monospace" id="deviceVersionR">X.X.X</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
-
-                        <div>
-                            <button id="connectDeviceButton" class="btn btn-connect w-100">Connect</button>
-                            <button id="disconnectDeviceButton" class="btn btn-disconnect w-100">Disconnect</button>
+                        <div class="row">
+                            <div class="col d-flex flex-column pe-1">
+                                <button id="connectDeviceButtonL" class="btn btn-connect w-100">Connect</button>
+                                <button id="disconnectDeviceButtonL" class="btn btn-disconnect w-100">Disconnect</button>                            
+                            </div>
+                            <div class="col d-flex flex-column ps-1">
+                                <button id="connectDeviceButtonR" class="btn btn-connect w-100">Connect</button>
+                                <button id="disconnectDeviceButtonR" class="btn btn-disconnect w-100">Disconnect</button>                            
+                            </div>
                         </div>
                     </div>
                 </div>
