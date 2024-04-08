@@ -197,7 +197,7 @@
 <body class="pt-1 pb-1">
     <div class="container-fluid d-flex flex-column" style="min-height: 100%;">
         <div class="row gx-2">
-            <div class="col-12 col-md-6 col-xl-2 d-flex align-items-stretch flex-column mt-2">
+            <div class="col-12 col-md-6 col-xl-4 d-flex align-items-stretch flex-column mt-2">
                 <div class="card" style="background: transparent;;">
                     <div class="card-body d-flex justify-content-center align-items-center">
                         <div>
@@ -583,61 +583,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-xl-2 d-flex mt-2 ">
-                <div class="card flex-fill">
-                    <div class="card-body d-flex flex-column h-100">
-                        <div class="d-flex flex-row w-100 justify-content-between">
-                            <div class="d-flex flex-row justify-content-center align-items-center">
-                                <div>
-                                    <h5 class="card-title">Recorder</h5>
-                                </div>
-                            </div>
-                            <div class="tooltip-indicator" data-toggle="tooltip"
-                                title="You can record data directly in your browser. The format is compataible with edge-ml.org, a tool for embedded machine learning.">
-                                <div>?</div>
-                            </div>
-                        </div>
-                        <p class="card-text">Record and label data from OpenEarable.</p>
-                        <div class="d-flex flex-column w-100 flex-fill" style="font-family: monospace;">
-                            <div class="d-flex w-100 flex-row justify-content-between flex-grow-1">
-                                <button id="btn1" style="border: 3px solid transparent;"
-                                    class="btn flex-fill btn-control">Label 1</button>
-                                <button id="btn2" style="border: 3px solid transparent;"
-                                    class="btn flex-fill ms-2 btn-control">Label 2</button>
-                                <button id="btn3" style="border: 3px solid transparent;"
-                                    class="btn flex-fill ms-2 btn-control">Label 3</button>
-                                <button id="btn4" style="border: 3px solid transparent;"
-                                    class="btn flex-fill ms-2 btn-control">Label 4</button>
-                            </div>
-                            <div class="d-flex w-100 flex-row justify-content-between mt-2 flex-grow-1">
-                                <button id="btn5" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill">Label 5</button>
-                                <button id="btn6" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill flex-fill ms-2">Label 6</button>
-                                <button id="btn7" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill flex-fill ms-2">Label 7</button>
-                                <button id="btn8" style="border: 3px solid transparent;"
-                                    class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
-                            </div>
-                            <div class="d-flex flex-row  mt-2">
-                                <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
-                                    <button id="startRecordingButton" class="btn btn-play is-connect-enabled w-100"
-                                        disabled>Start
-                                        Recording</button>
-                                    <button id="stopRecordingButton"
-                                        class="btn btn-stop is-connect-enabled w-100 d-none">Stop
-                                        Recording</button>
-                                </div>
-                                <button id="btn9" style="border: 3px solid #77F2A1;"
-                                    class="btn btn-primary btn-control ms-2">
-                                    No Label</button>
-                                <button id="lockButton" class="btn btn-stop ms-2  is-record-enabled"><i
-                                        class="bi bi-lock"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="row gx-2 flex-grow-1">
             <div class="col-12 col-md-6 col-xl-4 mt-2 ">
@@ -800,7 +745,7 @@
             <!-- END Earable V2 Charts -->
         </div>
         <div class="row gx-2 mb-2">
-            <div class="col-12 mt-2 ">
+            <div class="col-8 mt-2 ">
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column h-100">
                         <div class="d-flex flex-row w-100 justify-content-between">
@@ -820,6 +765,61 @@
 
                         <div id="log" class="w-100 p-2 mt-3 flex-fill"
                             style="color: white; min-height: 100px; max-height: 160px; font-family: 'Courier New', Courier, monospace; border: 1px solid rgb(94, 94, 94); border-radius: 0.375rem; overflow-y: scroll; overflow-x: hidden;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-4 d-flex mt-2 ">
+                <div class="card flex-fill">
+                    <div class="card-body d-flex flex-column h-100">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div>
+                                    <h5 class="card-title">Recorder</h5>
+                                </div>
+                            </div>
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="You can record data directly in your browser. The format is compataible with edge-ml.org, a tool for embedded machine learning.">
+                                <div>?</div>
+                            </div>
+                        </div>
+                        <p class="card-text">Record and label data from OpenEarable.</p>
+                        <div class="d-flex flex-column w-100 flex-fill" style="font-family: monospace;">
+                            <div class="d-flex w-100 flex-row justify-content-between flex-grow-1">
+                                <button id="btn1" style="border: 3px solid transparent;"
+                                    class="btn flex-fill btn-control">Label 1</button>
+                                <button id="btn2" style="border: 3px solid transparent;"
+                                    class="btn flex-fill ms-2 btn-control">Label 2</button>
+                                <button id="btn3" style="border: 3px solid transparent;"
+                                    class="btn flex-fill ms-2 btn-control">Label 3</button>
+                                <button id="btn4" style="border: 3px solid transparent;"
+                                    class="btn flex-fill ms-2 btn-control">Label 4</button>
+                            </div>
+                            <div class="d-flex w-100 flex-row justify-content-between mt-2 flex-grow-1">
+                                <button id="btn5" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill">Label 5</button>
+                                <button id="btn6" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 6</button>
+                                <button id="btn7" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 7</button>
+                                <button id="btn8" style="border: 3px solid transparent;"
+                                    class="btn btn-control flex-fill flex-fill ms-2">Label 8</button>
+                            </div>
+                            <div class="d-flex flex-row  mt-2">
+                                <div class="d-flex flex-row justify-content-between align-items-center flex-fill">
+                                    <button id="startRecordingButton" class="btn btn-play is-connect-enabled w-100"
+                                        disabled>Start
+                                        Recording</button>
+                                    <button id="stopRecordingButton"
+                                        class="btn btn-stop is-connect-enabled w-100 d-none">Stop
+                                        Recording</button>
+                                </div>
+                                <button id="btn9" style="border: 3px solid #77F2A1;"
+                                    class="btn btn-primary btn-control ms-2">
+                                    No Label</button>
+                                <button id="lockButton" class="btn btn-stop ms-2  is-record-enabled"><i
+                                        class="bi bi-lock"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
