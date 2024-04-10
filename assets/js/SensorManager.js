@@ -24,7 +24,6 @@ $(document).ready(function () {
         
         // Handle select behavior of Microphone 1 and Microphone 2
         if (changedIndex === 0) {
-            console.log(changedIndex);
             if (changedElem.val() !== '0') {
                 changedElem.removeClass('fake-disabled-select');
                 selects.eq(1).addClass('fake-disabled-select').val('0');

@@ -94,7 +94,6 @@ openEarableR.subscribeBatteryStateChanged(batteryStateChangedCallback('R'));
 
 
 $('#connectDeviceButtonL').click(async () => {
-    console.log("LEFT BUTTON CLICKED");
     handleConnectButtonClick(openEarableL, '#connectDeviceButtonL');
 });
 

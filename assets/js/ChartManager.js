@@ -53,7 +53,6 @@ var charts = [];
 
 chartsProperties.forEach((chartProperties) => {
     var ctx = document.getElementById(chartProperties.id);
-    console.log(chartProperties.id);
     var datasets = [];
 
     // If it's accel, gyro, or mag, we add 3 datasets. Otherwise, just 1 dataset.
