@@ -15,8 +15,7 @@ $(document).ready(function () {
             $(this).css("font-weight", "bold");
         });
     });
-
-
+    
     $('.sampling-rate-input').on('change', function() {
 
         var selects = $('.sampling-rate-input');
@@ -49,13 +48,28 @@ $(document).ready(function () {
                     selects.eq(0).removeClass('fake-disabled-select');
                 }
             }
-        } else if (changedIndex === 1 || changedIndex == 3) {
+        } else if (changedIndex === 1) {
             if (changedElem.val() !== '0') {
                 changedElem.removeClass('fake-disabled-select');
-                selects.eq(changedIndex - 1).addClass('fake-disabled-select').val('0');
+                selects.eq(0).addClass('fake-disabled-select').val('0');
+                if (selects.eq(3).val() === '0') {
+                    selects.eq(2).removeClass('fake-disabled-select');
+                }
             } else {
-                if (selects.eq(changedIndex + 1).val() === '0') {
-                    selects.eq(changedIndex - 1).removeClass('fake-disabled-select');
+                if (selects.eq(2).val() === '0') {
+                    selects.eq(0).removeClass('fake-disabled-select');
+                }
+            }
+        } else if (changedIndex == 3) {
+            if (changedElem.val() !== '0') {
+                changedElem.removeClass('fake-disabled-select');
+                selects.eq(2).addClass('fake-disabled-select').val('0');
+                if (selects.eq(1).val() === '0') {
+                    selects.eq(0).removeClass('fake-disabled-select');
+                }
+            } else {
+                if (selects.eq(0).val() === '0') {
+                    selects.eq(2).removeClass('fake-disabled-select');
                 }
             }
         }
@@ -74,6 +88,7 @@ $(document).ready(function () {
             }
             
         })
+        
     });    
 
     $('#setSensorConfigurationButton').on('click', async function() {
