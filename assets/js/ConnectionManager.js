@@ -1,60 +1,66 @@
 var openEarableL = new OpenEarable();
 var openEarableR = new OpenEarable();
-
-
-function subscribeOnConnectedCallback(side) {
+const EarableSide = {
+    LEFT: 'L',
+    RIGHT: 'R'
+};
+var selectedEarable = EarableSide.LEFT;
+function subscribeOnConnectedCallback(openEarable, side) {
     return async () => {
         // Get device identifier and generation after connected
-        const firmwareVersion = await this.readFirmwareVersion();
-        const hardwareVersion = await this.readHardwareVersion();
+        const firmwareVersion = await openEarable.readFirmwareVersion();
+        const hardwareVersion = await openEarable.readHardwareVersion();
 
         openEarable.buttonManager.subscribeOnButtonStateChanged((state) => {
             fadeBackground(state);
         });
 
         $('#disconnectDeviceButton' + side).prop('disabled', false);
-
+        $('#btn' + side).css('opacity', '1.0');
         // Update the DOM with the obtained values
         $('#fwVersion' + side).text(firmwareVersion);
         $('#deviceVersion' + side).text(hardwareVersion);
 
-        $('#connectedDevice' + side).text(this.bleManager.device.name + "");
+        $('#connectedDevice' + side).text(openEarable.bleManager.device.name + "");
 
-        log("OpenEarable '" + this.bleManager.device.name + "' connected.", type = "SUCCESS");
+        log("OpenEarable '" + openEarable.bleManager.device.name + "' connected.", type = "SUCCESS");
     };
 }
 
-openEarableL.bleManager.subscribeOnConnected(subscribeOnConnectedCallback('L'));
-openEarableR.bleManager.subscribeOnConnected(subscribeOnConnectedCallback('R'));
+openEarableL.bleManager.subscribeOnConnected(subscribeOnConnectedCallback(openEarableL, EarableSide.LEFT));
+openEarableR.bleManager.subscribeOnConnected(subscribeOnConnectedCallback(openEarableR, EarableSide.RIGHT));
 
 function subscribeOnDisconnectedCallback(side) {
-    $('#disconnectDeviceButton' + side).hide()
-    $('#connectDeviceButton' + side).show()
-    $("#connectDeviceButton" + side).prop('disabled', false);
-    $('#batteryLevel' + side).text("XX")
-    $('#batteryChargingIndicator' + side).hide();
-    $('#batteryChargedIndicator' + side).hide();
+    return () => {
+        $('#btn' + side).css('opacity', '0.2');
+        $('#disconnectDeviceButton' + side).hide()
+        $('#connectDeviceButton' + side).show()
+        $("#connectDeviceButton" + side).prop('disabled', false);
+        $('#batteryLevel' + side).text("XX")
+        $('#batteryChargingIndicator' + side).hide();
+        $('#batteryChargedIndicator' + side).hide();
 
-    log("OpenEarable (" + side + ") disconnected.", type = "WARNING")
+        log("OpenEarable (" + side + ") disconnected.", type = "WARNING")
 
-    // Reset the values to default when disconnected
-    $('#connectedDevice' + side).text("OpenEarable-XXXX");
-    $('#fwVersion' + side).text("X.X.X");
-    $('#deviceVersion' + side).text("X.X.X");
+        // Reset the values to default when disconnected
+        $('#connectedDevice' + side).text("OpenEarable-XXXX");
+        $('#fwVersion' + side).text("X.X.X");
+        $('#deviceVersion' + side).text("X.X.X");
 
-    // Not very elegant but bleManager has no connected property. Might add later
-    try {
-        openEarableL.ensureConnected();
-    } catch (error) {
+        // Not very elegant but bleManager has no connected property. Might add later
         try {
-            openEarableR.ensureConnected();
-        } catch {
-            $(".is-connect-enabled").prop('disabled', true);
+            openEarableL.ensureConnected();
+        } catch (error) {
+            try {
+                openEarableR.ensureConnected();
+            } catch {
+                $(".is-connect-enabled").prop('disabled', true);
+            }
         }
     }
 }
-openEarableL.bleManager.subscribeOnDisconnected(subscribeOnDisconnectedCallback("L"));
-openEarableR.bleManager.subscribeOnDisconnected(subscribeOnDisconnectedCallback("R"));
+openEarableL.bleManager.subscribeOnDisconnected(subscribeOnDisconnectedCallback(EarableSide.LEFT));
+openEarableR.bleManager.subscribeOnDisconnected(subscribeOnDisconnectedCallback(EarableSide.RIGHT));
 
 
 function batteryLevelChangedCallback(side) {
@@ -68,8 +74,8 @@ function batteryLevelChangedCallback(side) {
     };
 }
 
-openEarableL.subscribeBatteryLevelChanged(batteryLevelChangedCallback('L'));
-openEarableR.subscribeBatteryLevelChanged(batteryLevelChangedCallback('R'));
+openEarableL.subscribeBatteryLevelChanged(batteryLevelChangedCallback(EarableSide.LEFT));
+openEarableR.subscribeBatteryLevelChanged(batteryLevelChangedCallback(EarableSide.RIGHT));
 
 function batteryStateChangedCallback(side) {
     return (batteryState) => {
@@ -86,8 +92,8 @@ function batteryStateChangedCallback(side) {
     };
 }
 
-openEarableL.subscribeBatteryStateChanged(batteryStateChangedCallback('L'));
-openEarableR.subscribeBatteryStateChanged(batteryStateChangedCallback('R'));
+openEarableL.subscribeBatteryStateChanged(batteryStateChangedCallback(EarableSide.LEFT));
+openEarableR.subscribeBatteryStateChanged(batteryStateChangedCallback(EarableSide.RIGHT));
 
 
 
@@ -113,16 +119,16 @@ async function handleConnectButtonClick(openEarable, buttonSelector) {
 
 
 $('#disconnectDeviceButtonL').click(() => {
-    handleDisconnectButtonClick(openEarableL, '#disconnectDeviceButtonL');
+    handleDisconnectButtonClick(openEarableL, EarableSide.LEFT);
 });
 
 $('#disconnectDeviceButtonR').click(() => {
-    handleDisconnectButtonClick(openEarableR, '#disconnectDeviceButtonR');
+    handleDisconnectButtonClick(openEarableR, EarableSide.RIGHT);
 });
 
-function handleDisconnectButtonClick(openEarable, buttonSelector) {
-    $(buttonSelector).prop('disabled', true);
-    log("Disconnecting OpenEarable.", type = "MESSAGE");
+function handleDisconnectButtonClick(openEarable, side) {
+    $('#disconnectDeviceButton' + side).prop('disabled', true);
+    log("Disconnecting OpenEarable (" + side + ").", type = "MESSAGE");
     openEarable.bleManager.disconnect();
 }
 

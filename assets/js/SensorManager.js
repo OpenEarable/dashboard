@@ -1,19 +1,33 @@
-const earableButtonIds = ["btnL", "btnR"];
-$(document).ready(function () {
-    $("#btnL").css("border", "3px solid #77F2A1");
-    $("#btlL").css("font-weight", "bold");
 
-    earableButtonIds.forEach(function (btnId) {
-        $("#" + btnId).click(function (e) {
-            e.stopPropagation();
-            earableButtonIds.forEach(function (id) {
-                $("#" + id).css("border", "3px solid transparent");
-                $("#" + id).css("font-weight", "normal");
+$(document).ready(function () {
+    const updateButtonStyles = function() {
+        ["btnL", "btnR"].forEach(function (id) {
+            $("#" + id).css({
+                "border": "3px solid transparent",
+                "font-weight": "normal"
             });
-            // Add green border to clicked button
-            $(this).css("border", "3px solid #77F2A1");
-            $(this).css("font-weight", "bold");
         });
+
+        $("#btn" + selectedEarable).css({
+            "border": "3px solid #77F2A1",
+            "font-weight": "bold"
+        });
+    };
+
+    updateButtonStyles();
+
+    $("#btnL").click(function (e) {
+        e.stopPropagation();
+        selectedEarable = EarableSide.LEFT;
+        updateButtonStyles();
+        onClearGraphs();
+    });
+
+    $("#btnR").click(function (e) {
+        e.stopPropagation();
+        selectedEarable = EarableSide.RIGHT;
+        updateButtonStyles();
+        onClearGraphs();
     });
     
     $('.sampling-rate-input').on('change', function() {
@@ -95,31 +109,37 @@ $(document).ready(function () {
         if ($('#areSensorsEnabled').is(':checked')) {
             var sensorSamplingRate = $('#sensorSamplingRate').val();
             log("Setting sampling rate for IMU: " + sensorSamplingRate + " Hz")
-            await openEarable.sensorManager.writeSensorConfig(0, sensorSamplingRate, 0);
+            await openEarableL.sensorManager.writeSensorConfig(0, sensorSamplingRate, 0);
+            await openEarableR.sensorManager.writeSensorConfig(0, sensorSamplingRate, 0);
         } else {
             // If the checkbox is not checked, set the sampling rate to 0
             log("Setting IMU disabled.")
-            await openEarable.sensorManager.writeSensorConfig(0, 0, 0);
+            await openEarableL.sensorManager.writeSensorConfig(0, 0, 0);
+            await openEarableR.sensorManager.writeSensorConfig(0, 0, 0);
         }
 
         if ($('#isPressureSensorEnabled').is(':checked')) {
             var pressureSensorSamplingRate = $('#pressureSensorSamplingRate').val();
             log("Setting sampling rate for pressure sensor: " + pressureSensorSamplingRate + " Hz")
-            await openEarable.sensorManager.writeSensorConfig(1, pressureSensorSamplingRate, 0);
+            await openEarableL.sensorManager.writeSensorConfig(1, pressureSensorSamplingRate, 0);
+            await openEarableR.sensorManager.writeSensorConfig(1, pressureSensorSamplingRate, 0);
         } else {
             log("Setting pressure sensor disabled.")
-            await openEarable.sensorManager.writeSensorConfig(1, 0, 0);
+            await openEarableL.sensorManager.writeSensorConfig(1, 0, 0);
+            await openEarableR.sensorManager.writeSensorConfig(1, 0, 0);
         }
 
         // Check if the checkbox for the left microphone is checked
         if ($('#isMicEnabled').is(':checked')) {
             var microphoneSamplingRate = $('#microphone1SamplingRate').val();
             log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz")
-            await openEarable.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
+            await openEarableL.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
+            await openEarableR.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
         } else {
             // If the checkbox is not checked, set the sampling rate to 0
             log("Setting microphone disabled.")
-            await openEarable.sensorManager.writeSensorConfig(2, 0, 0);
+            await openEarableL.sensorManager.writeSensorConfig(2, 0, 0);
+            await openEarableR.sensorManager.writeSensorConfig(2, 0, 0);
         }
 
         // Check if the checkbox for the microphone is checked
@@ -138,9 +158,12 @@ $(document).ready(function () {
 
     $('.btn-disable-sensors').on('click', async function() {
         // Set the sampling rate to 0 for all sensors
-        await openEarable.sensorManager.writeSensorConfig(0, 0, 0);
-        await openEarable.sensorManager.writeSensorConfig(1, 0, 0);
-        await openEarable.sensorManager.writeSensorConfig(2, 0, 0);
+        await openEarableL.sensorManager.writeSensorConfig(0, 0, 0);
+        await openEarableL.sensorManager.writeSensorConfig(1, 0, 0);
+        await openEarableL.sensorManager.writeSensorConfig(2, 0, 0);
+        await openEarableR.sensorManager.writeSensorConfig(0, 0, 0);
+        await openEarableR.sensorManager.writeSensorConfig(1, 0, 0);
+        await openEarableR.sensorManager.writeSensorConfig(2, 0, 0);
         //await openEarable.sensorManager.writeSensorConfig(?, 0, 0); PPG Sensor
 
         // Uncheck the checkboxes

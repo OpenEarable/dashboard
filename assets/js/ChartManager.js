@@ -183,35 +183,41 @@ function updateOrientation(acc, gyro, mag) {
     modelViewerElement.setAttribute('orientation', `${rpy.pitch}deg ${-rpy.roll}deg ${0}deg`);
 }
 
-openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
-    switch (sensorData.sensorId) {
-        case 0: // Assuming sensorId 0 is the accelerometer, gyroscope, and magnetometer combined data
-            var acc_x = sensorData.ACC.X;
-            var acc_y = sensorData.ACC.Y;
-            var acc_z = sensorData.ACC.Z;
-            var gyr_x = -sensorData.GYRO.X;
-            var gyr_y = sensorData.GYRO.Z;
-            var gyr_z = sensorData.GYRO.Y;
-            var mag_x = -sensorData.MAG.X;
-            var mag_y = sensorData.MAG.Z;
-            var mag_z = sensorData.MAG.Y;
-            var acc = [acc_x, acc_y, acc_z];
-            var gyro = [gyr_x, gyr_y, gyr_z];
-            var mag = [mag_x, mag_y, mag_z];
-            updateChart('accelerometerChart', acc);
-            updateChart('gyroscopeChart', gyro);
-            updateChart('magnetometerChart', mag);
-
-            updateOrientation(
-                acc, gyro, mag
-            );
-            break;
-        case 1:
-            updateChart('pressureSensorChart', [sensorData.BARO.Pressure]);
-            updateChart('temperatureSensorChart', [sensorData.TEMP.Temperature])
-
+function onSensorDataReceivedCallback(side) {
+    return (sensorData) => {
+        if (selectedEarable == side) {
+            switch (sensorData.sensorId) {
+                case 0: // Assuming sensorId 0 is the accelerometer, gyroscope, and magnetometer combined data
+                    var acc_x = sensorData.ACC.X;
+                    var acc_y = sensorData.ACC.Y;
+                    var acc_z = sensorData.ACC.Z;
+                    var gyr_x = -sensorData.GYRO.X;
+                    var gyr_y = sensorData.GYRO.Z;
+                    var gyr_z = sensorData.GYRO.Y;
+                    var mag_x = -sensorData.MAG.X;
+                    var mag_y = sensorData.MAG.Z;
+                    var mag_z = sensorData.MAG.Y;
+                    var acc = [acc_x, acc_y, acc_z];
+                    var gyro = [gyr_x, gyr_y, gyr_z];
+                    var mag = [mag_x, mag_y, mag_z];
+                    updateChart('accelerometerChart', acc);
+                    updateChart('gyroscopeChart', gyro);
+                    updateChart('magnetometerChart', mag);
+        
+                    updateOrientation(
+                        acc, gyro, mag
+                    );
+                    break;
+                case 1:
+                    updateChart('pressureSensorChart', [sensorData.BARO.Pressure]);
+                    updateChart('temperatureSensorChart', [sensorData.TEMP.Temperature])
+        
+            }
+        }
     }
-});
+}
+openEarableL.sensorManager.subscribeOnSensorDataReceived(onSensorDataReceivedCallback(EarableSide.LEFT));
+openEarableR.sensorManager.subscribeOnSensorDataReceived(onSensorDataReceivedCallback(EarableSide.RIGHT));
 
 function updateChart(chartId, values) {
     const chart = charts.find(chart => chart.id === chartId);
