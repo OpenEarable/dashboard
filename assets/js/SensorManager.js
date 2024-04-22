@@ -142,17 +142,25 @@ $(document).ready(function () {
             await openEarableR.sensorManager.writeSensorConfig(2, 0, 0);
         }
 
-        // Check if the checkbox for the microphone is checked
+        // Check if the checkbox for the PPG is checked
         if ($('#isPPGEnabled').is(':checked')) {
             var ppgSamplingRate = $('#ppgSamplingRate').val();
             log("Setting sampling rate for PPG sensor: " + ppgSamplingRate + " Hz")
-            // TODO
-            // await openEarable.sensorManager.writeSensorConfig(?, ppgSamplingRate, 0);
+            await openEarable.sensorManager.writeSensorConfig(3, ppgSamplingRate, 0);
         } else {
             // If the checkbox is not checked, set the sampling rate to 0
             log("Setting PPG sensor disabled.")
-            // TODO
-            // await openEarable.sensorManager.writeSensorConfig(?, 0, 0);
+            await openEarable.sensorManager.writeSensorConfig(3, 0, 0);
+        }
+         // Check if the checkbox for the microphone is checked
+         if ($('#isVitalEnabled').is(':checked')) {
+            var vitalsSamplingRate = $('#vitalsSamplingRate').val();
+            log("Setting sampling rate for vitals (heart): " + ppgSamplingRate + " Hz")
+            await openEarable.sensorManager.writeSensorConfig(4, vitalsSamplingRate, 0);
+        } else {
+            // If the checkbox is not checked, set the sampling rate to 0
+            log("Setting PPG sensor disabled.")
+            await openEarable.sensorManager.writeSensorConfig(4, 0, 0);
         }
     });
 

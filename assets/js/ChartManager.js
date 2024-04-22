@@ -43,8 +43,8 @@ var chartsProperties = [
     },
     {
         id: 'ppgChart',
-        labels: ['PPG (green)', 'PPG (infrared)'],
-        colors: ['#32CD32', '#B22222'],            // Lime Green, Firebrick
+        labels: ['PPG (red)', 'PPG (infrared)'],
+        colors: ['#FF0000', '#800000'],            // Red, Deep Maroon
         unit: 'amplitude',
     }
 ];
@@ -211,7 +211,13 @@ function onSensorDataReceivedCallback(side) {
                 case 1:
                     updateChart('pressureSensorChart', [sensorData.BARO.Pressure]);
                     updateChart('temperatureSensorChart', [sensorData.TEMP.Temperature])
-        
+                case 3:
+                    updateChart('ppgChart', [sensorData.PPG.Red, sensorData.PPG.Infrared])
+                case 4: 
+                    updateChart('heartRateChart', [sensorData.PULSOX.HeartRate])
+                    updateChart('SpO2Chart', [sensorData.PULSOX.SpO2])
+                case 5:
+                    // TODO: Add optical temperature data to some chart. Difficult because sampling rate can be different to BARO
             }
         }
     }
