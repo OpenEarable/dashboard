@@ -129,7 +129,18 @@ $(document).ready(function () {
             await openEarableR.sensorManager.writeSensorConfig(1, 0, 0);
         }
 
-        // Check if the checkbox for the left microphone is checked
+        if ($('#isOpticalTemperatureSensorEnabled').is(':checked')) {
+            var opticalTemperatureSensorSamplingRate = $('#opticalTemperatureSensorSamplingRate').val();
+            log("Setting sampling rate for optical temperature sensor: " + opticalTemperatureSensorSamplingRate + " Hz")
+            await openEarableL.sensorManager.writeSensorConfig(5, opticalTemperatureSensorSamplingRate, 0);
+            await openEarableR.sensorManager.writeSensorConfig(5, opticalTemperatureSensorSamplingRate, 0);
+        } else {
+            log("Setting pressure sensor disabled.")
+            await openEarableL.sensorManager.writeSensorConfig(5, 0, 0);
+            await openEarableR.sensorManager.writeSensorConfig(5, 0, 0);
+        }
+
+        // Check if the checkbox for the microphone is checked
         if ($('#isMicEnabled').is(':checked')) {
             var microphoneSamplingRate = $('#microphone1SamplingRate').val();
             log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz")
