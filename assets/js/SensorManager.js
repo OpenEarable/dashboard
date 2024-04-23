@@ -132,59 +132,69 @@ $(document).ready(function () {
         if ($('#isOpticalTemperatureSensorEnabled').is(':checked')) {
             var opticalTemperatureSensorSamplingRate = $('#opticalTemperatureSensorSamplingRate').val();
             log("Setting sampling rate for optical temperature sensor: " + opticalTemperatureSensorSamplingRate + " Hz")
-            await openEarableL.sensorManager.writeSensorConfig(5, opticalTemperatureSensorSamplingRate, 0);
-            await openEarableR.sensorManager.writeSensorConfig(5, opticalTemperatureSensorSamplingRate, 0);
+            await openEarableL.sensorManager.writeSensorConfig(6, opticalTemperatureSensorSamplingRate, 0);
+            await openEarableR.sensorManager.writeSensorConfig(6, opticalTemperatureSensorSamplingRate, 0);
         } else {
-            log("Setting pressure sensor disabled.")
-            await openEarableL.sensorManager.writeSensorConfig(5, 0, 0);
-            await openEarableR.sensorManager.writeSensorConfig(5, 0, 0);
+            log("Setting optical temperature sensor disabled.")
+            await openEarableL.sensorManager.writeSensorConfig(6, 0, 0);
+            await openEarableR.sensorManager.writeSensorConfig(6, 0, 0);
         }
 
-        // Check if the checkbox for the microphone is checked
-        if ($('#isMicEnabled').is(':checked')) {
-            var microphoneSamplingRate = $('#microphone1SamplingRate').val();
-            log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz")
-            await openEarableL.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
-            await openEarableR.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
+        // Check if the checkbox for the microphone 1 is checked
+        if ($('#isMic1Enabled').is(':checked')) {
+            var microphone1SamplingRate = $('#microphone1SamplingRate').val();
+            log("Setting sampling rate for microphone 1: " + microphone1SamplingRate + " Hz")
+            await openEarableL.sensorManager.writeSensorConfig(2, microphone1SamplingRate, 0);
+            await openEarableR.sensorManager.writeSensorConfig(2, microphone1SamplingRate, 0);
         } else {
             // If the checkbox is not checked, set the sampling rate to 0
-            log("Setting microphone disabled.")
+            log("Setting microphone 1 disabled.")
             await openEarableL.sensorManager.writeSensorConfig(2, 0, 0);
             await openEarableR.sensorManager.writeSensorConfig(2, 0, 0);
+        }
+
+        // Check if the checkbox for the microphone 2 is checked
+        if ($('#isMic2Enabled').is(':checked')) {
+            var microphone2SamplingRate = $('#microphone2SamplingRate').val();
+            log("Setting sampling rate for microphone 2: " + microphone2SamplingRate + " Hz")
+            await openEarableL.sensorManager.writeSensorConfig(3, microphone2SamplingRate, 0);
+            await openEarableR.sensorManager.writeSensorConfig(3, microphone2SamplingRate, 0);
+        } else {
+            // If the checkbox is not checked, set the sampling rate to 0
+            log("Setting microphone 2 disabled.")
+            await openEarableL.sensorManager.writeSensorConfig(3, 0, 0);
+            await openEarableR.sensorManager.writeSensorConfig(3, 0, 0);
         }
 
         // Check if the checkbox for the PPG is checked
         if ($('#isPPGEnabled').is(':checked')) {
             var ppgSamplingRate = $('#ppgSamplingRate').val();
             log("Setting sampling rate for PPG sensor: " + ppgSamplingRate + " Hz")
-            await openEarable.sensorManager.writeSensorConfig(3, ppgSamplingRate, 0);
-        } else {
-            // If the checkbox is not checked, set the sampling rate to 0
-            log("Setting PPG sensor disabled.")
-            await openEarable.sensorManager.writeSensorConfig(3, 0, 0);
-        }
-         // Check if the checkbox for the microphone is checked
-         if ($('#isVitalEnabled').is(':checked')) {
-            var vitalsSamplingRate = $('#vitalsSamplingRate').val();
-            log("Setting sampling rate for vitals (heart): " + ppgSamplingRate + " Hz")
-            await openEarable.sensorManager.writeSensorConfig(4, vitalsSamplingRate, 0);
+            await openEarable.sensorManager.writeSensorConfig(4, ppgSamplingRate, 0);
         } else {
             // If the checkbox is not checked, set the sampling rate to 0
             log("Setting PPG sensor disabled.")
             await openEarable.sensorManager.writeSensorConfig(4, 0, 0);
         }
+         // Check if the checkbox for the microphone is checked
+         if ($('#isVitalEnabled').is(':checked')) {
+            var vitalsSamplingRate = $('#vitalsSamplingRate').val();
+            log("Setting sampling rate for vitals (heart rate & SpO2): " + ppgSamplingRate + " Hz")
+            await openEarable.sensorManager.writeSensorConfig(5, vitalsSamplingRate, 0);
+        } else {
+            // If the checkbox is not checked, set the sampling rate to 0
+            log("Setting vitals (heart rate & SpO2) disabled.")
+            await openEarable.sensorManager.writeSensorConfig(5, 0, 0);
+        }
     });
 
     $('.btn-disable-sensors').on('click', async function() {
         // Set the sampling rate to 0 for all sensors
-        await openEarableL.sensorManager.writeSensorConfig(0, 0, 0);
-        await openEarableL.sensorManager.writeSensorConfig(1, 0, 0);
-        await openEarableL.sensorManager.writeSensorConfig(2, 0, 0);
-        await openEarableR.sensorManager.writeSensorConfig(0, 0, 0);
-        await openEarableR.sensorManager.writeSensorConfig(1, 0, 0);
-        await openEarableR.sensorManager.writeSensorConfig(2, 0, 0);
-        //await openEarable.sensorManager.writeSensorConfig(?, 0, 0); PPG Sensor
-
+        for (i = 0; i < 7; i++) {
+            await openEarableL.sensorManager.writeSensorConfig(i, 0, 0);
+            await openEarableR.sensorManager.writeSensorConfig(i, 0, 0);
+        }
+        
         // Uncheck the checkboxes
         $('#areSensorsEnabled, #isMicEnabled, #isPressureSensorEnabled, #isPPGEnabled').prop('checked', false);
 
