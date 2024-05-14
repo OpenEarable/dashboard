@@ -24,8 +24,14 @@ var chartsProperties = [
         unit: 'Pa',
     },
     {
-        id: 'temperatureSensorChart',
-        labels: ['temperature'],
+        id: 'ambientTemperatureSensorChart',
+        labels: ['ambient temperature'],
+        colors: ['#FFA07A'],                       // Light Salmon
+        unit: '°C',
+    },
+    {
+        id: 'surfaceTemperatureSensorChart',
+        labels: ['surface temperature'],
         colors: ['#FFA07A'],                       // Light Salmon
         unit: '°C',
     },
@@ -210,14 +216,14 @@ function onSensorDataReceivedCallback(side) {
                     break;
                 case 1:
                     updateChart('pressureSensorChart', [sensorData.BARO.Pressure]);
-                    updateChart('temperatureSensorChart', [sensorData.TEMP.Temperature])
-                case 3:
+                    updateChart('ambientTemperatureSensorChart', [sensorData.TEMP.Temperature])
+                case 4:
                     updateChart('ppgChart', [sensorData.PPG.Red, sensorData.PPG.Infrared])
-                case 4: 
+                case 5: 
                     updateChart('heartRateChart', [sensorData.PULSOX.HeartRate])
                     updateChart('SpO2Chart', [sensorData.PULSOX.SpO2])
-                case 5:
-                    // TODO: Add optical temperature data to some chart. Difficult because sampling rate can be different to BARO
+                case 6:
+                    updateChart('surfaceTemperatureSensorChart', [sensorData.OPTTEMP.Temperature]);
             }
         }
     }
