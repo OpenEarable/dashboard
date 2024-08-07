@@ -37,6 +37,8 @@ $(document).ready(function () {
             var microphoneSamplingRate = $('#microphoneSamplingRate').val();
             log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz");
             if (openEarable.firmwareVersion === "1.4.0") {
+                // set gain negative to disable mic
+                // both mics must have the same gain if activated
                 var gainInner = -1;
                 var gainOuter = -1;
                 if ($('#innerMicrophoneEnabled').is(':checked')) {
@@ -72,9 +74,10 @@ $(document).ready(function () {
         await openEarable.sensorManager.writeSensorConfig(2, 0, 0);
 
         // Uncheck the checkboxes
-        $('#areSensorsEnabled, #isMicEnabled, #isPressureSensorEnabled').prop('checked', false);
+        $('#areSensorsEnabled, #isMicEnabled, #isPressureSensorEnabled, #innerMicrophoneEnabled, #outerMicrophoneEnabled').prop('checked', false);
 
         // Reset the dropdowns to 0
         $('#sensorSamplingRate, #microphoneSamplingRate, #pressureSensorSamplingRate').val('0');
+        $('#microphoneGain').val('40');
     });
 });

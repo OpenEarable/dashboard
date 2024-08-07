@@ -453,7 +453,9 @@ class SensorManager {
         const view = new DataView(data);
         view.setUint8(0, sensorId);
         view.setFloat32(1, samplingRate, true); 
-        view.setUint32(5, latency, true);    
+        view.setUint32(5, latency, true); 
+        console.log("Writing Sensor Config")
+        console.log(data)   
         await this.bleManager.writeCharacteristic(
             SERVICES.SENSOR_SERVICE.UUID,
             SERVICES.SENSOR_SERVICE.CHARACTERISTICS.SENSOR_CONFIGURATION_CHARACTERISTIC.UUID,
