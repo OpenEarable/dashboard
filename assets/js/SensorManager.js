@@ -80,4 +80,35 @@ $(document).ready(function () {
         $('#microphoneGainInner').val('40');
         $('#microphoneGainOuter').val('40');
     });
+
+    $('#isMicEnabled').on('change', function () {
+        if (!$(this).is(':checked')) {
+            $('#innerMicrophoneEnabled').prop('checked', false);
+            $('#outerMicrophoneEnabled').prop('checked', false);
+        }
+    });
+    
+    $('#innerMicrophoneEnabled').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('#isMicEnabled').prop('checked', true);
+        } else if (!$('#outerMicrophoneEnabled').is(':checked')) {
+            $('#isMicEnabled').prop('checked', false);
+        }
+    });
+    
+    $('#outerMicrophoneEnabled').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('#isMicEnabled').prop('checked', true);
+        } else if (!$('#innerMicrophoneEnabled').is(':checked')) {
+            $('#isMicEnabled').prop('checked', false);
+        }
+    });    
+
+    $('#microphoneSamplingRate').on('change', function () {
+        if ($(this).val() == 0) {
+            $('#isMicEnabled').prop('checked', false);
+            $('#innerMicrophoneEnabled').prop('checked', false);
+            $('#outerMicrophoneEnabled').prop('checked', false);
+        }
+    });
 });
