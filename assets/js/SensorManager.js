@@ -1,17 +1,17 @@
 $(document).ready(function () {
-    $('.sampling-rate-input').on('change', function() {
+    $('.sampling-rate-input').on('change', function () {
         // Get the checkbox for the corresponding row
         var checkbox = $(this).parent().prev().prev().find('input[type="checkbox"]');
-        
+
         // Check if selected value is not 0
         if ($(this).val() != '0') {
             checkbox.prop('checked', true);
         } else {
             checkbox.prop('checked', false);
         }
-    });    
+    });
 
-    $('#setSensorConfigurationButton').on('click', async function() {
+    $('#setSensorConfigurationButton').on('click', async function () {
         // Check if the checkbox for the first set of sensors is checked
         if ($('#areSensorsEnabled').is(':checked')) {
             var sensorSamplingRate = $('#sensorSamplingRate').val();
@@ -35,8 +35,29 @@ $(document).ready(function () {
         // Check if the checkbox for the microphone is checked
         if ($('#isMicEnabled').is(':checked')) {
             var microphoneSamplingRate = $('#microphoneSamplingRate').val();
-            log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz")
-            await openEarable.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
+            log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz");
+            if (openEarable.firmwareVersion === "1.4.0") {
+                var gainInner = -1;
+                var gainOuter = -1;
+                if ($('#innerMicrophoneEnabled').is(':checked')) {
+                    gainInner = $('#microphoneGain').val()
+                }
+                if ($('#outerMicrophoneEnabled').is(':checked')) {
+                    gainOuter = $('#microphoneGain').val()
+                }
+
+                // Ensure gain values are in the range of int8 (-128 to 127)
+                gainInner = (gainInner & 0xFF);
+                gainOuter = (gainOuter & 0xFF);
+
+                // Combine gainInner and gainOuter into a uint32
+                var gainSetting = (gainInner & 0xFF) | ((gainOuter & 0xFF) << 8);
+
+                await openEarable.sensorManager.writeSensorConfig(2, microphoneSamplingRate, gainSetting);
+            } else if (openEarable.firmwareVersion === "1.3.0") {
+                await openEarable.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
+            }
+
         } else {
             // If the checkbox is not checked, set the sampling rate to 0
             log("Setting microphone disabled.")
@@ -44,7 +65,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.btn-disable-sensors').on('click', async function() {
+    $('.btn-disable-sensors').on('click', async function () {
         // Set the sampling rate to 0 for all sensors
         await openEarable.sensorManager.writeSensorConfig(0, 0, 0);
         await openEarable.sensorManager.writeSensorConfig(1, 0, 0);

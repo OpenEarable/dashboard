@@ -227,7 +227,7 @@
                         <div class="d-flex flex-row w-100 justify-content-between">
                             <h5 class="card-title">Sensor Control</h5>
                             <div class="tooltip-indicator" data-toggle="tooltip"
-                                title="Enable and disable the sensors of OpenEarable. Note that sampling all sensors at the maximum sampling rate can lead to lag and/or audio play issues.">
+                                title="Enable and disable the sensors of OpenEarable. Note that sampling all sensors at the maximum sampling rate can lead to lag and/or audio play issues. Inner / outer microphone and gain control only available with hardware and firmware verison >= 1.4.">
                                 <div>?</div>
                             </div>
                         </div>
@@ -286,19 +286,44 @@
                                 </div>
                                 <div class="ms-2"
                                     style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    Microphone (written to SD card)
+                                    Microphone (recorded to microSD card)
                                 </div>
-                                <div>
-                                    <select disabled
-                                        class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
-                                        name="microphoneSamplingRate" id="microphoneSamplingRate">
-                                        <option value="0">0</option>
-                                        <option value="16000">16,000</option>
-                                        <option value="41667">41,667</option>
-                                        <option value="62500">62,500</option>
-                                    </select>
+                                <div class="d-flex flex-row">
+                                    <div>
+                                        <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select"
+                                            name="microphoneSamplingRate" id="microphoneSamplingRate">
+                                            <option value="0">0</option>
+                                            <option value="16000">16,000</option>
+                                            <option value="41667">41,667</option>
+                                            <option value="62500">62,500</option>
+                                        </select>
+                                        
+                                    </div>
+                                    
                                 </div>
                                 <div class="ms-1">Hz</div>
+                                    
+                                    
+
+                                <!-- Fourth Row -->
+                                <div class="1-4-0-controls"></div>
+                                <div class="d-flex flex-row 1-4-0-controls justify-content-between">
+                                  
+                                    <div class="d-flex flex-row 1-4-0-controls">
+                                        <div class="1-4-0-controls">⌞</div>
+                                        <div class="ms-3 1-4-0-controls"><input id="innerMicrophoneEnabled" type="checkbox" disabled class="is-connect-enabled 1-4-0-controls"></input> Inner</div>
+                                        <div class="ms-3 1-4-0-controls"><input id="outerMicrophoneEnabled" type="checkbox" disabled class="is-connect-enabled 1-4-0-controls"></input> Outer</div>
+                                    </div>
+                                    
+                                    <div class="1-4-0-controls">Gain</div>
+                                </div>
+                                <select disabled
+                                            class="w-100 is-connect-enabled ms-1 sampling-rate-input form-select 1-4-0-controls "
+                                            name="microphoneGain" id="microphoneGain">
+                                </select>
+                                <div class="ms-1 1-4-0-controls ">dB</div>
+                                
                             </div>
                             <!-- Grid Layout Ends Here -->
 
@@ -647,6 +672,12 @@
     <script src="./assets/js/SensorManager.js"></script>
     <script>
         /* initialization tasks */
+
+        // Function to map dB values to linear values
+        function mapLinear(db, minDb, maxDb, minLinear, maxLinear) {
+            return (db - minDb) * (maxLinear - minLinear) / (maxDb - minDb) + minLinear;
+        }
+
         $(document).ready(function () {
             $('#batteryChargingIndicator').hide();
             $('#batteryChargedIndicator').hide();
@@ -665,6 +696,23 @@
             } else {
                 log('Your browser does not support WebBLE. Enable it or download a browser that supports WebBLE (e.g., Chrome version ≥ 56)!', "ERROR");
             }
+
+            const select = document.getElementById('microphoneGain');
+            const minDb = -20;
+            const maxDb = 20;
+            const step = 0.5;
+            const minLinear = 0;
+            const maxLinear = 80;
+
+            for (let db = minDb; db <= maxDb; db += step) {
+                const linearValue = mapLinear(db, minDb, maxDb, minLinear, maxLinear);
+                const option = document.createElement('option');
+                option.value = linearValue.toFixed(0);
+                option.textContent = `${db.toFixed(1)}`;
+                select.appendChild(option);
+            }
+            select.selectedIndex = 40;
+
         });
     </script>
 </body>

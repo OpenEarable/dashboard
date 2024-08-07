@@ -137,6 +137,8 @@ class OpenEarable {
         this.rgbLed = new RGBLed(this.bleManager);
         this.audioPlayer = new AudioPlayer(this.bleManager);
         this.buttonManager = new ButtonManager(this.bleManager)
+        this.firmwareVersion = undefined;
+        this.hardwareVersion = undefined;
 
         // Attach event listeners for BLEManager
         this.bleManager.subscribeOnConnected(this.onDeviceReady.bind(this));
@@ -159,15 +161,6 @@ class OpenEarable {
         const value = await this.bleManager.readCharacteristic(
             SERVICES.DEVICE_INFO_SERVICE.UUID,
             SERVICES.DEVICE_INFO_SERVICE.CHARACTERISTICS.FIRMWARE_REVISION_CHARACTERISTIC.UUID
-        );
-        return new TextDecoder().decode(value);
-    }
-
-    async readHardwareVersion() {
-        this.bleManager.ensureConnected();
-        const value = await this.bleManager.readCharacteristic(
-            SERVICES.DEVICE_INFO_SERVICE.UUID,
-            SERVICES.DEVICE_INFO_SERVICE.CHARACTERISTICS.HARDWARE_REVISION_CHARACTERISTIC.UUID
         );
         return new TextDecoder().decode(value);
     }
@@ -207,6 +200,9 @@ class OpenEarable {
     async onDeviceReady() {
         const batteryLevelValue = await this.bleManager.readCharacteristic(SERVICES.BATTERY_SERVICE.UUID, SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_LEVEL_CHARACTERISTIC.UUID);
         this.notifyBatteryLevelChanged(batteryLevelValue);
+
+        this.firmwareVersion = await this.readFirmwareVersion();
+        this.hardwareVersion = await this.readHardwareVersion();
 
         await this.bleManager.subscribeCharacteristicNotifications(
             SERVICES.BATTERY_SERVICE.UUID,
