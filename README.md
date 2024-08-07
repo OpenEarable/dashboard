@@ -10,7 +10,7 @@ This repository also includes the [OpenEarable.js](https://github.com/OpenEarabl
 ## Usage
 The dashboard runs directly in your browser. You can connect to OpenEarable without having to install anything as it works via WebBLE (latest Chrome version is recommended).
 
-<img src="Screenshot.png" style="width: 100%;">
+https://github.com/OpenEarable/dashboard/assets/11386075/e9e2a116-a4f6-42e4-9f19-0ce223112ff2
 
 
 If you want to run the dashboard yourself and have python3 installed, you can use the following command to run the website from the root of this repository. This will start the webserver at `http://localhost:8000`.
