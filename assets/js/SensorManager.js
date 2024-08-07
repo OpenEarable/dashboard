@@ -38,14 +38,13 @@ $(document).ready(function () {
             log("Setting sampling rate for microphone: " + microphoneSamplingRate + " Hz");
             if (openEarable.firmwareVersion === "1.4.0") {
                 // set gain negative to disable mic
-                // both mics must have the same gain if activated
                 var gainInner = -1;
                 var gainOuter = -1;
                 if ($('#innerMicrophoneEnabled').is(':checked')) {
-                    gainInner = $('#microphoneGain').val()
+                    gainInner = $('#microphoneGainInner').val()
                 }
                 if ($('#outerMicrophoneEnabled').is(':checked')) {
-                    gainOuter = $('#microphoneGain').val()
+                    gainOuter = $('#microphoneGainOuter').val()
                 }
 
                 // Ensure gain values are in the range of int8 (-128 to 127)
@@ -78,6 +77,7 @@ $(document).ready(function () {
 
         // Reset the dropdowns to 0
         $('#sensorSamplingRate, #microphoneSamplingRate, #pressureSensorSamplingRate').val('0');
-        $('#microphoneGain').val('40');
+        $('#microphoneGainInner').val('40');
+        $('#microphoneGainOuter').val('40');
     });
 });
