@@ -6,10 +6,10 @@ openEarable.bleManager.subscribeOnConnected(async () => {
     const firmwareVersion = await openEarable.readFirmwareVersion();
     const hardwareVersion = await openEarable.readHardwareVersion();
 
-    if (firmwareVersion === "1.4.0") {
+    if (firmwareVersion === "1.3.0") {
         $('.1-4-0-controls').hide();
         $('.1-3-0-controls').show();
-    } else if (firmwareVersion === "1.3.0") {
+    } else if (firmwareVersion === "1.4.0") {
         $('.1-4-0-controls').show();
         $('.1-3-0-controls').hide();
     }
