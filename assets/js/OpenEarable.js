@@ -281,7 +281,11 @@ class BLEManager {
                 optionalServices: optionalServiceUUIDs
             });
             this.gattServer = await this.device.gatt.connect();
-            this.device.addEventListener('gattserverdisconnected', this.handleDisconnected.bind(this));
+            if (!this.device.disconnectHandlerAdded) {
+                this.device.addEventListener('gattserverdisconnected', this.handleDisconnected.bind(this));
+                this.device.disconnectHandlerAdded = true;
+            }
+            
             this.notifyAll(this.onConnectedSubscribers);
         });
     }
