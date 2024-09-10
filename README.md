@@ -1,16 +1,16 @@
-# 🦻 OpenEarable - Dashboard v2.0.0
+# 🦻 OpenEarable - Dashboard v1.4.0
 [Open Dashboard ↗️](https://openearable.github.io/dashboard/)
 
 This repository offers comprehensive web interface for controlling and monitoring OpenEarable. A hosted version of this dashboard is available [here](https://openearable.github.io/dashboard/). The dashboard offers acces to different sensors, audio controls, button events and the RGB LED of OpenEarable. In addition, it shows real-time graphs of accelerometer, gyroscope, magnetomer, pressure, and temperature sensor data. Users can use the dashboard to label incoming data and download the labeled data as csv file ([edge-ml.org](https://edge-ml.org) compatible format for no-code machine learning).
 
 This repository also includes the [OpenEarable.js](https://github.com/OpenEarable/dashboard#openearablejs-library) JavaScript library in the `assets/js/OpenEarable.js` folder. This way, researchers and developers can easily integrate OpenEarable into their own workflows.
 
-<kbd> <br> [Get OpenEarable device now!](https://forms.gle/R3LMcqtyKwVH7PZB9) <br> </kbd>
+<kbd> <br> [Get OpenEarable device now!](https://open-earable.teco.edu/) <br> </kbd>
 
 ## Usage
 The dashboard runs directly in your browser. You can connect to OpenEarable without having to install anything as it works via WebBLE (latest Chrome version is recommended).
 
-<img src="Screenshot.png" style="width: 100%;">
+https://github.com/OpenEarable/dashboard/assets/11386075/e9e2a116-a4f6-42e4-9f19-0ce223112ff2
 
 
 If you want to run the dashboard yourself and have python3 installed, you can use the following command to run the website from the root of this repository. This will start the webserver at `http://localhost:8000`.
