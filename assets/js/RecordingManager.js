@@ -109,6 +109,7 @@ $(document).ready(function () {
     let dataCache = {};
 
     function startRecording() {
+        
         recordingStartTime = new Date().toISOString();
         recordingActive = true;
 

@@ -487,6 +487,7 @@ class SensorManager {
         parsedData.sensorId = sensorId;
         parsedData.timestamp = timestamp;
         parsedData.sensorName = foundScheme.sensorName;
+        parsedData.rawByteData = byteData;
     
         for (const component of foundScheme.components) {
             if (!parsedData[component.groupName]) {

@@ -15,6 +15,8 @@ var colors = {
     'temperatureSensorChart': ['#FFA07A']                      // Light Salmon
 };
 
+var wavFileData = undefined;
+
 
 var units = ['m/s\u00B2', '°/s', 'µT', 'Pa', '°C'];
 
@@ -154,6 +156,10 @@ function updateOrientation(acc, gyro, mag) {
 }
 
 openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
+    if (sensorId === SENSOR_ID.MICROPHONE) {
+        console.log(sensorId.rawByteData)
+    }
+
     switch (sensorData.sensorId) {
         case 0: // Assuming sensorId 0 is the accelerometer, gyroscope, and magnetometer combined data
             var acc_x = sensorData.ACC.X;
