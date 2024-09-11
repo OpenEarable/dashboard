@@ -215,7 +215,9 @@ function createWavHeader(dataLength, sampleRate, numChannels, bitsPerSample) {
 openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
         if (recordMic) {
-            rawData.push(sensorData.rawByteData); // Append data if recording
+            // Drop the first 8 bytes and append the rest
+            var dataWithoutHeader = sensorData.rawByteData.slice(8);
+            rawData.push(dataWithoutHeader);
         }
     }
 
