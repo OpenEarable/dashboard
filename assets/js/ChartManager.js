@@ -160,6 +160,9 @@ $("#testMicButton").click(() => {
     if (!recordMic) {
         createWavFileAndDownload(rawData); // When recording stops, create WAV file
         rawData = []; // Clear rawData after saving
+        $("#testMicButton").text("Mic. Test");
+    } else {
+        $("#testMicButton").text("Stop");
     }
 });
 
@@ -212,12 +215,25 @@ function createWavHeader(dataLength, sampleRate, numChannels, bitsPerSample) {
     return header;
 }
 
+function printDataViewAsUint16List(dataView) {
+    const length = dataView.byteLength;
+    const uint16Array = [];
+    
+    // Iterate through the DataView in steps of 2 bytes
+    for (let i = 0; i < length; i += 2) {
+        uint16Array.push(dataView.getUint16(i));
+    }
+    
+    console.log(uint16Array);
+}
+
 openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
         if (recordMic) {
             // Drop the first 8 bytes and append the rest
             var dataWithoutHeader = sensorData.rawByteData.slice(8);
             rawData.push(dataWithoutHeader);
+            printDataViewAsUint16List(sensorData.rawByteData);
         }
     }
 
