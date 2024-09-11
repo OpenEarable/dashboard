@@ -161,8 +161,12 @@ $("#testMicButton").click(() => {
         createWavFileAndDownload(rawData); // When recording stops, create WAV file
         rawData = []; // Clear rawData after saving
         $("#testMicButton").text("Test Occl.");
+        $("#testMicButton").removeClass("btn-stop");
+        $("#testMicButton").addClass("btn-control");
     } else {
         $("#testMicButton").text("Stop");
+        $("#testMicButton").addClass("btn-stop");
+        $("#testMicButton").removeClass("btn-control");
     }
 });
 
