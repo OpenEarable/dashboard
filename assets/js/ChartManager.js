@@ -153,6 +153,7 @@ function updateOrientation(acc, gyro, mag) {
 }
 
 var recordMic = false;
+var rawData = [];
 
 $("#testMicButton").click(() => {
     recordMic = !recordMic; // Toggle recording state
