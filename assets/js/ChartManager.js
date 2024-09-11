@@ -160,7 +160,7 @@ $("#testMicButton").click(() => {
     if (!recordMic) {
         createWavFileAndDownload(rawData); // When recording stops, create WAV file
         rawData = []; // Clear rawData after saving
-        $("#testMicButton").text("Mic. Test");
+        $("#testMicButton").text("Test Occl.");
     } else {
         $("#testMicButton").text("Stop");
     }
@@ -184,7 +184,7 @@ function convertToWav(rawData) {
     // Implement conversion from raw byte data to WAV format
     // This involves creating a WAV header and concatenating it with raw audio data
     // Here's a basic outline of what this might look like:
-    var sampleRate = 44100; // Replace with actual sample rate
+    var sampleRate = 500; // Replace with actual sample rate
     var numChannels = 1; // Replace with number of channels (1 for mono, 2 for stereo)
     var bitsPerSample = 16; // Replace with actual bit depth
 
