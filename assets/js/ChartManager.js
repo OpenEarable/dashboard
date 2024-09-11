@@ -154,7 +154,7 @@ function updateOrientation(acc, gyro, mag) {
 
 openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
-        console.log(sensorId.rawByteData)
+        console.log(sensorData.rawByteData)
     }
 
     switch (sensorData.sensorId) {
