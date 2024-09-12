@@ -254,13 +254,7 @@ $(document).ready(function () {
         document.body.removeChild(a);
     }
 
-    openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
-    if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
-        console.log(sensorData.rawByteData)
-    }
+    
 
-    $("#testMicButton").clicked(() => {
-
-    });
 
 });
