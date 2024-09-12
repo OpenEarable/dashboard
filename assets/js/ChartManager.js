@@ -235,8 +235,9 @@ openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
         if (recordMic) {
             // Drop the first 8 bytes and append the rest
-            var dataWithoutHeader = sensorData.rawByteData.slice(8);
-            rawData.push(dataWithoutHeader);
+            for (let i = 8; i < rawByteData.byteLength; i++) {
+                dataWithoutHeader.push(rawByteData.getUint8(i));
+            }
             printDataViewAsUint16List(sensorData.rawByteData);
         }
     }
