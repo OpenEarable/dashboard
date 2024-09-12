@@ -255,12 +255,12 @@ $(document).ready(function () {
     }
 
     openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
-    if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
-        console.log(sensorData.rawByteData)
-    }
-
-    $("#testMicButton").clicked(() => {
-
+        if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
+            console.log(sensorData.rawByteData)
+        }
+    
+        $("#testMicButton").clicked(() => {
+    
+        });
     });
-
 });
