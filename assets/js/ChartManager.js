@@ -188,7 +188,7 @@ function convertToWav(rawData) {
     // Implement conversion from raw byte data to WAV format
     // This involves creating a WAV header and concatenating it with raw audio data
     // Here's a basic outline of what this might look like:
-    var sampleRate = 500; // Replace with actual sample rate
+    var sampleRate = 2000; // Replace with actual sample rate
     var numChannels = 1; // Replace with number of channels (1 for mono, 2 for stereo)
     var bitsPerSample = 16; // Replace with actual bit depth
 
@@ -235,8 +235,8 @@ openEarable.sensorManager.subscribeOnSensorDataReceived((sensorData) => {
     if (sensorData.sensorId === SENSOR_ID.MICROPHONE) {
         if (recordMic) {
             // Drop the first 8 bytes and append the rest
-            for (let i = 8; i < rawByteData.byteLength; i++) {
-                dataWithoutHeader.push(rawByteData.getUint8(i));
+            for (let i = 8; i < sensorData.rawByteData.byteLength; i++) {
+                rawData.push(sensorData.rawByteData.getUint8(i));
             }
             printDataViewAsUint16List(sensorData.rawByteData);
         }
