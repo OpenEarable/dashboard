@@ -93,6 +93,7 @@ $(document).ready(function () {
 
                 // Get gain for the inner mic
                 gainInner = $('#microphoneGainInner').val();
+                $('#microphoneGainOut').val(0);
 
                 // Ensure gain values are in the range of int8 (-128 to 127)
                 gainInner = (gainInner & 0xFF);
@@ -104,8 +105,17 @@ $(document).ready(function () {
 
                 await openEarable.sensorManager.writeSensorConfig(2, microphoneSamplingRate, gainSetting);
             } else {
+                // theoretically this code is never reached if connected to fw 1.4.0
                 await openEarable.sensorManager.writeSensorConfig(2, microphoneSamplingRate, 0);
             }
+
+            // disable other sensors
+            $('#areSensorsEnabled').prop('checked', false); // IMU
+            $('#sensorSamplingRate').val(0);
+            await openEarable.sensorManager.writeSensorConfig(0, 0, 0); 
+            $('#isPressureSensorEnabled').prop('checked', false); // pressure sensor
+            $('#pressureSensorSamplingRate').val(0);
+            await openEarable.sensorManager.writeSensorConfig(1, 0, 0);
         } else {
             createWavFileAndDownload(rawData); // When recording stops, create WAV file
             rawData = []; // Clear rawData after saving
