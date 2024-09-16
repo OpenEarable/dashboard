@@ -201,20 +201,26 @@ function createWavHeader(dataLength, sampleRate, numChannels, bitsPerSample) {
     var blockAlign = numChannels * (bitsPerSample / 8);
 
     var header = new Uint8Array(44);
+    var view = new DataView(header.buffer);
+
     // RIFF chunk descriptor
     header.set([82, 73, 70, 70], 0); // "RIFF"
-    header.set(new Uint32Array([36 + dataLength]).buffer, 4); // Chunk size
+    view.setUint32(4, 36 + dataLength, true); // Chunk size (data length + 36)
     header.set([87, 65, 86, 69], 8); // "WAVE"
+
+    // fmt sub-chunk
     header.set([102, 109, 116, 32], 12); // "fmt "
-    header.set(new Uint32Array([16]).buffer, 16); // Subchunk1 size (16 for PCM)
-    header.set(new Uint16Array([1]).buffer, 20); // Audio format (1 for PCM)
-    header.set(new Uint16Array([numChannels]).buffer, 22); // Number of channels
-    header.set(new Uint32Array([sampleRate]).buffer, 24); // Sample rate
-    header.set(new Uint32Array([byteRate]).buffer, 28); // Byte rate
-    header.set(new Uint16Array([blockAlign]).buffer, 32); // Block align
-    header.set(new Uint16Array([bitsPerSample]).buffer, 34); // Bits per sample
+    view.setUint32(16, 16, true); // Subchunk1 size (16 for PCM)
+    view.setUint16(20, 1, true); // Audio format (1 for PCM)
+    view.setUint16(22, numChannels, true); // Number of channels
+    view.setUint32(24, sampleRate, true); // Sample rate
+    view.setUint32(28, byteRate, true); // Byte rate
+    view.setUint16(32, blockAlign, true); // Block align
+    view.setUint16(34, bitsPerSample, true); // Bits per sample
+
+    // data sub-chunk
     header.set([100, 97, 116, 97], 36); // "data"
-    header.set(new Uint32Array([dataLength]).buffer, 40); // Data chunk size
+    view.setUint32(40, dataLength, true); // Data chunk size
 
     return header;
 }
