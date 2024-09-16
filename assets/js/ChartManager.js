@@ -155,21 +155,6 @@ function updateOrientation(acc, gyro, mag) {
 var recordMic = false;
 var rawData = [];
 
-$("#testOcclusionButton").click(() => {
-    recordMic = !recordMic; // Toggle recording state
-    if (!recordMic) {
-        createWavFileAndDownload(rawData); // When recording stops, create WAV file
-        rawData = []; // Clear rawData after saving
-        $("#testOcclusionButton").text("Test Occl.");
-        $("#testOcclusionButton").removeClass("btn-stop");
-        $("#testOcclusionButton").addClass("btn-control");
-    } else {
-        $("#testOcclusionButton").text("Stop");
-        $("#testOcclusionButton").addClass("btn-stop");
-        $("#testOcclusionButton").removeClass("btn-control");
-    }
-});
-
 function createWavFileAndDownload(data) {
     // Convert rawData to WAV format
     var wavData = convertToWav(data); // Implement this function based on your needs

@@ -113,6 +113,11 @@ $(document).ready(function () {
             $("#testOcclusionButton").removeClass("btn-stop");
             $("#testOcclusionButton").addClass("btn-control");
 
+            $('#microphoneSamplingRate').val(0);
+            $('#innerMicrophoneEnabled').prop('checked', false);
+            $('#outerMicrophoneEnabled').prop('checked', false);
+            $('#isMicEnabled').prop('checked', false);
+
             // In this version, we just set the sampling rate and no gain settings are required
             await openEarable.sensorManager.writeSensorConfig(2, 0, 0);
         }
