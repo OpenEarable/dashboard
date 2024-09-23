@@ -97,7 +97,6 @@ $(document).ready(function () {
 
                 // Ensure gain values are in the range of int8 (-128 to 127)
                 gainInner = (gainInner & 0xFF);
-                gainOuter = -1; // Outer mic is disabled, so gain is -1
 
                 // Combine gainInner and gainOuter into a uint32
                 // Set byte to enable microphone streaming
