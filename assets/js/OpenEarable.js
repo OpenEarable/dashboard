@@ -75,7 +75,7 @@ const SERVICES = {
         CHARACTERISTICS: {
             BATTERY_LEVEL_CHARACTERISTIC: {
                 UUID: '00002a19-0000-1000-8000-00805f9b34fb'
-            }, 
+            },
             BATTERY_STATE_CHARACTERISTIC: {
                 UUID: '00002a1a-0000-1000-8000-00805f9b34fb'
             }
@@ -155,7 +155,7 @@ class OpenEarable {
         );
         return new TextDecoder().decode(value);
     }
-    
+
     async readFirmwareVersion() {
         this.bleManager.ensureConnected();
         const value = await this.bleManager.readCharacteristic(
@@ -173,7 +173,7 @@ class OpenEarable {
         );
         return new TextDecoder().decode(value);
     }
-    
+
 
     subscribeBatteryLevelChanged(callback) {
         this.batteryLevelChangedSubscribers.push(callback);
@@ -211,13 +211,13 @@ class OpenEarable {
                 this.notifyBatteryLevelChanged(notificationEvent.srcElement.value);
             }
         );
-            
+
 
         const batteryStateValue = await this.bleManager.readCharacteristic(SERVICES.BATTERY_SERVICE.UUID, SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_STATE_CHARACTERISTIC.UUID);
         this.notifyBatteryStateChanged(batteryStateValue);
-    
+
         await this.bleManager.subscribeCharacteristicNotifications(
-            SERVICES.BATTERY_SERVICE.UUID, 
+            SERVICES.BATTERY_SERVICE.UUID,
             SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_STATE_CHARACTERISTIC.UUID,
             (notificationEvent) => {
                 this.notifyBatteryStateChanged(notificationEvent.srcElement.value);
@@ -226,7 +226,7 @@ class OpenEarable {
 
         this.sensorManager.init();
         this.buttonManager.init();
-    }    
+    }
 }
 
 class BLEManager {
@@ -286,7 +286,7 @@ class BLEManager {
                 this.device.addEventListener('gattserverdisconnected', this.handleDisconnected.bind(this));
                 this.device.disconnectHandlerAdded = true;
             }
-            
+
             this.notifyAll(this.onConnectedSubscribers);
         });
     }
@@ -295,14 +295,14 @@ class BLEManager {
     subscribeOnConnected(callback) {
         this.onConnectedSubscribers.push(callback);
     }
-    
+
 
     subscribeOnDisconnected(callback) {
         this.onDisconnectedSubscribers.push(callback);
     }
 
     notifyAll(subscribers) {
-        for(let callback of subscribers) {
+        for (let callback of subscribers) {
             callback();
         }
     }
@@ -327,12 +327,12 @@ class BLEManager {
             this.notifyAll(this.onDisconnectedSubscribers);
         },
             6000); // make sure that system has cleaned up everything by delaying a bit
-        
+
     }
-    
+
 
     ensureConnected() {
-        if (!this.device ||  !this.gattServer || !this.device.gatt.connected) {
+        if (!this.device || !this.gattServer || !this.device.gatt.connected) {
             throw new Error("No BLE device connected.");
         }
     }
@@ -343,7 +343,7 @@ class BLEManager {
             const service = await this.gattServer.getPrimaryService(serviceUUID);
             const characteristic = await service.getCharacteristic(characteristicUUID);
             const value = await characteristic.readValue();
-            return value; 
+            return value;
         });
     }
 
@@ -381,7 +381,7 @@ class RGBLed {
             SERVICES.LED_SERVICE.CHARACTERISTICS.LED_STATE_CHARACTERISTIC.UUID,
             data
         );
-    }    
+    }
 }
 
 class SensorManager {
@@ -397,44 +397,44 @@ class SensorManager {
             SERVICES.PARSE_INFO_SERVICE.CHARACTERISTICS.SCHEME_CHARACTERISTIC.UUID
         );
         const byteStream = new Uint8Array(data.buffer);
-    
+
         let currentIndex = 0;
-    
+
         const numSensors = byteStream[currentIndex++];
         const tempSensorSchemes = [];
         for (let i = 0; i < numSensors; i++) {
             const sensorId = byteStream[currentIndex++];
-    
+
             const nameLength = byteStream[currentIndex++];
             const nameBytes = byteStream.slice(currentIndex, currentIndex + nameLength);
             const sensorName = new TextDecoder().decode(nameBytes);
             currentIndex += nameLength;
-    
+
             const componentCount = byteStream[currentIndex++];
             const sensorScheme = new SensorScheme(sensorId, sensorName, componentCount);
-    
+
             for (let j = 0; j < componentCount; j++) {
                 const componentType = byteStream[currentIndex++];
-    
+
                 const groupNameLength = byteStream[currentIndex++];
                 const groupNameBytes = byteStream.slice(currentIndex, currentIndex + groupNameLength);
                 const groupName = new TextDecoder().decode(groupNameBytes);
                 currentIndex += groupNameLength;
-    
+
                 const componentNameLength = byteStream[currentIndex++];
                 const componentNameBytes = byteStream.slice(currentIndex, currentIndex + componentNameLength);
                 const componentName = new TextDecoder().decode(componentNameBytes);
                 currentIndex += componentNameLength;
-    
+
                 const unitNameLength = byteStream[currentIndex++];
                 const unitNameBytes = byteStream.slice(currentIndex, currentIndex + unitNameLength);
                 const unitName = new TextDecoder().decode(unitNameBytes);
                 currentIndex += unitNameLength;
-    
+
                 const component = new Component(componentType, groupName, componentName, unitName);
                 sensorScheme.components.push(component);
             }
-    
+
             tempSensorSchemes.push(sensorScheme);
         }
         this.sensorSchemes = tempSensorSchemes;
@@ -445,29 +445,29 @@ class SensorManager {
             SERVICES.SENSOR_SERVICE.CHARACTERISTICS.SENSOR_DATA_CHARACTERISTIC.UUID,
             async (data) => {
                 var parsedData = await this.parseData(data.srcElement.value);
-                for(let callback of this.onSensorDataReceivedSubscriber) {
+                for (let callback of this.onSensorDataReceivedSubscriber) {
                     callback(parsedData);
                 }
             }
-        );        
+        );
     }
 
     async writeSensorConfig(sensorId, samplingRate, latency) {
         this.bleManager.ensureConnected();
-        const data = new ArrayBuffer(9); 
+        const data = new ArrayBuffer(9);
         const view = new DataView(data);
         view.setUint8(0, sensorId);
-        view.setFloat32(1, samplingRate, true); 
-        view.setUint32(5, latency, true); 
+        view.setFloat32(1, samplingRate, true);
+        view.setUint32(5, latency, true);
         console.log("Writing Sensor Config")
-        console.log(data)   
+        console.log(data)
         await this.bleManager.writeCharacteristic(
             SERVICES.SENSOR_SERVICE.UUID,
             SERVICES.SENSOR_SERVICE.CHARACTERISTICS.SENSOR_CONFIGURATION_CHARACTERISTIC.UUID,
             data
-        );        
+        );
     }
-    
+
     async parseData(data) {
         const ParseType = {
             int8: 0,
@@ -487,13 +487,13 @@ class SensorManager {
         const timestamp = byteData.getUint32(byteIndex, true); // true means little-endian
         byteIndex += 4;
         const parsedData = {};
-    
+
         const foundScheme = this.sensorSchemes.find(scheme => scheme.sensorId === sensorId);
         parsedData.sensorId = sensorId;
         parsedData.timestamp = timestamp;
         parsedData.sensorName = foundScheme.sensorName;
         parsedData.rawByteData = byteData;
-    
+
         for (const component of foundScheme.components) {
             if (!parsedData[component.groupName]) {
                 parsedData[component.groupName] = {};
@@ -501,7 +501,7 @@ class SensorManager {
             if (!parsedData[component.groupName].units) {
                 parsedData[component.groupName].units = {};
             }
-    
+
             let parsedValue;
             switch (component.type) {
                 case ParseType.int8:
@@ -537,15 +537,15 @@ class SensorManager {
                     byteIndex += 8;
                     break;
             }
-    
+
             parsedData[component.groupName][component.componentName] = parsedValue;
             parsedData[component.groupName].units[component.componentName] = component.unitName;
         }
 
-        
+
         return parsedData;
     }
-    
+
     subscribeOnSensorDataReceived(callback) {
         this.onSensorDataReceivedSubscriber.push(callback);
     }
@@ -594,7 +594,7 @@ class OpenEarableSensorConfig {
         data.setUint8(0, this.sensorId);
         data.setFloat32(1, this.samplingRate, true); // true for little-endian
         data.setUint32(5, this.latency, true);      // true for little-endian
-        
+
         // Convert ArrayBuffer to Uint8Array and then to regular array
         return Array.from(new Uint8Array(buffer));
     }
@@ -612,7 +612,7 @@ class OpenEarableSensorConfig {
  * Represents an audio player that communicates with BLE devices.
  */
 class AudioPlayer {
-    
+
     /**
      * Create an AudioPlayer instance.
      * @param {Object} bleManager - BLE manager to handle communications with the device.
@@ -634,7 +634,7 @@ class AudioPlayer {
                 SERVICES.AUDIO_SERVICE.UUID,
                 SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_SOURCE_CHARACTERISTIC.UUID,
                 data
-            );            
+            );
         } catch (error) {
             log("Error writing wavFile data: " + error, "ERROR");
         }
@@ -652,8 +652,8 @@ class AudioPlayer {
             let type = 2;  // 2 indicates it's a frequency
             let data = new Uint8Array(10);
             data[0] = type;
-            data[1] = waveType; 
-            
+            data[1] = waveType;
+
             let freqBytes = new Float32Array([frequency]);
             let loudnessBytes = new Float32Array([loudness]);
             data.set(new Uint8Array(freqBytes.buffer), 2);
@@ -663,7 +663,7 @@ class AudioPlayer {
                 SERVICES.AUDIO_SERVICE.UUID,
                 SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_SOURCE_CHARACTERISTIC.UUID,
                 data
-            );            
+            );
         } catch (error) {
             log("Error writing frequency data: " + error, "ERROR");
         }
@@ -679,12 +679,12 @@ class AudioPlayer {
             let type = 3;  // 3 indicates it's a jingle
             let data = new Uint8Array(2);
             data[0] = type;
-            data[1] = jingleId; 
+            data[1] = jingleId;
             await this.bleManager.writeCharacteristic(
                 SERVICES.AUDIO_SERVICE.UUID,
                 SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_SOURCE_CHARACTERISTIC.UUID,
                 data
-            );            
+            );
         } catch (error) {
             log("Error writing jingle data: " + error, "ERROR");
         }
@@ -712,7 +712,7 @@ class AudioPlayer {
             SERVICES.AUDIO_SERVICE.UUID,
             SERVICES.AUDIO_SERVICE.CHARACTERISTICS.AUDIO_STATE_CHARACTERISTIC.UUID,
             data
-        );  
+        );
     }
 }
 
