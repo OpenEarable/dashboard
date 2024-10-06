@@ -4,20 +4,39 @@ openEarable.bleManager.subscribeOnConnected(async () => {
 
     if (openEarable.bleManager.device.name.toString().startsWith("AH203_")) {
         console.log("subscribing to first...")
-        // const gattServer = await openEarable.bleManager.gattServer;  // Access GATT server
-        await openEarable.bleManager.subscribeCharacteristicNotifications("5052494d-2dab-0341-6972-6f6861424c45", "43484152-2dab-3041-6972-6f6861424c45", () => {
-            console.log("sub1");
-        });
-        console.log("subscribing to second...")
-        await openEarable.bleManager.subscribeCharacteristicNotifications("5052494d-2dab-0341-6972-6f6861424c45", "43484152-2dab-3141-6972-6f6861424c45", () => {
-            console.log("sub2");
-        });
-        console.log("subscribing to third...")
-        await openEarable.bleManager.subscribeCharacteristicNotifications("7319494d-2dab-0341-6972-6f6861424c45", "73194152-2dab-3141-6972-6f6861424c45", (data) => {
-            console.log(data)
-        });
 
-        console.log("subscribed!");
+        // need to sub to all characteristics to make sure streaming works
+        await openEarable.bleManager.subscribeCharacteristicNotifications("5052494d-2dab-0341-6972-6f6861424c45", "43484152-2dab-3041-6972-6f6861424c45", () => {
+
+        });
+        await openEarable.bleManager.subscribeCharacteristicNotifications("5052494d-2dab-0341-6972-6f6861424c45", "43484152-2dab-3141-6972-6f6861424c45", () => {
+        });
+        var hexDataArray = [];
+        await openEarable.bleManager.subscribeCharacteristicNotifications(
+            "7319494d-2dab-0341-6972-6f6861424c45", 
+            "73194152-2dab-3141-6972-6f6861424c45", 
+            (data) => {
+                let hexString = Array.from(new Uint8Array(data.srcElement.value))
+                                     .map(byte => byte.toString(16).padStart(2, '0'))
+                                     .join('');
+                console.log(hexString);
+                
+                hexDataArray.push(hexString);
+                
+                if (hexDataArray.length >= 50) {
+                    let fileContent = hexDataArray.join('\n');
+                    let blob = new Blob([fileContent], {type: 'text/plain'});
+                    let link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'hex_data.txt';
+                    link.click();
+                    
+                    // Optionally stop the subscription once 50 entries are collected
+                    openEarable.bleManager.unsubscribeCharacteristicNotifications("7319494d-2dab-0341-6972-6f6861424c45", "73194152-2dab-3141-6972-6f6861424c45");
+                    hexDataArray = [];
+                }
+            }
+        );
         
 
         var startStreamCommand = new Uint8Array([0x05, 0x5A, 0x05, 0x00, 0x01, 0x00, 0x05, 0x02, 0x01]);
