@@ -198,6 +198,10 @@ class OpenEarable {
     }
 
     async onDeviceReady() {
+        if (this.bleManager.device.name.toString().startsWith("AH203")) {
+            return;
+        }
+
         const batteryLevelValue = await this.bleManager.readCharacteristic(SERVICES.BATTERY_SERVICE.UUID, SERVICES.BATTERY_SERVICE.CHARACTERISTICS.BATTERY_LEVEL_CHARACTERISTIC.UUID);
         this.notifyBatteryLevelChanged(batteryLevelValue);
 
@@ -270,9 +274,13 @@ class BLEManager {
     }
 
     async connect() {
+        console.log("hi")
         return this._enqueueOperation(async () => {
             const optionalServiceUUIDs = Object.keys(SERVICES).map((service) => SERVICES[service].UUID);
-
+            optionalServiceUUIDs.push("7319494d-2dab-0341-6972-6f6861424c45");
+            optionalServiceUUIDs.push("5052494d-2dab-0341-6972-6f6861424c45");
+            
+            
             this.device = await navigator.bluetooth.requestDevice({
                 filters: [
                     { namePrefix: "OpenEarable" },
@@ -352,6 +360,8 @@ class BLEManager {
             this.ensureConnected();
             const service = await this.gattServer.getPrimaryService(serviceUUID);
             const characteristic = await service.getCharacteristic(characteristicUUID);
+            console.log(service);
+            console.log(characteristic);
             await characteristic.writeValue(data);
         });
     }

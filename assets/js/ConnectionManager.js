@@ -3,18 +3,27 @@ var openEarable = new OpenEarable();
 openEarable.bleManager.subscribeOnConnected(async () => {
 
     if (openEarable.bleManager.device.name.toString().startsWith("AH203_")) {
-        const gattServer = await openEarable.bleManager.gattServer;  // Access GATT server
-        const services = await gattServer.getPrimaryServices();      // Retrieve primary services
-
-        services.forEach(service => {
-            console.log(`Service UUID: ${service.uuid}`);
+        console.log("subscribing to first...")
+        // const gattServer = await openEarable.bleManager.gattServer;  // Access GATT server
+        await openEarable.bleManager.subscribeCharacteristicNotifications("5052494d-2dab-0341-6972-6f6861424c45", "43484152-2dab-3041-6972-6f6861424c45", () => {
+            console.log("sub1");
+        });
+        console.log("subscribing to second...")
+        await openEarable.bleManager.subscribeCharacteristicNotifications("5052494d-2dab-0341-6972-6f6861424c45", "43484152-2dab-3141-6972-6f6861424c45", () => {
+            console.log("sub2");
+        });
+        console.log("subscribing to third...")
+        await openEarable.bleManager.subscribeCharacteristicNotifications("7319494d-2dab-0341-6972-6f6861424c45", "73194152-2dab-3141-6972-6f6861424c45", (data) => {
+            console.log(data)
         });
 
+        console.log("subscribed!");
+        
+
         var startStreamCommand = new Uint8Array([0x05, 0x5A, 0x05, 0x00, 0x01, 0x00, 0x05, 0x02, 0x01]);
-        await openEarable.bleManager.writeCharacteristic("5052494D-2DAB-0341-6972-6F6861424C45", "43484152-2DAB-3241-6972-6F6861424C45", startStreamCommand);
-        await openEarable.bleManager.subscribeCharacteristicNotifications("7319494D-2DAB-3141-6972-6F6861424C45", "7319494D-2DAB-3141-6972-6F6861424C45", () => {
-            console.log("test!");
-        })
+        await openEarable.bleManager.writeCharacteristic("5052494d-2dab-0341-6972-6f6861424c45", "43484152-2dab-3241-6972-6f6861424c45", startStreamCommand);
+
+
         return;
     }
 
