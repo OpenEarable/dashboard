@@ -126,7 +126,7 @@
         .btn-stop {
             background-color: #f27777 !important;
             color: black !important;
-            
+
         }
 
         /* Sensor Control Card */
@@ -346,7 +346,8 @@
                                 <button disabled id="setSensorConfigurationButton"
                                     class="btn btn-control is-connect-enabled flex-fill">Set Configuration</button>
                                 <button disabled id="testOcclusionButton"
-                                    class="btn btn-control is-connect-enabled ms-3 1-4-0-controls" style="min-width: 120px;">Test Occl.</button>
+                                    class="btn btn-control is-connect-enabled ms-3 1-4-0-controls"
+                                    style="min-width: 120px;">Test Occl.</button>
                                 <button disabled
                                     class="btn btn-disable-sensors btn-stop is-connect-enabled ms-3">Off</button>
                             </div>
@@ -359,6 +360,39 @@
                 </div>
 
             </div>
+            <div class="col-12 col-xl-8 mt-2">
+                <div class="card h-100">
+                    <div class="card-body h-100 flex-column d-flex">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <h5 class="card-title">EEG Data</h5>
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="Real-time graph of EEG data received from OpenEarable.">
+                                <div>?</div>
+                            </div>
+                        </div>
+                        <div class="chartWrapper">
+                            <canvas id="eegChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-xl-8 mt-2">
+                <div class="card h-100">
+                    <div class="card-body h-100 flex-column d-flex">
+                        <div class="d-flex flex-row w-100 justify-content-between">
+                            <h5 class="card-title">IMU Data</h5>
+                            <div class="tooltip-indicator" data-toggle="tooltip"
+                                title="Real-time graph of IMU data received from OpenEarable.">
+                                <div>?</div>
+                            </div>
+                        </div>
+                        <div class="chartWrapper">
+                            <canvas id="imuChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-12 col-md-6 col-xl-4 mt-2">
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column justify-content-between">
@@ -669,7 +703,8 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/protobufjs@7.X.X/dist/protobuf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
